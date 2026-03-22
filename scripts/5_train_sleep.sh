@@ -11,8 +11,8 @@
 #        "https://zenodo.org/record/3987831/files/Cnn14_16k_mAP%3D0.438.pth?download=1"
 
 # ─── 경로 설정 (서버 환경에 맞게 수정) ───
-DATA_FULL="./data_for_ai/full_ver"
-DATA_RATIO="./data_for_ai/ratio_ver"
+DATA_FULL="../data_for_ai/full_ver"
+DATA_RATIO="../data_for_ai/ratio_ver"
 WS_FULL="./workspaces/full_ver"
 WS_RATIO="./workspaces/ratio_ver"
 PRETRAINED="./Cnn14_16k_mAP=0.438.pth"

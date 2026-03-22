@@ -8,8 +8,8 @@
 # 사용법:
 #   bash scripts/6_resume_train.sh
 
-DATA_FULL="./data_for_ai/full_ver"
-DATA_RATIO="./data_for_ai/ratio_ver"
+DATA_FULL="../data_for_ai/full_ver"
+DATA_RATIO="../data_for_ai/ratio_ver"
 WS_FULL="./workspaces/full_ver"
 WS_RATIO="./workspaces/ratio_ver"
 
