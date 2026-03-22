@@ -68,7 +68,7 @@ def train(args):
     if resume_path and os.path.exists(resume_path):
         # 이어서 학습 (기존 체크포인트에서 복원)
         logging.info('Resuming from checkpoint: {}'.format(resume_path))
-        checkpoint = torch.load(resume_path, map_location=device)
+        checkpoint = torch.load(resume_path, map_location=device, weights_only=False)
         model.load_state_dict(checkpoint['model'])
         start_epoch = checkpoint.get('epoch', 0)
         best_val_acc = checkpoint.get('val_acc', 0.0)
@@ -76,7 +76,7 @@ def train(args):
 
     elif pretrained_path and os.path.exists(pretrained_path):
         logging.info('Loading pretrained weights from {}'.format(pretrained_path))
-        pretrained_dict = torch.load(pretrained_path, map_location=device)
+        pretrained_dict = torch.load(pretrained_path, map_location=device, weights_only=False)
 
         if 'model' in pretrained_dict:
             pretrained_dict = pretrained_dict['model']
@@ -304,7 +304,7 @@ def test(args):
         checkpoint_path = os.path.join(workspace, 'checkpoints', 'best_model.pth')
 
     logging.info('Loading model from {}'.format(checkpoint_path))
-    checkpoint = torch.load(checkpoint_path, map_location=device)
+    checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
     model.load_state_dict(checkpoint['model'])
     model.to(device)
     model.eval()
