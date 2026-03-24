@@ -20,8 +20,33 @@ import config
 from losses import get_loss_func
 
 
+def compute_class_weight(dataset):
+    """데이터셋의 클래스 분포에서 역빈도 가중치 계산.
+
+    예: rem=292, nrem=7322, wake=657, 전체=8271
+        weight_rem  = 8271 / (3 × 292)  = 9.44
+        weight_nrem = 8271 / (3 × 7322) = 0.38
+        weight_wake = 8271 / (3 × 657)  = 4.20
+    """
+    class_counts = dataset.get_class_counts()
+    total = sum(class_counts)
+    n_classes = len(class_counts)
+    weights = []
+    for count in class_counts:
+        if count > 0:
+            weights.append(total / (n_classes * count))
+        else:
+            weights.append(0.0)
+    return weights
+
+
 def train(args):
-    """수면 단계 분류 모델 학습 함수."""
+    """수면 단계 분류 모델 학습 함수.
+
+    개선 옵션:
+        --loss_type=focal   : Focal Loss + 클래스 가중치 (rem/wake 중시)
+        --oversample        : Oversampling (rem/wake를 더 자주 뽑아서 밸런싱)
+    """
 
     data_dir = args.data_dir
     workspace = args.workspace
@@ -30,7 +55,9 @@ def train(args):
     batch_size = args.batch_size
     learning_rate = args.learning_rate
     num_epochs = args.num_epochs
-    resume_path = args.resume_path  # 이어서 학습할 체크포인트
+    resume_path = args.resume_path
+    loss_type = args.loss_type        # 'clip_ce' 또는 'focal'
+    use_oversample = args.oversample  # True/False
     device = torch.device('cuda') if args.cuda and torch.cuda.is_available() else torch.device('cpu')
 
     sample_rate = 16000
@@ -66,7 +93,6 @@ def train(args):
     best_val_acc = 0.0
 
     if resume_path and os.path.exists(resume_path):
-        # 이어서 학습 (기존 체크포인트에서 복원)
         logging.info('Resuming from checkpoint: {}'.format(resume_path))
         checkpoint = torch.load(resume_path, map_location=device, weights_only=False)
         model.load_state_dict(checkpoint['model'])
@@ -122,14 +148,39 @@ def train(args):
         audio_dir=data_dir,
         sample_rate=sample_rate)
 
-    train_loader = torch.utils.data.DataLoader(
-        dataset=train_dataset,
-        batch_size=batch_size,
-        shuffle=True,
-        collate_fn=collate_fn,
-        num_workers=num_workers,
-        pin_memory=True,
-        drop_last=True)
+    # ===== [개선] Oversampling: WeightedRandomSampler =====
+    if use_oversample:
+        sample_weights = train_dataset.get_sample_weights()
+        sampler = torch.utils.data.WeightedRandomSampler(
+            weights=sample_weights,
+            num_samples=len(train_dataset),  # 1 에폭 = 원래 데이터 수만큼 뽑되, 비율을 조정
+            replacement=True                  # 복원 추출 (같은 rem 파일이 여러 번 뽑힐 수 있음)
+        )
+        logging.info('Oversampling enabled (WeightedRandomSampler)')
+
+        class_counts = train_dataset.get_class_counts()
+        for i, name in enumerate(config.labels):
+            expected = len(train_dataset) / classes_num
+            logging.info('  {}: {} → ~{:.0f} (oversampled)'.format(
+                name, class_counts[i], expected))
+
+        train_loader = torch.utils.data.DataLoader(
+            dataset=train_dataset,
+            batch_size=batch_size,
+            sampler=sampler,       # shuffle 대신 sampler 사용
+            collate_fn=collate_fn,
+            num_workers=num_workers,
+            pin_memory=True,
+            drop_last=True)
+    else:
+        train_loader = torch.utils.data.DataLoader(
+            dataset=train_dataset,
+            batch_size=batch_size,
+            shuffle=True,
+            collate_fn=collate_fn,
+            num_workers=num_workers,
+            pin_memory=True,
+            drop_last=True)
 
     val_loader = torch.utils.data.DataLoader(
         dataset=val_dataset,
@@ -140,13 +191,22 @@ def train(args):
         pin_memory=True)
 
     # ===== 3단계: 손실 함수 & 옵티마이저 =====
-    loss_func = get_loss_func('clip_ce')
+    class_weight = None
+    if loss_type == 'focal':
+        class_weight = compute_class_weight(train_dataset)
+        logging.info('Class weights: {}'.format(
+            {name: '{:.3f}'.format(w) for name, w in zip(config.labels, class_weight)}))
+
+    loss_func = get_loss_func(loss_type, class_weight=class_weight, device=device)
+    logging.info('Loss function: {}'.format(loss_type))
+
+    # 검증에는 항상 기본 CE 사용 (공정한 비교)
+    val_loss_func = get_loss_func('clip_ce')
 
     optimizer = optim.Adam(
         filter(lambda p: p.requires_grad, model.parameters()),
         lr=learning_rate, betas=(0.9, 0.999), eps=1e-08, weight_decay=0., amsgrad=True)
 
-    # resume 시 옵티마이저 상태 복원
     if resume_path and os.path.exists(resume_path):
         if 'optimizer' in checkpoint:
             optimizer.load_state_dict(checkpoint['optimizer'])
@@ -155,7 +215,7 @@ def train(args):
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode='max', factor=0.5, patience=5)
 
-    # ===== 학습 기록 저장용 =====
+    # ===== 학습 기록 =====
     history = {
         'train_loss': [], 'train_acc': [],
         'val_loss': [], 'val_acc': []
@@ -192,13 +252,12 @@ def train(args):
         train_acc = train_correct / train_total if train_total > 0 else 0
         train_loss_avg = train_loss / len(train_loader) if len(train_loader) > 0 else 0
 
-        val_acc, val_loss_avg = evaluate(model, val_loader, loss_func, device)
+        val_acc, val_loss_avg = evaluate(model, val_loader, val_loss_func, device)
 
         scheduler.step(val_acc)
 
         epoch_time = time.time() - epoch_start
 
-        # 기록 저장
         history['train_loss'].append(train_loss_avg)
         history['train_acc'].append(train_acc)
         history['val_loss'].append(val_loss_avg)
@@ -212,7 +271,6 @@ def train(args):
                 train_loss_avg, train_acc,
                 val_loss_avg, val_acc))
 
-        # 최고 성능 모델 저장
         if val_acc > best_val_acc:
             best_val_acc = val_acc
             checkpoint = {
@@ -225,7 +283,6 @@ def train(args):
             torch.save(checkpoint, checkpoint_path)
             logging.info('Best model saved! (Val Acc: {:.4f})'.format(val_acc))
 
-        # 주기적 체크포인트
         if (epoch + 1) % 10 == 0:
             checkpoint = {
                 'epoch': epoch + 1,
@@ -237,7 +294,6 @@ def train(args):
                 checkpoints_dir, 'epoch_{}.pth'.format(epoch + 1))
             torch.save(checkpoint, checkpoint_path)
 
-    # 학습 기록 저장
     history_path = os.path.join(workspace, 'history.json')
     with open(history_path, 'w') as f:
         json.dump(history, f, indent=2)
@@ -247,7 +303,7 @@ def train(args):
 
 
 def evaluate(model, data_loader, loss_func, device):
-    """모델 검증 — 정확도와 평균 손실 반환."""
+    """모델 검증."""
     model.eval()
     total_loss = 0.0
     correct = 0
@@ -295,7 +351,6 @@ def test(args):
     logs_dir = os.path.join(workspace, 'logs')
     create_logging(logs_dir, filemode='a')
 
-    # ===== 모델 로드 =====
     model = Cnn14_16k(sample_rate=sample_rate, window_size=window_size,
         hop_size=hop_size, mel_bins=mel_bins, fmin=fmin, fmax=fmax,
         classes_num=classes_num)
@@ -312,7 +367,6 @@ def test(args):
     logging.info('Model loaded (trained epoch: {}, val_acc: {:.4f})'.format(
         checkpoint.get('epoch', '?'), checkpoint.get('val_acc', 0)))
 
-    # ===== 테스트 데이터 로드 =====
     test_dataset = SleepDataset(
         csv_path=os.path.join(data_dir, 'test.csv'),
         audio_dir=data_dir,
@@ -326,7 +380,6 @@ def test(args):
         num_workers=4,
         pin_memory=True)
 
-    # ===== 추론 =====
     all_predictions = []
     all_targets = []
     all_probs = []
@@ -348,16 +401,13 @@ def test(args):
     all_targets = np.array(all_targets)
     all_probs = np.array(all_probs)
 
-    # ===== 결과 계산 =====
     accuracy = np.mean(all_predictions == all_targets)
-    label_names = config.labels  # ['rem', 'nrem', 'wake']
+    label_names = config.labels
 
-    # Confusion Matrix
     cm = np.zeros((classes_num, classes_num), dtype=int)
     for t, p in zip(all_targets, all_predictions):
         cm[t][p] += 1
 
-    # Per-class metrics
     per_class = {}
     for i, name in enumerate(label_names):
         tp = cm[i][i]
@@ -372,7 +422,6 @@ def test(args):
             'f1': f1, 'support': support
         }
 
-    # ===== 콘솔 출력 =====
     logging.info('\n' + '='*60)
     logging.info('TEST RESULTS')
     logging.info('='*60)
@@ -393,7 +442,6 @@ def test(args):
         row = '{:<10}'.format(name) + ''.join('{:>10d}'.format(cm[i][j]) for j in range(classes_num))
         logging.info(row)
 
-    # ===== 결과 JSON 저장 =====
     result_dict = {
         'accuracy': float(accuracy),
         'per_class': {k: {kk: float(vv) for kk, vv in v.items()} for k, v in per_class.items()},
@@ -405,26 +453,23 @@ def test(args):
         json.dump(result_dict, f, indent=2)
     logging.info('Results saved to {}'.format(result_path))
 
-    # ===== 시각 리포트 생성 =====
     try:
         generate_report(workspace, results_dir, cm, per_class, label_names, accuracy)
         logging.info('Visual report saved to {}'.format(results_dir))
     except Exception as e:
         logging.warning('Could not generate visual report: {}'.format(e))
-        logging.info('Install matplotlib: pip install matplotlib')
 
 
 def generate_report(workspace, results_dir, cm, per_class, label_names, accuracy):
     """학습 곡선 + Confusion Matrix + 분류 리포트 시각화."""
     import matplotlib
-    matplotlib.use('Agg')  # 서버에서도 동작하도록 GUI 없는 백엔드
+    matplotlib.use('Agg')
     import matplotlib.pyplot as plt
 
     fig, axes = plt.subplots(2, 2, figsize=(14, 12))
     fig.suptitle('Sleep Stage Classification Report\nOverall Accuracy: {:.1f}%'.format(
         accuracy * 100), fontsize=16, fontweight='bold')
 
-    # --- 1) 학습 곡선 (Loss) ---
     history_path = os.path.join(workspace, 'history.json')
     if os.path.exists(history_path):
         with open(history_path) as f:
@@ -440,7 +485,6 @@ def generate_report(workspace, results_dir, cm, per_class, label_names, accuracy
         ax.legend()
         ax.grid(True, alpha=0.3)
 
-        # --- 2) 학습 곡선 (Accuracy) ---
         ax = axes[0, 1]
         ax.plot(epochs, [a * 100 for a in history['train_acc']], 'b-', label='Train Acc')
         ax.plot(epochs, [a * 100 for a in history['val_acc']], 'r-', label='Val Acc')
@@ -453,7 +497,6 @@ def generate_report(workspace, results_dir, cm, per_class, label_names, accuracy
         axes[0, 0].text(0.5, 0.5, 'No training history', ha='center', va='center')
         axes[0, 1].text(0.5, 0.5, 'No training history', ha='center', va='center')
 
-    # --- 3) Confusion Matrix ---
     ax = axes[1, 0]
     im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
     ax.set_title('Confusion Matrix')
@@ -465,13 +508,11 @@ def generate_report(workspace, results_dir, cm, per_class, label_names, accuracy
     ax.set_xlabel('Predicted')
     ax.set_ylabel('Actual')
 
-    # 숫자 표시
     for i in range(len(label_names)):
         for j in range(len(label_names)):
             color = 'white' if cm[i][j] > cm.max() / 2 else 'black'
             ax.text(j, i, str(cm[i][j]), ha='center', va='center', color=color, fontsize=14)
 
-    # --- 4) Per-class F1 Score ---
     ax = axes[1, 1]
     f1_scores = [per_class[n]['f1'] for n in label_names]
     bars = ax.bar(label_names, f1_scores, color=['#ff6b6b', '#4ecdc4', '#45b7d1'])
@@ -510,7 +551,6 @@ def compare(args):
 
     label_names = results['full_ver']['label_names']
 
-    # 비교 출력
     print('\n' + '='*70)
     print('COMPARISON: full_ver vs ratio_ver')
     print('='*70)
@@ -533,14 +573,12 @@ def compare(args):
         print('{:<12} {:>7.3f} {:>9.3f} {:>9.3f} {:>10.3f}'.format(
             name, f1_full, f1_ratio, rec_full, rec_ratio))
 
-    # 비교 시각화
     fig, axes = plt.subplots(1, 3, figsize=(18, 6))
     fig.suptitle('full_ver vs ratio_ver Comparison', fontsize=16, fontweight='bold')
 
     x = np.arange(len(label_names))
     width = 0.35
 
-    # F1 Score 비교
     ax = axes[0]
     f1_full = [results['full_ver']['per_class'][n]['f1'] for n in label_names]
     f1_ratio = [results['ratio_ver']['per_class'][n]['f1'] for n in label_names]
@@ -554,7 +592,6 @@ def compare(args):
     ax.set_ylim(0, 1.0)
     ax.grid(True, alpha=0.3, axis='y')
 
-    # Recall 비교
     ax = axes[1]
     rec_full = [results['full_ver']['per_class'][n]['recall'] for n in label_names]
     rec_ratio = [results['ratio_ver']['per_class'][n]['recall'] for n in label_names]
@@ -568,11 +605,9 @@ def compare(args):
     ax.set_ylim(0, 1.0)
     ax.grid(True, alpha=0.3, axis='y')
 
-    # Confusion Matrix 비교
     ax = axes[2]
     cm_full = np.array(results['full_ver']['confusion_matrix'])
     cm_ratio = np.array(results['ratio_ver']['confusion_matrix'])
-    # 정규화된 정확도 차이
     cm_full_norm = cm_full / cm_full.sum(axis=1, keepdims=True)
     cm_ratio_norm = cm_ratio / cm_ratio.sum(axis=1, keepdims=True)
     diff = cm_ratio_norm - cm_full_norm
@@ -614,16 +649,19 @@ if __name__ == '__main__':
     parser_train.add_argument('--batch_size', type=int, default=16)
     parser_train.add_argument('--learning_rate', type=float, default=1e-4)
     parser_train.add_argument('--num_epochs', type=int, default=50)
-    parser_train.add_argument('--resume_path', type=str, default=None,
-        help='체크포인트 경로. 이어서 학습할 때 사용')
+    parser_train.add_argument('--resume_path', type=str, default=None)
+    parser_train.add_argument('--loss_type', type=str, default='clip_ce',
+        choices=['clip_ce', 'focal'],
+        help='손실 함수: clip_ce(기본) 또는 focal(개선)')
+    parser_train.add_argument('--oversample', action='store_true', default=False,
+        help='Oversampling 활성화 (적은 클래스를 더 자주 뽑음)')
     parser_train.add_argument('--cuda', action='store_true', default=False)
 
     # ===== test =====
     parser_test = subparsers.add_parser('test')
     parser_test.add_argument('--data_dir', type=str, required=True)
     parser_test.add_argument('--workspace', type=str, required=True)
-    parser_test.add_argument('--checkpoint_path', type=str, default=None,
-        help='평가할 모델 경로. 없으면 best_model.pth 사용')
+    parser_test.add_argument('--checkpoint_path', type=str, default=None)
     parser_test.add_argument('--batch_size', type=int, default=16)
     parser_test.add_argument('--cuda', action='store_true', default=False)
 
