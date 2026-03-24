@@ -25,7 +25,7 @@ python3 pytorch/main.py train \
     --batch_size=16 \
     --learning_rate=1e-4 \
     --num_epochs=50 \
-    --loss_type=focal \
+    --loss_type=clip_ce \
     --oversample \
     --cuda
 
