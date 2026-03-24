@@ -6,10 +6,6 @@ import librosa
 
 import config
 
-# 3클래스 CSV → 2클래스 매핑
-LABEL_REMAP = {'rem': 'sleep', 'nrem': 'sleep', 'wake': 'wake', 'sleep': 'sleep'}
-
-
 class SleepDataset(object):
     def __init__(self, csv_path, audio_dir, sample_rate=16000):
         self.audio_dir = audio_dir
@@ -23,9 +19,8 @@ class SleepDataset(object):
             reader = csv.reader(f)
             next(reader)
             for row in reader:
-                mapped_label = LABEL_REMAP.get(row[1], row[1])
                 self.filenames.append(row[0])
-                self.labels.append(config.lb_to_ix[mapped_label])
+                self.labels.append(config.lb_to_ix[row[1]])
 
         self.data_num = len(self.filenames)
         logging.info('Dataset size: {} samples from {}'.format(self.data_num, csv_path))
@@ -70,7 +65,6 @@ class SleepDataset(object):
             'waveform': waveform.astype(np.float32),
             'target': label
         }
-
 
 def collate_fn(list_data_dict):
     np_data_dict = {}
