@@ -22,7 +22,7 @@ python3 pytorch/main.py train \
     --data_dir=$DATA_FULL --workspace=./workspaces/full_ver_2class \
     --pretrained_path=$PRETRAINED --freeze_cnn \
     --batch_size=16 --learning_rate=1e-4 --num_epochs=50 \
-    --loss_type=focal --oversample --cuda
+    --loss_type=clip_ce --oversample --cuda
 
 python3 pytorch/main.py train \
     --data_dir=$DATA_RATIO --workspace=./workspaces/ratio_ver_2class \
@@ -50,7 +50,7 @@ python3 pytorch/main.py train \
     --data_dir=$DATA_FULL --workspace=./workspaces/full_ver_3class \
     --pretrained_path=$PRETRAINED --freeze_cnn \
     --batch_size=16 --learning_rate=1e-4 --num_epochs=50 \
-    --loss_type=focal --oversample --cuda
+    --loss_type=clip_ce --oversample --cuda
 
 python3 pytorch/main.py train \
     --data_dir=$DATA_RATIO --workspace=./workspaces/ratio_ver_3class \
