@@ -1,0 +1,1684 @@
+Tue, 24 Mar 2026 20:15:56 main.py[line:79] INFO Namespace(mode='train', data_dir='../data_for_ai/ratio_ver', workspace='./workspaces/ratio_ver_2class', pretrained_path='./ResNet22_mAP=0.430.pth', freeze_cnn=True, batch_size=16, learning_rate=0.0001, num_epochs=50, resume_path=None, loss_type='clip_ce', oversample=False, cuda=True)
+Tue, 24 Mar 2026 20:15:56 main.py[line:82] INFO Using GPU.
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:81] DEBUG bytecode dump:
+>          0	NOP(arg=None, lineno=1023)
+           2	RESUME(arg=0, lineno=1023)
+           4	LOAD_FAST(arg=0, lineno=1026)
+           6	LOAD_CONST(arg=1, lineno=1026)
+           8	BINARY_SUBSCR(arg=None, lineno=1026)
+          12	LOAD_FAST(arg=0, lineno=1026)
+          14	LOAD_CONST(arg=2, lineno=1026)
+          16	BINARY_SUBSCR(arg=None, lineno=1026)
+          20	COMPARE_OP(arg=68, lineno=1026)
+          24	LOAD_FAST(arg=0, lineno=1026)
+          26	LOAD_CONST(arg=1, lineno=1026)
+          28	BINARY_SUBSCR(arg=None, lineno=1026)
+          32	LOAD_FAST(arg=0, lineno=1026)
+          34	LOAD_CONST(arg=3, lineno=1026)
+          36	BINARY_SUBSCR(arg=None, lineno=1026)
+          40	COMPARE_OP(arg=92, lineno=1026)
+          44	BINARY_OP(arg=1, lineno=1026)
+          48	RETURN_VALUE(arg=None, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=0 nstack_initial=0)])
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=0 nstack_initial=0)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=0, inst=NOP(arg=None, lineno=1023)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=2, inst=RESUME(arg=0, lineno=1023)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=4, inst=LOAD_FAST(arg=0, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=6, inst=LOAD_CONST(arg=1, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$x4.0']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=8, inst=BINARY_SUBSCR(arg=None, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$x4.0', '$const6.1.1']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=12, inst=LOAD_FAST(arg=0, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=14, inst=LOAD_CONST(arg=2, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2', '$x12.3']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=16, inst=BINARY_SUBSCR(arg=None, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2', '$x12.3', '$const14.4.2']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=20, inst=COMPARE_OP(arg=68, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2', '$16binary_subscr.5']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=24, inst=LOAD_FAST(arg=0, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=26, inst=LOAD_CONST(arg=1, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$x24.7']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=28, inst=BINARY_SUBSCR(arg=None, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$x24.7', '$const26.8.1']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=32, inst=LOAD_FAST(arg=0, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$28binary_subscr.9']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=34, inst=LOAD_CONST(arg=3, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$28binary_subscr.9', '$x32.10']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=36, inst=BINARY_SUBSCR(arg=None, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$28binary_subscr.9', '$x32.10', '$const34.11.3']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=40, inst=COMPARE_OP(arg=92, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$28binary_subscr.9', '$36binary_subscr.12']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=44, inst=BINARY_OP(arg=1, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$40compare_op.13']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=48, inst=RETURN_VALUE(arg=None, lineno=1026)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$binop_and_44.14']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:211] DEBUG -------------------------Prune PHIs-------------------------
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:280] DEBUG Used_phis: defaultdict(<class 'set'>, {State(pc_initial=0 nstack_initial=0): set()})
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:237] DEBUG defmap: {}
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:238] DEBUG phismap: defaultdict(<class 'set'>, {})
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:259] DEBUG changing phismap: defaultdict(<class 'set'>, {})
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:268] DEBUG keep phismap: {}
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:274] DEBUG new_out: defaultdict(<class 'dict'>, {})
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:284] DEBUG ----------------------DONE Prune PHIs-----------------------
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:142] DEBUG block_infos State(pc_initial=0 nstack_initial=0):
+AdaptBlockInfo(insts=((0, {}), (2, {}), (4, {'res': '$x4.0'}), (6, {'res': '$const6.1.1'}), (8, {'index': '$const6.1.1', 'target': '$x4.0', 'res': '$8binary_subscr.2'}), (12, {'res': '$x12.3'}), (14, {'res': '$const14.4.2'}), (16, {'index': '$const14.4.2', 'target': '$x12.3', 'res': '$16binary_subscr.5'}), (20, {'lhs': '$8binary_subscr.2', 'rhs': '$16binary_subscr.5', 'res': '$20compare_op.6'}), (24, {'res': '$x24.7'}), (26, {'res': '$const26.8.1'}), (28, {'index': '$const26.8.1', 'target': '$x24.7', 'res': '$28binary_subscr.9'}), (32, {'res': '$x32.10'}), (34, {'res': '$const34.11.3'}), (36, {'index': '$const34.11.3', 'target': '$x32.10', 'res': '$36binary_subscr.12'}), (40, {'lhs': '$28binary_subscr.9', 'rhs': '$36binary_subscr.12', 'res': '$40compare_op.13'}), (44, {'op': '&', 'lhs': '$20compare_op.6', 'rhs': '$40compare_op.13', 'res': '$binop_and_44.14'}), (48, {'retval': '$binop_and_44.14', 'castval': '$48return_value.15'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:15:56 interpreter.py[line:1420] DEBUG label 0:
+    x = arg(0, name=x)                       ['x']
+    $const6.1.1 = const(int, 0)              ['$const6.1.1']
+    $8binary_subscr.2 = getitem(value=x, index=$const6.1.1, fn=<built-in function getitem>) ['$8binary_subscr.2', '$const6.1.1', 'x']
+    $const14.4.2 = const(int, -1)            ['$const14.4.2']
+    $16binary_subscr.5 = getitem(value=x, index=$const14.4.2, fn=<built-in function getitem>) ['$16binary_subscr.5', '$const14.4.2', 'x']
+    $20compare_op.6 = $8binary_subscr.2 > $16binary_subscr.5 ['$16binary_subscr.5', '$20compare_op.6', '$8binary_subscr.2']
+    $const26.8.1 = const(int, 0)             ['$const26.8.1']
+    $28binary_subscr.9 = getitem(value=x, index=$const26.8.1, fn=<built-in function getitem>) ['$28binary_subscr.9', '$const26.8.1', 'x']
+    $const34.11.3 = const(int, 1)            ['$const34.11.3']
+    $36binary_subscr.12 = getitem(value=x, index=$const34.11.3, fn=<built-in function getitem>) ['$36binary_subscr.12', '$const34.11.3', 'x']
+    $40compare_op.13 = $28binary_subscr.9 >= $36binary_subscr.12 ['$28binary_subscr.9', '$36binary_subscr.12', '$40compare_op.13']
+    $binop_and_44.14 = $20compare_op.6 & $40compare_op.13 ['$20compare_op.6', '$40compare_op.13', '$binop_and_44.14']
+    $48return_value.15 = cast(value=$binop_and_44.14) ['$48return_value.15', '$binop_and_44.14']
+    return $48return_value.15                ['$48return_value.15']
+
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:81] DEBUG bytecode dump:
+>          0	NOP(arg=None, lineno=1029)
+           2	RESUME(arg=0, lineno=1029)
+           4	LOAD_FAST(arg=0, lineno=1032)
+           6	LOAD_CONST(arg=1, lineno=1032)
+           8	BINARY_SUBSCR(arg=None, lineno=1032)
+          12	LOAD_FAST(arg=0, lineno=1032)
+          14	LOAD_CONST(arg=2, lineno=1032)
+          16	BINARY_SUBSCR(arg=None, lineno=1032)
+          20	COMPARE_OP(arg=2, lineno=1032)
+          24	LOAD_FAST(arg=0, lineno=1032)
+          26	LOAD_CONST(arg=1, lineno=1032)
+          28	BINARY_SUBSCR(arg=None, lineno=1032)
+          32	LOAD_FAST(arg=0, lineno=1032)
+          34	LOAD_CONST(arg=3, lineno=1032)
+          36	BINARY_SUBSCR(arg=None, lineno=1032)
+          40	COMPARE_OP(arg=26, lineno=1032)
+          44	BINARY_OP(arg=1, lineno=1032)
+          48	RETURN_VALUE(arg=None, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=0 nstack_initial=0)])
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=0 nstack_initial=0)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=0, inst=NOP(arg=None, lineno=1029)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=2, inst=RESUME(arg=0, lineno=1029)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=4, inst=LOAD_FAST(arg=0, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=6, inst=LOAD_CONST(arg=1, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$x4.0']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=8, inst=BINARY_SUBSCR(arg=None, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$x4.0', '$const6.1.1']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=12, inst=LOAD_FAST(arg=0, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=14, inst=LOAD_CONST(arg=2, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2', '$x12.3']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=16, inst=BINARY_SUBSCR(arg=None, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2', '$x12.3', '$const14.4.2']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=20, inst=COMPARE_OP(arg=2, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2', '$16binary_subscr.5']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=24, inst=LOAD_FAST(arg=0, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=26, inst=LOAD_CONST(arg=1, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$x24.7']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=28, inst=BINARY_SUBSCR(arg=None, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$x24.7', '$const26.8.1']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=32, inst=LOAD_FAST(arg=0, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$28binary_subscr.9']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=34, inst=LOAD_CONST(arg=3, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$28binary_subscr.9', '$x32.10']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=36, inst=BINARY_SUBSCR(arg=None, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$28binary_subscr.9', '$x32.10', '$const34.11.3']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=40, inst=COMPARE_OP(arg=26, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$28binary_subscr.9', '$36binary_subscr.12']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=44, inst=BINARY_OP(arg=1, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$20compare_op.6', '$40compare_op.13']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:349] DEBUG dispatch pc=48, inst=RETURN_VALUE(arg=None, lineno=1032)
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:350] DEBUG stack ['$binop_and_44.14']
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:211] DEBUG -------------------------Prune PHIs-------------------------
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:280] DEBUG Used_phis: defaultdict(<class 'set'>, {State(pc_initial=0 nstack_initial=0): set()})
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:237] DEBUG defmap: {}
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:238] DEBUG phismap: defaultdict(<class 'set'>, {})
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:259] DEBUG changing phismap: defaultdict(<class 'set'>, {})
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:268] DEBUG keep phismap: {}
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:274] DEBUG new_out: defaultdict(<class 'dict'>, {})
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:284] DEBUG ----------------------DONE Prune PHIs-----------------------
+Tue, 24 Mar 2026 20:15:56 byteflow.py[line:142] DEBUG block_infos State(pc_initial=0 nstack_initial=0):
+AdaptBlockInfo(insts=((0, {}), (2, {}), (4, {'res': '$x4.0'}), (6, {'res': '$const6.1.1'}), (8, {'index': '$const6.1.1', 'target': '$x4.0', 'res': '$8binary_subscr.2'}), (12, {'res': '$x12.3'}), (14, {'res': '$const14.4.2'}), (16, {'index': '$const14.4.2', 'target': '$x12.3', 'res': '$16binary_subscr.5'}), (20, {'lhs': '$8binary_subscr.2', 'rhs': '$16binary_subscr.5', 'res': '$20compare_op.6'}), (24, {'res': '$x24.7'}), (26, {'res': '$const26.8.1'}), (28, {'index': '$const26.8.1', 'target': '$x24.7', 'res': '$28binary_subscr.9'}), (32, {'res': '$x32.10'}), (34, {'res': '$const34.11.3'}), (36, {'index': '$const34.11.3', 'target': '$x32.10', 'res': '$36binary_subscr.12'}), (40, {'lhs': '$28binary_subscr.9', 'rhs': '$36binary_subscr.12', 'res': '$40compare_op.13'}), (44, {'op': '&', 'lhs': '$20compare_op.6', 'rhs': '$40compare_op.13', 'res': '$binop_and_44.14'}), (48, {'retval': '$binop_and_44.14', 'castval': '$48return_value.15'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:15:56 interpreter.py[line:1420] DEBUG label 0:
+    x = arg(0, name=x)                       ['x']
+    $const6.1.1 = const(int, 0)              ['$const6.1.1']
+    $8binary_subscr.2 = getitem(value=x, index=$const6.1.1, fn=<built-in function getitem>) ['$8binary_subscr.2', '$const6.1.1', 'x']
+    $const14.4.2 = const(int, -1)            ['$const14.4.2']
+    $16binary_subscr.5 = getitem(value=x, index=$const14.4.2, fn=<built-in function getitem>) ['$16binary_subscr.5', '$const14.4.2', 'x']
+    $20compare_op.6 = $8binary_subscr.2 < $16binary_subscr.5 ['$16binary_subscr.5', '$20compare_op.6', '$8binary_subscr.2']
+    $const26.8.1 = const(int, 0)             ['$const26.8.1']
+    $28binary_subscr.9 = getitem(value=x, index=$const26.8.1, fn=<built-in function getitem>) ['$28binary_subscr.9', '$const26.8.1', 'x']
+    $const34.11.3 = const(int, 1)            ['$const34.11.3']
+    $36binary_subscr.12 = getitem(value=x, index=$const34.11.3, fn=<built-in function getitem>) ['$36binary_subscr.12', '$const34.11.3', 'x']
+    $40compare_op.13 = $28binary_subscr.9 <= $36binary_subscr.12 ['$28binary_subscr.9', '$36binary_subscr.12', '$40compare_op.13']
+    $binop_and_44.14 = $20compare_op.6 & $40compare_op.13 ['$20compare_op.6', '$40compare_op.13', '$binop_and_44.14']
+    $48return_value.15 = cast(value=$binop_and_44.14) ['$48return_value.15', '$binop_and_44.14']
+    return $48return_value.15                ['$48return_value.15']
+
+Tue, 24 Mar 2026 20:15:58 main.py[line:104] INFO Loading pretrained weights from ./ResNet22_mAP=0.430.pth
+Tue, 24 Mar 2026 20:15:58 main.py[line:116] INFO   Skipped: spectrogram_extractor.stft.conv_real.weight (shape mismatch)
+Tue, 24 Mar 2026 20:15:58 main.py[line:116] INFO   Skipped: spectrogram_extractor.stft.conv_imag.weight (shape mismatch)
+Tue, 24 Mar 2026 20:15:58 main.py[line:116] INFO   Skipped: logmel_extractor.melW (shape mismatch)
+Tue, 24 Mar 2026 20:15:58 main.py[line:116] INFO   Skipped: fc_audioset.weight (shape mismatch)
+Tue, 24 Mar 2026 20:15:58 main.py[line:116] INFO   Skipped: fc_audioset.bias (shape mismatch)
+Tue, 24 Mar 2026 20:15:59 main.py[line:120] INFO Loaded 145 / 150 pretrained layers
+Tue, 24 Mar 2026 20:15:59 main.py[line:127] INFO Freezing CNN layers
+Tue, 24 Mar 2026 20:15:59 main.py[line:136] INFO Trainable: 4200578 / 62878978 parameters
+Tue, 24 Mar 2026 20:15:59 data_generator.py[line:31] INFO Dataset size: 876 samples from ../data_for_ai/ratio_ver/train.csv
+Tue, 24 Mar 2026 20:15:59 data_generator.py[line:35] INFO   sleep: 584 samples
+Tue, 24 Mar 2026 20:15:59 data_generator.py[line:35] INFO   wake: 292 samples
+Tue, 24 Mar 2026 20:15:59 data_generator.py[line:31] INFO Dataset size: 603 samples from ../data_for_ai/ratio_ver/val.csv
+Tue, 24 Mar 2026 20:15:59 data_generator.py[line:35] INFO   sleep: 402 samples
+Tue, 24 Mar 2026 20:15:59 data_generator.py[line:35] INFO   wake: 201 samples
+Tue, 24 Mar 2026 20:15:59 main.py[line:201] INFO Loss function: clip_ce
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:81] DEBUG bytecode dump:
+>          0	NOP(arg=None, lineno=1137)
+           2	RESUME(arg=0, lineno=1137)
+           4	LOAD_FAST(arg=0, lineno=1140)
+           6	LOAD_CONST(arg=1, lineno=1140)
+           8	BINARY_SUBSCR(arg=None, lineno=1140)
+          12	STORE_FAST(arg=3, lineno=1140)
+          14	LOAD_FAST(arg=1, lineno=1141)
+          16	UNARY_NEGATIVE(arg=None, lineno=1141)
+          18	LOAD_FAST(arg=3, lineno=1141)
+          20	SWAP(arg=2, lineno=1141)
+          22	COPY(arg=2, lineno=1141)
+          24	COMPARE_OP(arg=26, lineno=1141)
+          28	POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+          30	LOAD_FAST(arg=1, lineno=1141)
+          32	COMPARE_OP(arg=26, lineno=1141)
+          36	POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+          38	JUMP_FORWARD(arg=2, lineno=1141)
+>         40	POP_TOP(arg=None, lineno=1141)
+          42	JUMP_FORWARD(arg=2, lineno=1141)
+>         44	LOAD_CONST(arg=1, lineno=1142)
+          46	STORE_FAST(arg=3, lineno=1142)
+>         48	LOAD_FAST(arg=0, lineno=1144)
+          50	LOAD_CONST(arg=2, lineno=1144)
+          52	BINARY_SUBSCR(arg=None, lineno=1144)
+          56	STORE_FAST(arg=4, lineno=1144)
+          58	LOAD_FAST(arg=1, lineno=1145)
+          60	UNARY_NEGATIVE(arg=None, lineno=1145)
+          62	LOAD_FAST(arg=4, lineno=1145)
+          64	SWAP(arg=2, lineno=1145)
+          66	COPY(arg=2, lineno=1145)
+          68	COMPARE_OP(arg=26, lineno=1145)
+          72	POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+          74	LOAD_FAST(arg=1, lineno=1145)
+          76	COMPARE_OP(arg=26, lineno=1145)
+          80	POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+          82	JUMP_FORWARD(arg=2, lineno=1145)
+>         84	POP_TOP(arg=None, lineno=1145)
+          86	JUMP_FORWARD(arg=2, lineno=1145)
+>         88	LOAD_CONST(arg=1, lineno=1146)
+          90	STORE_FAST(arg=4, lineno=1146)
+>         92	LOAD_FAST(arg=2, lineno=1148)
+          94	POP_JUMP_IF_FALSE(arg=43, lineno=1148)
+          96	LOAD_GLOBAL(arg=1, lineno=1149)
+         106	LOAD_ATTR(arg=2, lineno=1149)
+         126	LOAD_FAST(arg=3, lineno=1149)
+         128	CALL(arg=1, lineno=1149)
+         136	LOAD_GLOBAL(arg=1, lineno=1149)
+         146	LOAD_ATTR(arg=2, lineno=1149)
+         166	LOAD_FAST(arg=4, lineno=1149)
+         168	CALL(arg=1, lineno=1149)
+         176	COMPARE_OP(arg=55, lineno=1149)
+         180	RETURN_VALUE(arg=None, lineno=1149)
+>        182	LOAD_GLOBAL(arg=1, lineno=1151)
+         192	LOAD_ATTR(arg=4, lineno=1151)
+         212	LOAD_FAST(arg=3, lineno=1151)
+         214	CALL(arg=1, lineno=1151)
+         222	LOAD_GLOBAL(arg=1, lineno=1151)
+         232	LOAD_ATTR(arg=4, lineno=1151)
+         252	LOAD_FAST(arg=4, lineno=1151)
+         254	CALL(arg=1, lineno=1151)
+         262	COMPARE_OP(arg=55, lineno=1151)
+         266	RETURN_VALUE(arg=None, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=0 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=0 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=0, inst=NOP(arg=None, lineno=1137)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=2, inst=RESUME(arg=0, lineno=1137)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=4, inst=LOAD_FAST(arg=0, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=6, inst=LOAD_CONST(arg=1, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x4.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=8, inst=BINARY_SUBSCR(arg=None, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x4.0', '$const6.1.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=12, inst=STORE_FAST(arg=3, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=14, inst=LOAD_FAST(arg=1, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=16, inst=UNARY_NEGATIVE(arg=None, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$threshold14.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=18, inst=LOAD_FAST(arg=3, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$16unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=20, inst=SWAP(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$16unary_negative.4', '$x018.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=22, inst=COPY(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$16unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=24, inst=COMPARE_OP(arg=26, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$16unary_negative.4', '$x018.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=28, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$24compare_op.6']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=30, stack=('$x018.5',), blockstack=(), npush=0), Edge(pc=40, stack=('$x018.5',), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=30 nstack_initial=1), State(pc_initial=40 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi30.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=30 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=30, inst=LOAD_FAST(arg=1, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi30.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=32, inst=COMPARE_OP(arg=26, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi30.0', '$threshold30.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=36, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$32compare_op.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=38, stack=(), blockstack=(), npush=0), Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=40 nstack_initial=1), State(pc_initial=38 nstack_initial=0), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi40.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=40 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=40, inst=POP_TOP(arg=None, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi40.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=42, inst=JUMP_FORWARD(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=38 nstack_initial=0), State(pc_initial=48 nstack_initial=0), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=38 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=38, inst=JUMP_FORWARD(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=44, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=48 nstack_initial=0), State(pc_initial=44 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=48 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=48, inst=LOAD_FAST(arg=0, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=50, inst=LOAD_CONST(arg=2, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x48.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=52, inst=BINARY_SUBSCR(arg=None, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x48.0', '$const50.1.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=56, inst=STORE_FAST(arg=4, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$52binary_subscr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=58, inst=LOAD_FAST(arg=1, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=60, inst=UNARY_NEGATIVE(arg=None, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$threshold58.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=62, inst=LOAD_FAST(arg=4, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$60unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=64, inst=SWAP(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$60unary_negative.4', '$x162.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=66, inst=COPY(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$60unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=68, inst=COMPARE_OP(arg=26, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$60unary_negative.4', '$x162.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=72, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$68compare_op.6']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=74, stack=('$x162.5',), blockstack=(), npush=0), Edge(pc=84, stack=('$x162.5',), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=44 nstack_initial=0), State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=44 nstack_initial=0), State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=44 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=44, inst=LOAD_CONST(arg=1, lineno=1142)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=46, inst=STORE_FAST(arg=3, lineno=1142)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$const44.0.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:81] DEBUG bytecode dump:
+>          0	NOP(arg=None, lineno=1137)
+           2	RESUME(arg=0, lineno=1137)
+           4	LOAD_FAST(arg=0, lineno=1140)
+           6	LOAD_CONST(arg=1, lineno=1140)
+           8	BINARY_SUBSCR(arg=None, lineno=1140)
+          12	STORE_FAST(arg=3, lineno=1140)
+          14	LOAD_FAST(arg=1, lineno=1141)
+          16	UNARY_NEGATIVE(arg=None, lineno=1141)
+          18	LOAD_FAST(arg=3, lineno=1141)
+          20	SWAP(arg=2, lineno=1141)
+          22	COPY(arg=2, lineno=1141)
+          24	COMPARE_OP(arg=26, lineno=1141)
+          28	POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+          30	LOAD_FAST(arg=1, lineno=1141)
+          32	COMPARE_OP(arg=26, lineno=1141)
+          36	POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+          38	JUMP_FORWARD(arg=2, lineno=1141)
+>         40	POP_TOP(arg=None, lineno=1141)
+          42	JUMP_FORWARD(arg=2, lineno=1141)
+>         44	LOAD_CONST(arg=1, lineno=1142)
+          46	STORE_FAST(arg=3, lineno=1142)
+>         48	LOAD_FAST(arg=0, lineno=1144)
+          50	LOAD_CONST(arg=2, lineno=1144)
+          52	BINARY_SUBSCR(arg=None, lineno=1144)
+          56	STORE_FAST(arg=4, lineno=1144)
+          58	LOAD_FAST(arg=1, lineno=1145)
+          60	UNARY_NEGATIVE(arg=None, lineno=1145)
+          62	LOAD_FAST(arg=4, lineno=1145)
+          64	SWAP(arg=2, lineno=1145)
+          66	COPY(arg=2, lineno=1145)
+          68	COMPARE_OP(arg=26, lineno=1145)
+          72	POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+          74	LOAD_FAST(arg=1, lineno=1145)
+          76	COMPARE_OP(arg=26, lineno=1145)
+          80	POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+          82	JUMP_FORWARD(arg=2, lineno=1145)
+>         84	POP_TOP(arg=None, lineno=1145)
+          86	JUMP_FORWARD(arg=2, lineno=1145)
+>         88	LOAD_CONST(arg=1, lineno=1146)
+          90	STORE_FAST(arg=4, lineno=1146)
+>         92	LOAD_FAST(arg=2, lineno=1148)
+          94	POP_JUMP_IF_FALSE(arg=43, lineno=1148)
+          96	LOAD_GLOBAL(arg=1, lineno=1149)
+         106	LOAD_ATTR(arg=2, lineno=1149)
+         126	LOAD_FAST(arg=3, lineno=1149)
+         128	CALL(arg=1, lineno=1149)
+         136	LOAD_GLOBAL(arg=1, lineno=1149)
+         146	LOAD_ATTR(arg=2, lineno=1149)
+         166	LOAD_FAST(arg=4, lineno=1149)
+         168	CALL(arg=1, lineno=1149)
+         176	COMPARE_OP(arg=55, lineno=1149)
+         180	RETURN_VALUE(arg=None, lineno=1149)
+>        182	LOAD_GLOBAL(arg=1, lineno=1151)
+         192	LOAD_ATTR(arg=4, lineno=1151)
+         212	LOAD_FAST(arg=3, lineno=1151)
+         214	CALL(arg=1, lineno=1151)
+         222	LOAD_GLOBAL(arg=1, lineno=1151)
+         232	LOAD_ATTR(arg=4, lineno=1151)
+         252	LOAD_FAST(arg=4, lineno=1151)
+         254	CALL(arg=1, lineno=1151)
+         262	COMPARE_OP(arg=55, lineno=1151)
+         266	RETURN_VALUE(arg=None, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=0 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=0 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=0, inst=NOP(arg=None, lineno=1137)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=2, inst=RESUME(arg=0, lineno=1137)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=4, inst=LOAD_FAST(arg=0, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=6, inst=LOAD_CONST(arg=1, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x4.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=8, inst=BINARY_SUBSCR(arg=None, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x4.0', '$const6.1.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=12, inst=STORE_FAST(arg=3, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=14, inst=LOAD_FAST(arg=1, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=16, inst=UNARY_NEGATIVE(arg=None, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$threshold14.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi74.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=18, inst=LOAD_FAST(arg=3, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=74 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$16unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=74, inst=LOAD_FAST(arg=1, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=20, inst=SWAP(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi74.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$16unary_negative.4', '$x018.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=76, inst=COMPARE_OP(arg=26, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=22, inst=COPY(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi74.0', '$threshold74.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$16unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=24, inst=COMPARE_OP(arg=26, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=80, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$16unary_negative.4', '$x018.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$76compare_op.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=28, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=82, stack=(), blockstack=(), npush=0), Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$24compare_op.6']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=84 nstack_initial=1), State(pc_initial=48 nstack_initial=0), State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi84.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=84 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=30, stack=('$x018.5',), blockstack=(), npush=0), Edge(pc=40, stack=('$x018.5',), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=84, inst=POP_TOP(arg=None, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi84.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=86, inst=JUMP_FORWARD(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=30 nstack_initial=1), State(pc_initial=40 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi30.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=30 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=30, inst=LOAD_FAST(arg=1, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi30.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=82 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=32, inst=COMPARE_OP(arg=26, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=82, inst=JUMP_FORWARD(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi30.0', '$threshold30.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=36, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=88, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$32compare_op.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=88 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=38, stack=(), blockstack=(), npush=0), Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=92 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=92, inst=LOAD_FAST(arg=2, lineno=1148)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=40 nstack_initial=1), State(pc_initial=38 nstack_initial=0), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=94, inst=POP_JUMP_IF_FALSE(arg=43, lineno=1148)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi40.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$zero_pos92.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=40 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=40, inst=POP_TOP(arg=None, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=96, stack=(), blockstack=(), npush=0), Edge(pc=182, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi40.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0), State(pc_initial=88 nstack_initial=0), State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=42, inst=JUMP_FORWARD(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=88 nstack_initial=0), State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=88 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=88, inst=LOAD_CONST(arg=1, lineno=1146)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=38 nstack_initial=0), State(pc_initial=48 nstack_initial=0), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=90, inst=STORE_FAST(arg=4, lineno=1146)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$const88.0.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=38 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=38, inst=JUMP_FORWARD(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=44, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=96 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=96, inst=LOAD_GLOBAL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=48 nstack_initial=0), State(pc_initial=44 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=48 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=106, inst=LOAD_ATTR(arg=2, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=48, inst=LOAD_FAST(arg=0, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$96load_global.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=126, inst=LOAD_FAST(arg=3, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=50, inst=LOAD_CONST(arg=2, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$106load_attr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x48.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=128, inst=CALL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=52, inst=BINARY_SUBSCR(arg=None, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$106load_attr.2', '$x0126.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x48.0', '$const50.1.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=56, inst=STORE_FAST(arg=4, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=136, inst=LOAD_GLOBAL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$52binary_subscr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=58, inst=LOAD_FAST(arg=1, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=146, inst=LOAD_ATTR(arg=2, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$136load_global.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=60, inst=UNARY_NEGATIVE(arg=None, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=166, inst=LOAD_FAST(arg=4, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$threshold58.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$146load_attr.7']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=62, inst=LOAD_FAST(arg=4, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=168, inst=CALL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$146load_attr.7', '$x1166.8']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$60unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=64, inst=SWAP(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=176, inst=COMPARE_OP(arg=55, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$60unary_negative.4', '$x162.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$168call.9']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=66, inst=COPY(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=180, inst=RETURN_VALUE(arg=None, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$60unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$176compare_op.10']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=68, inst=COMPARE_OP(arg=26, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$60unary_negative.4', '$x162.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=182 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=72, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$68compare_op.6']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=182 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=182, inst=LOAD_GLOBAL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=74, stack=('$x162.5',), blockstack=(), npush=0), Edge(pc=84, stack=('$x162.5',), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=192, inst=LOAD_ATTR(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$182load_global.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=44 nstack_initial=0), State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=212, inst=LOAD_FAST(arg=3, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=44 nstack_initial=0), State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$192load_attr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=214, inst=CALL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=44 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$192load_attr.2', '$x0212.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=44, inst=LOAD_CONST(arg=1, lineno=1142)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=222, inst=LOAD_GLOBAL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=46, inst=STORE_FAST(arg=3, lineno=1142)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$const44.0.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=232, inst=LOAD_ATTR(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$222load_global.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=252, inst=LOAD_FAST(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$232load_attr.7']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi74.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=254, inst=CALL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=74 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$232load_attr.7', '$x1252.8']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=74, inst=LOAD_FAST(arg=1, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=262, inst=COMPARE_OP(arg=55, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi74.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$254call.9']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=76, inst=COMPARE_OP(arg=26, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=266, inst=RETURN_VALUE(arg=None, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi74.0', '$threshold74.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$262compare_op.10']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=80, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$76compare_op.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=82, stack=(), blockstack=(), npush=0), Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=84 nstack_initial=1), State(pc_initial=48 nstack_initial=0), State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi84.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=84 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=84, inst=POP_TOP(arg=None, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:211] DEBUG -------------------------Prune PHIs-------------------------
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi84.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=86, inst=JUMP_FORWARD(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=82 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=82, inst=JUMP_FORWARD(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:280] DEBUG Used_phis: defaultdict(<class 'set'>,
+            {State(pc_initial=0 nstack_initial=0): set(),
+             State(pc_initial=30 nstack_initial=1): {'$phi30.0'},
+             State(pc_initial=38 nstack_initial=0): set(),
+             State(pc_initial=40 nstack_initial=1): set(),
+             State(pc_initial=44 nstack_initial=0): set(),
+             State(pc_initial=48 nstack_initial=0): set(),
+             State(pc_initial=74 nstack_initial=1): {'$phi74.0'},
+             State(pc_initial=82 nstack_initial=0): set(),
+             State(pc_initial=84 nstack_initial=1): set(),
+             State(pc_initial=88 nstack_initial=0): set(),
+             State(pc_initial=92 nstack_initial=0): set(),
+             State(pc_initial=96 nstack_initial=0): set(),
+             State(pc_initial=182 nstack_initial=0): set()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=88, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=88 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:237] DEBUG defmap: {'$phi30.0': State(pc_initial=0 nstack_initial=0),
+ '$phi40.0': State(pc_initial=0 nstack_initial=0),
+ '$phi74.0': State(pc_initial=48 nstack_initial=0),
+ '$phi84.0': State(pc_initial=48 nstack_initial=0)}
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=92 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=92, inst=LOAD_FAST(arg=2, lineno=1148)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:238] DEBUG phismap: defaultdict(<class 'set'>,
+            {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi40.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))},
+             '$phi84.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=94, inst=POP_JUMP_IF_FALSE(arg=43, lineno=1148)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$zero_pos92.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=96, stack=(), blockstack=(), npush=0), Edge(pc=182, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:259] DEBUG changing phismap: defaultdict(<class 'set'>,
+            {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi40.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))},
+             '$phi84.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0), State(pc_initial=88 nstack_initial=0), State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:268] DEBUG keep phismap: {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+ '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}}
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=88 nstack_initial=0), State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:274] DEBUG new_out: defaultdict(<class 'dict'>,
+            {State(pc_initial=0 nstack_initial=0): {'$phi30.0': '$x018.5'},
+             State(pc_initial=48 nstack_initial=0): {'$phi74.0': '$x162.5'}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=88 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=88, inst=LOAD_CONST(arg=1, lineno=1146)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:284] DEBUG ----------------------DONE Prune PHIs-----------------------
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=90, inst=STORE_FAST(arg=4, lineno=1146)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$const88.0.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=0 nstack_initial=0):
+AdaptBlockInfo(insts=((0, {}), (2, {}), (4, {'res': '$x4.0'}), (6, {'res': '$const6.1.1'}), (8, {'index': '$const6.1.1', 'target': '$x4.0', 'res': '$8binary_subscr.2'}), (12, {'value': '$8binary_subscr.2'}), (14, {'res': '$threshold14.3'}), (16, {'value': '$threshold14.3', 'res': '$16unary_negative.4'}), (18, {'res': '$x018.5'}), (24, {'lhs': '$16unary_negative.4', 'rhs': '$x018.5', 'res': '$24compare_op.6'}), (28, {'pred': '$24compare_op.6'})), outgoing_phis={'$phi30.0': '$x018.5'}, blockstack=(), active_try_block=None, outgoing_edgepushed={30: ('$x018.5',), 40: ('$x018.5',)})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=30 nstack_initial=1):
+AdaptBlockInfo(insts=((30, {'res': '$threshold30.1'}), (32, {'lhs': '$phi30.0', 'rhs': '$threshold30.1', 'res': '$32compare_op.2'}), (36, {'pred': '$32compare_op.2'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={38: (), 48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=38 nstack_initial=0):
+AdaptBlockInfo(insts=((38, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={44: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=96 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=40 nstack_initial=1):
+AdaptBlockInfo(insts=((42, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=96, inst=LOAD_GLOBAL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=44 nstack_initial=0):
+AdaptBlockInfo(insts=((44, {'res': '$const44.0.1'}), (46, {'value': '$const44.0.1'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=48 nstack_initial=0):
+AdaptBlockInfo(insts=((48, {'res': '$x48.0'}), (50, {'res': '$const50.1.2'}), (52, {'index': '$const50.1.2', 'target': '$x48.0', 'res': '$52binary_subscr.2'}), (56, {'value': '$52binary_subscr.2'}), (58, {'res': '$threshold58.3'}), (60, {'value': '$threshold58.3', 'res': '$60unary_negative.4'}), (62, {'res': '$x162.5'}), (68, {'lhs': '$60unary_negative.4', 'rhs': '$x162.5', 'res': '$68compare_op.6'}), (72, {'pred': '$68compare_op.6'})), outgoing_phis={'$phi74.0': '$x162.5'}, blockstack=(), active_try_block=None, outgoing_edgepushed={74: ('$x162.5',), 84: ('$x162.5',)})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=106, inst=LOAD_ATTR(arg=2, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=74 nstack_initial=1):
+AdaptBlockInfo(insts=((74, {'res': '$threshold74.1'}), (76, {'lhs': '$phi74.0', 'rhs': '$threshold74.1', 'res': '$76compare_op.2'}), (80, {'pred': '$76compare_op.2'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={82: (), 92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$96load_global.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=82 nstack_initial=0):
+AdaptBlockInfo(insts=((82, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={88: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=126, inst=LOAD_FAST(arg=3, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=84 nstack_initial=1):
+AdaptBlockInfo(insts=((86, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$106load_attr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=88 nstack_initial=0):
+AdaptBlockInfo(insts=((88, {'res': '$const88.0.1'}), (90, {'value': '$const88.0.1'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=128, inst=CALL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=92 nstack_initial=0):
+AdaptBlockInfo(insts=((92, {'res': '$zero_pos92.0'}), (94, {'pred': '$zero_pos92.0'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={96: (), 182: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$106load_attr.2', '$x0126.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=96 nstack_initial=0):
+AdaptBlockInfo(insts=((96, {'idx': 0, 'res': '$96load_global.0'}), (106, {'item': '$96load_global.0', 'res': '$106load_attr.2'}), (126, {'res': '$x0126.3'}), (128, {'func': '$106load_attr.2', 'args': ['$x0126.3'], 'kw_names': None, 'res': '$128call.4'}), (136, {'idx': 0, 'res': '$136load_global.5'}), (146, {'item': '$136load_global.5', 'res': '$146load_attr.7'}), (166, {'res': '$x1166.8'}), (168, {'func': '$146load_attr.7', 'args': ['$x1166.8'], 'kw_names': None, 'res': '$168call.9'}), (176, {'lhs': '$128call.4', 'rhs': '$168call.9', 'res': '$176compare_op.10'}), (180, {'retval': '$176compare_op.10', 'castval': '$180return_value.11'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=136, inst=LOAD_GLOBAL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=182 nstack_initial=0):
+AdaptBlockInfo(insts=((182, {'idx': 0, 'res': '$182load_global.0'}), (192, {'item': '$182load_global.0', 'res': '$192load_attr.2'}), (212, {'res': '$x0212.3'}), (214, {'func': '$192load_attr.2', 'args': ['$x0212.3'], 'kw_names': None, 'res': '$214call.4'}), (222, {'idx': 0, 'res': '$222load_global.5'}), (232, {'item': '$222load_global.5', 'res': '$232load_attr.7'}), (252, {'res': '$x1252.8'}), (254, {'func': '$232load_attr.7', 'args': ['$x1252.8'], 'kw_names': None, 'res': '$254call.9'}), (262, {'lhs': '$214call.4', 'rhs': '$254call.9', 'res': '$262compare_op.10'}), (266, {'retval': '$262compare_op.10', 'castval': '$266return_value.11'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=146, inst=LOAD_ATTR(arg=2, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$136load_global.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=166, inst=LOAD_FAST(arg=4, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$146load_attr.7']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=168, inst=CALL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$146load_attr.7', '$x1166.8']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=176, inst=COMPARE_OP(arg=55, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$168call.9']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=180, inst=RETURN_VALUE(arg=None, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$176compare_op.10']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=182 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=182 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=182, inst=LOAD_GLOBAL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=192, inst=LOAD_ATTR(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$182load_global.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=212, inst=LOAD_FAST(arg=3, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$192load_attr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=214, inst=CALL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$192load_attr.2', '$x0212.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=222, inst=LOAD_GLOBAL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=232, inst=LOAD_ATTR(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$222load_global.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=252, inst=LOAD_FAST(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$232load_attr.7']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=254, inst=CALL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$232load_attr.7', '$x1252.8']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=262, inst=COMPARE_OP(arg=55, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$254call.9']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=266, inst=RETURN_VALUE(arg=None, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$262compare_op.10']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:211] DEBUG -------------------------Prune PHIs-------------------------
+Tue, 24 Mar 2026 20:16:00 interpreter.py[line:1420] DEBUG label 0:
+    x = arg(0, name=x)                       ['x']
+    threshold = arg(1, name=threshold)       ['threshold']
+    zero_pos = arg(2, name=zero_pos)         ['zero_pos']
+    $const6.1.1 = const(int, 0)              ['$const6.1.1']
+    x0 = getitem(value=x, index=$const6.1.1, fn=<built-in function getitem>) ['$const6.1.1', 'x', 'x0']
+    $16unary_negative.4 = unary(fn=<built-in function neg>, value=threshold) ['$16unary_negative.4', 'threshold']
+    $24compare_op.6 = $16unary_negative.4 <= x0 ['$16unary_negative.4', '$24compare_op.6', 'x0']
+    $bool28 = global(bool: <class 'bool'>)   ['$bool28']
+    $28pred = call $bool28($24compare_op.6, func=$bool28, args=(Var($24compare_op.6, audio.py:1141),), kws=(), vararg=None, varkwarg=None, target=None) ['$24compare_op.6', '$28pred', '$bool28']
+    $phi30.0 = x0                            ['$phi30.0', 'x0']
+    branch $28pred, 30, 40                   ['$28pred']
+label 30:
+    $32compare_op.2 = $phi30.0 <= threshold  ['$32compare_op.2', '$phi30.0', 'threshold']
+    $bool36 = global(bool: <class 'bool'>)   ['$bool36']
+    $36pred = call $bool36($32compare_op.2, func=$bool36, args=(Var($32compare_op.2, audio.py:1141),), kws=(), vararg=None, varkwarg=None, target=None) ['$32compare_op.2', '$36pred', '$bool36']
+    branch $36pred, 38, 48                   ['$36pred']
+label 38:
+    jump 44                                  []
+label 40:
+    jump 48                                  []
+label 44:
+    x0 = const(int, 0)                       ['x0']
+    jump 48                                  []
+label 48:
+    $const50.1.2 = const(int, -1)            ['$const50.1.2']
+    x1 = getitem(value=x, index=$const50.1.2, fn=<built-in function getitem>) ['$const50.1.2', 'x', 'x1']
+    $60unary_negative.4 = unary(fn=<built-in function neg>, value=threshold) ['$60unary_negative.4', 'threshold']
+    $68compare_op.6 = $60unary_negative.4 <= x1 ['$60unary_negative.4', '$68compare_op.6', 'x1']
+    $bool72 = global(bool: <class 'bool'>)   ['$bool72']
+    $72pred = call $bool72($68compare_op.6, func=$bool72, args=(Var($68compare_op.6, audio.py:1145),), kws=(), vararg=None, varkwarg=None, target=None) ['$68compare_op.6', '$72pred', '$bool72']
+    $phi74.0 = x1                            ['$phi74.0', 'x1']
+    branch $72pred, 74, 84                   ['$72pred']
+label 74:
+    $76compare_op.2 = $phi74.0 <= threshold  ['$76compare_op.2', '$phi74.0', 'threshold']
+    $bool80 = global(bool: <class 'bool'>)   ['$bool80']
+    $80pred = call $bool80($76compare_op.2, func=$bool80, args=(Var($76compare_op.2, audio.py:1145),), kws=(), vararg=None, varkwarg=None, target=None) ['$76compare_op.2', '$80pred', '$bool80']
+    branch $80pred, 82, 92                   ['$80pred']
+label 82:
+    jump 88                                  []
+label 84:
+    jump 92                                  []
+label 88:
+    x1 = const(int, 0)                       ['x1']
+    jump 92                                  []
+label 92:
+    $bool94 = global(bool: <class 'bool'>)   ['$bool94']
+    $94pred = call $bool94(zero_pos, func=$bool94, args=(Var(zero_pos, audio.py:1137),), kws=(), vararg=None, varkwarg=None, target=None) ['$94pred', '$bool94', 'zero_pos']
+    branch $94pred, 96, 182                  ['$94pred']
+label 96:
+    $96load_global.0 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$96load_global.0']
+    $106load_attr.2 = getattr(value=$96load_global.0, attr=signbit) ['$106load_attr.2', '$96load_global.0']
+    $128call.4 = call $106load_attr.2(x0, func=$106load_attr.2, args=[Var(x0, audio.py:1140)], kws=(), vararg=None, varkwarg=None, target=None) ['$106load_attr.2', '$128call.4', 'x0']
+    $136load_global.5 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$136load_global.5']
+    $146load_attr.7 = getattr(value=$136load_global.5, attr=signbit) ['$136load_global.5', '$146load_attr.7']
+    $168call.9 = call $146load_attr.7(x1, func=$146load_attr.7, args=[Var(x1, audio.py:1144)], kws=(), vararg=None, varkwarg=None, target=None) ['$146load_attr.7', '$168call.9', 'x1']
+    $176compare_op.10 = $128call.4 != $168call.9 ['$128call.4', '$168call.9', '$176compare_op.10']
+    $180return_value.11 = cast(value=$176compare_op.10) ['$176compare_op.10', '$180return_value.11']
+    return $180return_value.11               ['$180return_value.11']
+label 182:
+    $182load_global.0 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$182load_global.0']
+    $192load_attr.2 = getattr(value=$182load_global.0, attr=sign) ['$182load_global.0', '$192load_attr.2']
+    $214call.4 = call $192load_attr.2(x0, func=$192load_attr.2, args=[Var(x0, audio.py:1140)], kws=(), vararg=None, varkwarg=None, target=None) ['$192load_attr.2', '$214call.4', 'x0']
+    $222load_global.5 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$222load_global.5']
+    $232load_attr.7 = getattr(value=$222load_global.5, attr=sign) ['$222load_global.5', '$232load_attr.7']
+    $254call.9 = call $232load_attr.7(x1, func=$232load_attr.7, args=[Var(x1, audio.py:1144)], kws=(), vararg=None, varkwarg=None, target=None) ['$232load_attr.7', '$254call.9', 'x1']
+    $262compare_op.10 = $214call.4 != $254call.9 ['$214call.4', '$254call.9', '$262compare_op.10']
+    $266return_value.11 = cast(value=$262compare_op.10) ['$262compare_op.10', '$266return_value.11']
+    return $266return_value.11               ['$266return_value.11']
+
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:81] DEBUG bytecode dump:
+>          0	NOP(arg=None, lineno=1137)
+           2	RESUME(arg=0, lineno=1137)
+           4	LOAD_FAST(arg=0, lineno=1140)
+           6	LOAD_CONST(arg=1, lineno=1140)
+           8	BINARY_SUBSCR(arg=None, lineno=1140)
+          12	STORE_FAST(arg=3, lineno=1140)
+          14	LOAD_FAST(arg=1, lineno=1141)
+          16	UNARY_NEGATIVE(arg=None, lineno=1141)
+          18	LOAD_FAST(arg=3, lineno=1141)
+          20	SWAP(arg=2, lineno=1141)
+          22	COPY(arg=2, lineno=1141)
+          24	COMPARE_OP(arg=26, lineno=1141)
+          28	POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+          30	LOAD_FAST(arg=1, lineno=1141)
+          32	COMPARE_OP(arg=26, lineno=1141)
+          36	POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+          38	JUMP_FORWARD(arg=2, lineno=1141)
+>         40	POP_TOP(arg=None, lineno=1141)
+          42	JUMP_FORWARD(arg=2, lineno=1141)
+>         44	LOAD_CONST(arg=1, lineno=1142)
+          46	STORE_FAST(arg=3, lineno=1142)
+>         48	LOAD_FAST(arg=0, lineno=1144)
+          50	LOAD_CONST(arg=2, lineno=1144)
+          52	BINARY_SUBSCR(arg=None, lineno=1144)
+          56	STORE_FAST(arg=4, lineno=1144)
+          58	LOAD_FAST(arg=1, lineno=1145)
+          60	UNARY_NEGATIVE(arg=None, lineno=1145)
+          62	LOAD_FAST(arg=4, lineno=1145)
+          64	SWAP(arg=2, lineno=1145)
+          66	COPY(arg=2, lineno=1145)
+          68	COMPARE_OP(arg=26, lineno=1145)
+          72	POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+          74	LOAD_FAST(arg=1, lineno=1145)
+          76	COMPARE_OP(arg=26, lineno=1145)
+          80	POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+          82	JUMP_FORWARD(arg=2, lineno=1145)
+>         84	POP_TOP(arg=None, lineno=1145)
+          86	JUMP_FORWARD(arg=2, lineno=1145)
+>         88	LOAD_CONST(arg=1, lineno=1146)
+          90	STORE_FAST(arg=4, lineno=1146)
+>         92	LOAD_FAST(arg=2, lineno=1148)
+          94	POP_JUMP_IF_FALSE(arg=43, lineno=1148)
+          96	LOAD_GLOBAL(arg=1, lineno=1149)
+         106	LOAD_ATTR(arg=2, lineno=1149)
+         126	LOAD_FAST(arg=3, lineno=1149)
+         128	CALL(arg=1, lineno=1149)
+         136	LOAD_GLOBAL(arg=1, lineno=1149)
+         146	LOAD_ATTR(arg=2, lineno=1149)
+         166	LOAD_FAST(arg=4, lineno=1149)
+         168	CALL(arg=1, lineno=1149)
+         176	COMPARE_OP(arg=55, lineno=1149)
+         180	RETURN_VALUE(arg=None, lineno=1149)
+>        182	LOAD_GLOBAL(arg=1, lineno=1151)
+         192	LOAD_ATTR(arg=4, lineno=1151)
+         212	LOAD_FAST(arg=3, lineno=1151)
+         214	CALL(arg=1, lineno=1151)
+         222	LOAD_GLOBAL(arg=1, lineno=1151)
+         232	LOAD_ATTR(arg=4, lineno=1151)
+         252	LOAD_FAST(arg=4, lineno=1151)
+         254	CALL(arg=1, lineno=1151)
+         262	COMPARE_OP(arg=55, lineno=1151)
+         266	RETURN_VALUE(arg=None, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=0 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=0 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:81] DEBUG bytecode dump:
+>          0	NOP(arg=None, lineno=1137)
+           2	RESUME(arg=0, lineno=1137)
+           4	LOAD_FAST(arg=0, lineno=1140)
+           6	LOAD_CONST(arg=1, lineno=1140)
+           8	BINARY_SUBSCR(arg=None, lineno=1140)
+          12	STORE_FAST(arg=3, lineno=1140)
+          14	LOAD_FAST(arg=1, lineno=1141)
+          16	UNARY_NEGATIVE(arg=None, lineno=1141)
+          18	LOAD_FAST(arg=3, lineno=1141)
+          20	SWAP(arg=2, lineno=1141)
+          22	COPY(arg=2, lineno=1141)
+          24	COMPARE_OP(arg=26, lineno=1141)
+          28	POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+          30	LOAD_FAST(arg=1, lineno=1141)
+          32	COMPARE_OP(arg=26, lineno=1141)
+          36	POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+          38	JUMP_FORWARD(arg=2, lineno=1141)
+>         40	POP_TOP(arg=None, lineno=1141)
+          42	JUMP_FORWARD(arg=2, lineno=1141)
+>         44	LOAD_CONST(arg=1, lineno=1142)
+          46	STORE_FAST(arg=3, lineno=1142)
+>         48	LOAD_FAST(arg=0, lineno=1144)
+          50	LOAD_CONST(arg=2, lineno=1144)
+          52	BINARY_SUBSCR(arg=None, lineno=1144)
+          56	STORE_FAST(arg=4, lineno=1144)
+          58	LOAD_FAST(arg=1, lineno=1145)
+          60	UNARY_NEGATIVE(arg=None, lineno=1145)
+          62	LOAD_FAST(arg=4, lineno=1145)
+          64	SWAP(arg=2, lineno=1145)
+          66	COPY(arg=2, lineno=1145)
+          68	COMPARE_OP(arg=26, lineno=1145)
+          72	POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+          74	LOAD_FAST(arg=1, lineno=1145)
+          76	COMPARE_OP(arg=26, lineno=1145)
+          80	POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+          82	JUMP_FORWARD(arg=2, lineno=1145)
+>         84	POP_TOP(arg=None, lineno=1145)
+          86	JUMP_FORWARD(arg=2, lineno=1145)
+>         88	LOAD_CONST(arg=1, lineno=1146)
+          90	STORE_FAST(arg=4, lineno=1146)
+>         92	LOAD_FAST(arg=2, lineno=1148)
+          94	POP_JUMP_IF_FALSE(arg=43, lineno=1148)
+          96	LOAD_GLOBAL(arg=1, lineno=1149)
+         106	LOAD_ATTR(arg=2, lineno=1149)
+         126	LOAD_FAST(arg=3, lineno=1149)
+         128	CALL(arg=1, lineno=1149)
+         136	LOAD_GLOBAL(arg=1, lineno=1149)
+         146	LOAD_ATTR(arg=2, lineno=1149)
+         166	LOAD_FAST(arg=4, lineno=1149)
+         168	CALL(arg=1, lineno=1149)
+         176	COMPARE_OP(arg=55, lineno=1149)
+         180	RETURN_VALUE(arg=None, lineno=1149)
+>        182	LOAD_GLOBAL(arg=1, lineno=1151)
+         192	LOAD_ATTR(arg=4, lineno=1151)
+         212	LOAD_FAST(arg=3, lineno=1151)
+         214	CALL(arg=1, lineno=1151)
+         222	LOAD_GLOBAL(arg=1, lineno=1151)
+         232	LOAD_ATTR(arg=4, lineno=1151)
+         252	LOAD_FAST(arg=4, lineno=1151)
+         254	CALL(arg=1, lineno=1151)
+         262	COMPARE_OP(arg=55, lineno=1151)
+         266	RETURN_VALUE(arg=None, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=0, inst=NOP(arg=None, lineno=1137)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=2, inst=RESUME(arg=0, lineno=1137)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=4, inst=LOAD_FAST(arg=0, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=0 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=6, inst=LOAD_CONST(arg=1, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x4.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=8, inst=BINARY_SUBSCR(arg=None, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x4.0', '$const6.1.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=12, inst=STORE_FAST(arg=3, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=14, inst=LOAD_FAST(arg=1, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=0 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=16, inst=UNARY_NEGATIVE(arg=None, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=0, inst=NOP(arg=None, lineno=1137)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$threshold14.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=18, inst=LOAD_FAST(arg=3, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:280] DEBUG Used_phis: defaultdict(<class 'set'>,
+            {State(pc_initial=0 nstack_initial=0): set(),
+             State(pc_initial=30 nstack_initial=1): {'$phi30.0'},
+             State(pc_initial=38 nstack_initial=0): set(),
+             State(pc_initial=40 nstack_initial=1): set(),
+             State(pc_initial=44 nstack_initial=0): set(),
+             State(pc_initial=48 nstack_initial=0): set(),
+             State(pc_initial=74 nstack_initial=1): {'$phi74.0'},
+             State(pc_initial=82 nstack_initial=0): set(),
+             State(pc_initial=84 nstack_initial=1): set(),
+             State(pc_initial=88 nstack_initial=0): set(),
+             State(pc_initial=92 nstack_initial=0): set(),
+             State(pc_initial=96 nstack_initial=0): set(),
+             State(pc_initial=182 nstack_initial=0): set()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$16unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=2, inst=RESUME(arg=0, lineno=1137)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=20, inst=SWAP(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=4, inst=LOAD_FAST(arg=0, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$16unary_negative.4', '$x018.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:237] DEBUG defmap: {'$phi30.0': State(pc_initial=0 nstack_initial=0),
+ '$phi40.0': State(pc_initial=0 nstack_initial=0),
+ '$phi74.0': State(pc_initial=48 nstack_initial=0),
+ '$phi84.0': State(pc_initial=48 nstack_initial=0)}
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=22, inst=COPY(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=6, inst=LOAD_CONST(arg=1, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$16unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x4.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=24, inst=COMPARE_OP(arg=26, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$16unary_negative.4', '$x018.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=8, inst=BINARY_SUBSCR(arg=None, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:238] DEBUG phismap: defaultdict(<class 'set'>,
+            {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi40.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))},
+             '$phi84.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x4.0', '$const6.1.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=28, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$24compare_op.6']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=12, inst=STORE_FAST(arg=3, lineno=1140)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:259] DEBUG changing phismap: defaultdict(<class 'set'>,
+            {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi40.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))},
+             '$phi84.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$8binary_subscr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=14, inst=LOAD_FAST(arg=1, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:268] DEBUG keep phismap: {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+ '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}}
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=16, inst=UNARY_NEGATIVE(arg=None, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=30, stack=('$x018.5',), blockstack=(), npush=0), Edge(pc=40, stack=('$x018.5',), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$threshold14.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:274] DEBUG new_out: defaultdict(<class 'dict'>,
+            {State(pc_initial=0 nstack_initial=0): {'$phi30.0': '$x018.5'},
+             State(pc_initial=48 nstack_initial=0): {'$phi74.0': '$x162.5'}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=18, inst=LOAD_FAST(arg=3, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=30 nstack_initial=1), State(pc_initial=40 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$16unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi30.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:284] DEBUG ----------------------DONE Prune PHIs-----------------------
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=20, inst=SWAP(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=30 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$16unary_negative.4', '$x018.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=30, inst=LOAD_FAST(arg=1, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=22, inst=COPY(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi30.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$16unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=0 nstack_initial=0):
+AdaptBlockInfo(insts=((0, {}), (2, {}), (4, {'res': '$x4.0'}), (6, {'res': '$const6.1.1'}), (8, {'index': '$const6.1.1', 'target': '$x4.0', 'res': '$8binary_subscr.2'}), (12, {'value': '$8binary_subscr.2'}), (14, {'res': '$threshold14.3'}), (16, {'value': '$threshold14.3', 'res': '$16unary_negative.4'}), (18, {'res': '$x018.5'}), (24, {'lhs': '$16unary_negative.4', 'rhs': '$x018.5', 'res': '$24compare_op.6'}), (28, {'pred': '$24compare_op.6'})), outgoing_phis={'$phi30.0': '$x018.5'}, blockstack=(), active_try_block=None, outgoing_edgepushed={30: ('$x018.5',), 40: ('$x018.5',)})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=32, inst=COMPARE_OP(arg=26, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=24, inst=COMPARE_OP(arg=26, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$16unary_negative.4', '$x018.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi30.0', '$threshold30.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=30 nstack_initial=1):
+AdaptBlockInfo(insts=((30, {'res': '$threshold30.1'}), (32, {'lhs': '$phi30.0', 'rhs': '$threshold30.1', 'res': '$32compare_op.2'}), (36, {'pred': '$32compare_op.2'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={38: (), 48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=36, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=28, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x018.5', '$24compare_op.6']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$32compare_op.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=38 nstack_initial=0):
+AdaptBlockInfo(insts=((38, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={44: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=40 nstack_initial=1):
+AdaptBlockInfo(insts=((42, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=38, stack=(), blockstack=(), npush=0), Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=44 nstack_initial=0):
+AdaptBlockInfo(insts=((44, {'res': '$const44.0.1'}), (46, {'value': '$const44.0.1'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=30, stack=('$x018.5',), blockstack=(), npush=0), Edge(pc=40, stack=('$x018.5',), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=40 nstack_initial=1), State(pc_initial=38 nstack_initial=0), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=48 nstack_initial=0):
+AdaptBlockInfo(insts=((48, {'res': '$x48.0'}), (50, {'res': '$const50.1.2'}), (52, {'index': '$const50.1.2', 'target': '$x48.0', 'res': '$52binary_subscr.2'}), (56, {'value': '$52binary_subscr.2'}), (58, {'res': '$threshold58.3'}), (60, {'value': '$threshold58.3', 'res': '$60unary_negative.4'}), (62, {'res': '$x162.5'}), (68, {'lhs': '$60unary_negative.4', 'rhs': '$x162.5', 'res': '$68compare_op.6'}), (72, {'pred': '$68compare_op.6'})), outgoing_phis={'$phi74.0': '$x162.5'}, blockstack=(), active_try_block=None, outgoing_edgepushed={74: ('$x162.5',), 84: ('$x162.5',)})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi40.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=40 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=74 nstack_initial=1):
+AdaptBlockInfo(insts=((74, {'res': '$threshold74.1'}), (76, {'lhs': '$phi74.0', 'rhs': '$threshold74.1', 'res': '$76compare_op.2'}), (80, {'pred': '$76compare_op.2'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={82: (), 92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=30 nstack_initial=1), State(pc_initial=40 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=40, inst=POP_TOP(arg=None, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=82 nstack_initial=0):
+AdaptBlockInfo(insts=((82, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={88: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi30.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi40.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=30 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=84 nstack_initial=1):
+AdaptBlockInfo(insts=((86, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=42, inst=JUMP_FORWARD(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=30, inst=LOAD_FAST(arg=1, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=88 nstack_initial=0):
+AdaptBlockInfo(insts=((88, {'res': '$const88.0.1'}), (90, {'value': '$const88.0.1'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi30.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=92 nstack_initial=0):
+AdaptBlockInfo(insts=((92, {'res': '$zero_pos92.0'}), (94, {'pred': '$zero_pos92.0'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={96: (), 182: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=32, inst=COMPARE_OP(arg=26, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi30.0', '$threshold30.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=38 nstack_initial=0), State(pc_initial=48 nstack_initial=0), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=96 nstack_initial=0):
+AdaptBlockInfo(insts=((96, {'idx': 0, 'res': '$96load_global.0'}), (106, {'item': '$96load_global.0', 'res': '$106load_attr.2'}), (126, {'res': '$x0126.3'}), (128, {'func': '$106load_attr.2', 'args': ['$x0126.3'], 'kw_names': None, 'res': '$128call.4'}), (136, {'idx': 0, 'res': '$136load_global.5'}), (146, {'item': '$136load_global.5', 'res': '$146load_attr.7'}), (166, {'res': '$x1166.8'}), (168, {'func': '$146load_attr.7', 'args': ['$x1166.8'], 'kw_names': None, 'res': '$168call.9'}), (176, {'lhs': '$128call.4', 'rhs': '$168call.9', 'res': '$176compare_op.10'}), (180, {'retval': '$176compare_op.10', 'castval': '$180return_value.11'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=36, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$32compare_op.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=38 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=182 nstack_initial=0):
+AdaptBlockInfo(insts=((182, {'idx': 0, 'res': '$182load_global.0'}), (192, {'item': '$182load_global.0', 'res': '$192load_attr.2'}), (212, {'res': '$x0212.3'}), (214, {'func': '$192load_attr.2', 'args': ['$x0212.3'], 'kw_names': None, 'res': '$214call.4'}), (222, {'idx': 0, 'res': '$222load_global.5'}), (232, {'item': '$222load_global.5', 'res': '$232load_attr.7'}), (252, {'res': '$x1252.8'}), (254, {'func': '$232load_attr.7', 'args': ['$x1252.8'], 'kw_names': None, 'res': '$254call.9'}), (262, {'lhs': '$214call.4', 'rhs': '$254call.9', 'res': '$262compare_op.10'}), (266, {'retval': '$262compare_op.10', 'castval': '$266return_value.11'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=38, stack=(), blockstack=(), npush=0), Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=38, inst=JUMP_FORWARD(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=40 nstack_initial=1), State(pc_initial=38 nstack_initial=0), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi40.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=44, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=40 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=48 nstack_initial=0), State(pc_initial=44 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=40, inst=POP_TOP(arg=None, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi40.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=48 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=42, inst=JUMP_FORWARD(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=48, inst=LOAD_FAST(arg=0, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=50, inst=LOAD_CONST(arg=2, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=38 nstack_initial=0), State(pc_initial=48 nstack_initial=0), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x48.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=52, inst=BINARY_SUBSCR(arg=None, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=38 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x48.0', '$const50.1.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=38, inst=JUMP_FORWARD(arg=2, lineno=1141)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=56, inst=STORE_FAST(arg=4, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$52binary_subscr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=44, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=58, inst=LOAD_FAST(arg=1, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=48 nstack_initial=0), State(pc_initial=44 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=60, inst=UNARY_NEGATIVE(arg=None, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=48 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$threshold58.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=48, inst=LOAD_FAST(arg=0, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=62, inst=LOAD_FAST(arg=4, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=50, inst=LOAD_CONST(arg=2, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$60unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x48.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=64, inst=SWAP(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$60unary_negative.4', '$x162.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=52, inst=BINARY_SUBSCR(arg=None, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x48.0', '$const50.1.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=66, inst=COPY(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$60unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=56, inst=STORE_FAST(arg=4, lineno=1144)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$52binary_subscr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=68, inst=COMPARE_OP(arg=26, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=58, inst=LOAD_FAST(arg=1, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$60unary_negative.4', '$x162.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=72, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=60, inst=UNARY_NEGATIVE(arg=None, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$68compare_op.6']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$threshold58.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=74, stack=('$x162.5',), blockstack=(), npush=0), Edge(pc=84, stack=('$x162.5',), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=62, inst=LOAD_FAST(arg=4, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$60unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=64, inst=SWAP(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=44 nstack_initial=0), State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$60unary_negative.4', '$x162.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=44 nstack_initial=0), State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=66, inst=COPY(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$60unary_negative.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=44 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=68, inst=COMPARE_OP(arg=26, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=44, inst=LOAD_CONST(arg=1, lineno=1142)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$60unary_negative.4', '$x162.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=72, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=46, inst=STORE_FAST(arg=3, lineno=1142)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$x162.5', '$68compare_op.6']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$const44.0.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=74, stack=('$x162.5',), blockstack=(), npush=0), Edge(pc=84, stack=('$x162.5',), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=44 nstack_initial=0), State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=44 nstack_initial=0), State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi74.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=74 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=44 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=74, inst=LOAD_FAST(arg=1, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=44, inst=LOAD_CONST(arg=1, lineno=1142)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi74.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=76, inst=COMPARE_OP(arg=26, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=46, inst=STORE_FAST(arg=3, lineno=1142)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi74.0', '$threshold74.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$const44.0.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=80, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=48, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$76compare_op.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=74 nstack_initial=1), State(pc_initial=84 nstack_initial=1), State(pc_initial=48 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=82, stack=(), blockstack=(), npush=0), Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi74.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=74 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=84 nstack_initial=1), State(pc_initial=48 nstack_initial=0), State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=74, inst=LOAD_FAST(arg=1, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi84.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi74.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=84 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=76, inst=COMPARE_OP(arg=26, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=84, inst=POP_TOP(arg=None, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi74.0', '$threshold74.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi84.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=80, inst=POP_JUMP_IF_FALSE(arg=5, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=86, inst=JUMP_FORWARD(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$76compare_op.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=82, stack=(), blockstack=(), npush=0), Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=84 nstack_initial=1), State(pc_initial=48 nstack_initial=0), State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: ['$phi84.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=84 nstack_initial=1)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=84, inst=POP_TOP(arg=None, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=82 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=82, inst=JUMP_FORWARD(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$phi84.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=86, inst=JUMP_FORWARD(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=88, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=88 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=48 nstack_initial=0), State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=92 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=82 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=92, inst=LOAD_FAST(arg=2, lineno=1148)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=82 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=82, inst=JUMP_FORWARD(arg=2, lineno=1145)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=94, inst=POP_JUMP_IF_FALSE(arg=43, lineno=1148)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$zero_pos92.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=88, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=96, stack=(), blockstack=(), npush=0), Edge(pc=182, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0), State(pc_initial=92 nstack_initial=0), State(pc_initial=88 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0), State(pc_initial=88 nstack_initial=0), State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 interpreter.py[line:1420] DEBUG label 0:
+    x = arg(0, name=x)                       ['x']
+    threshold = arg(1, name=threshold)       ['threshold']
+    zero_pos = arg(2, name=zero_pos)         ['zero_pos']
+    $const6.1.1 = const(int, 0)              ['$const6.1.1']
+    x0 = getitem(value=x, index=$const6.1.1, fn=<built-in function getitem>) ['$const6.1.1', 'x', 'x0']
+    $16unary_negative.4 = unary(fn=<built-in function neg>, value=threshold) ['$16unary_negative.4', 'threshold']
+    $24compare_op.6 = $16unary_negative.4 <= x0 ['$16unary_negative.4', '$24compare_op.6', 'x0']
+    $bool28 = global(bool: <class 'bool'>)   ['$bool28']
+    $28pred = call $bool28($24compare_op.6, func=$bool28, args=(Var($24compare_op.6, audio.py:1141),), kws=(), vararg=None, varkwarg=None, target=None) ['$24compare_op.6', '$28pred', '$bool28']
+    $phi30.0 = x0                            ['$phi30.0', 'x0']
+    branch $28pred, 30, 40                   ['$28pred']
+label 30:
+    $32compare_op.2 = $phi30.0 <= threshold  ['$32compare_op.2', '$phi30.0', 'threshold']
+    $bool36 = global(bool: <class 'bool'>)   ['$bool36']
+    $36pred = call $bool36($32compare_op.2, func=$bool36, args=(Var($32compare_op.2, audio.py:1141),), kws=(), vararg=None, varkwarg=None, target=None) ['$32compare_op.2', '$36pred', '$bool36']
+    branch $36pred, 38, 48                   ['$36pred']
+label 38:
+    jump 44                                  []
+label 40:
+    jump 48                                  []
+label 44:
+    x0 = const(int, 0)                       ['x0']
+    jump 48                                  []
+label 48:
+    $const50.1.2 = const(int, -1)            ['$const50.1.2']
+    x1 = getitem(value=x, index=$const50.1.2, fn=<built-in function getitem>) ['$const50.1.2', 'x', 'x1']
+    $60unary_negative.4 = unary(fn=<built-in function neg>, value=threshold) ['$60unary_negative.4', 'threshold']
+    $68compare_op.6 = $60unary_negative.4 <= x1 ['$60unary_negative.4', '$68compare_op.6', 'x1']
+    $bool72 = global(bool: <class 'bool'>)   ['$bool72']
+    $72pred = call $bool72($68compare_op.6, func=$bool72, args=(Var($68compare_op.6, audio.py:1145),), kws=(), vararg=None, varkwarg=None, target=None) ['$68compare_op.6', '$72pred', '$bool72']
+    $phi74.0 = x1                            ['$phi74.0', 'x1']
+    branch $72pred, 74, 84                   ['$72pred']
+label 74:
+    $76compare_op.2 = $phi74.0 <= threshold  ['$76compare_op.2', '$phi74.0', 'threshold']
+    $bool80 = global(bool: <class 'bool'>)   ['$bool80']
+    $80pred = call $bool80($76compare_op.2, func=$bool80, args=(Var($76compare_op.2, audio.py:1145),), kws=(), vararg=None, varkwarg=None, target=None) ['$76compare_op.2', '$80pred', '$bool80']
+    branch $80pred, 82, 92                   ['$80pred']
+label 82:
+    jump 88                                  []
+label 84:
+    jump 92                                  []
+label 88:
+    x1 = const(int, 0)                       ['x1']
+    jump 92                                  []
+label 92:
+    $bool94 = global(bool: <class 'bool'>)   ['$bool94']
+    $94pred = call $bool94(zero_pos, func=$bool94, args=(Var(zero_pos, audio.py:1137),), kws=(), vararg=None, varkwarg=None, target=None) ['$94pred', '$bool94', 'zero_pos']
+    branch $94pred, 96, 182                  ['$94pred']
+label 96:
+    $96load_global.0 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$96load_global.0']
+    $106load_attr.2 = getattr(value=$96load_global.0, attr=signbit) ['$106load_attr.2', '$96load_global.0']
+    $128call.4 = call $106load_attr.2(x0, func=$106load_attr.2, args=[Var(x0, audio.py:1140)], kws=(), vararg=None, varkwarg=None, target=None) ['$106load_attr.2', '$128call.4', 'x0']
+    $136load_global.5 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$136load_global.5']
+    $146load_attr.7 = getattr(value=$136load_global.5, attr=signbit) ['$136load_global.5', '$146load_attr.7']
+    $168call.9 = call $146load_attr.7(x1, func=$146load_attr.7, args=[Var(x1, audio.py:1144)], kws=(), vararg=None, varkwarg=None, target=None) ['$146load_attr.7', '$168call.9', 'x1']
+    $176compare_op.10 = $128call.4 != $168call.9 ['$128call.4', '$168call.9', '$176compare_op.10']
+    $180return_value.11 = cast(value=$176compare_op.10) ['$176compare_op.10', '$180return_value.11']
+    return $180return_value.11               ['$180return_value.11']
+label 182:
+    $182load_global.0 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$182load_global.0']
+    $192load_attr.2 = getattr(value=$182load_global.0, attr=sign) ['$182load_global.0', '$192load_attr.2']
+    $214call.4 = call $192load_attr.2(x0, func=$192load_attr.2, args=[Var(x0, audio.py:1140)], kws=(), vararg=None, varkwarg=None, target=None) ['$192load_attr.2', '$214call.4', 'x0']
+    $222load_global.5 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$222load_global.5']
+    $232load_attr.7 = getattr(value=$222load_global.5, attr=sign) ['$222load_global.5', '$232load_attr.7']
+    $254call.9 = call $232load_attr.7(x1, func=$232load_attr.7, args=[Var(x1, audio.py:1144)], kws=(), vararg=None, varkwarg=None, target=None) ['$232load_attr.7', '$254call.9', 'x1']
+    $262compare_op.10 = $214call.4 != $254call.9 ['$214call.4', '$254call.9', '$262compare_op.10']
+    $266return_value.11 = cast(value=$262compare_op.10) ['$262compare_op.10', '$266return_value.11']
+    return $266return_value.11               ['$266return_value.11']
+
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=92 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=88 nstack_initial=0), State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=92, inst=LOAD_FAST(arg=2, lineno=1148)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=88 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=94, inst=POP_JUMP_IF_FALSE(arg=43, lineno=1148)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$zero_pos92.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=88, inst=LOAD_CONST(arg=1, lineno=1146)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=96, stack=(), blockstack=(), npush=0), Edge(pc=182, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=90, inst=STORE_FAST(arg=4, lineno=1146)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0), State(pc_initial=88 nstack_initial=0), State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$const88.0.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=88 nstack_initial=0), State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=88 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=88, inst=LOAD_CONST(arg=1, lineno=1146)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=96 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=90, inst=STORE_FAST(arg=4, lineno=1146)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=96, inst=LOAD_GLOBAL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$const88.0.1']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[Edge(pc=92, stack=(), blockstack=(), npush=0)]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=96 nstack_initial=0), State(pc_initial=182 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=106, inst=LOAD_ATTR(arg=2, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$96load_global.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=96 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=96, inst=LOAD_GLOBAL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=126, inst=LOAD_FAST(arg=3, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$106load_attr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=128, inst=CALL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=106, inst=LOAD_ATTR(arg=2, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$106load_attr.2', '$x0126.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$96load_global.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=136, inst=LOAD_GLOBAL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=146, inst=LOAD_ATTR(arg=2, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$136load_global.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=166, inst=LOAD_FAST(arg=4, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$146load_attr.7']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=168, inst=CALL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$146load_attr.7', '$x1166.8']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=176, inst=COMPARE_OP(arg=55, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$168call.9']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=180, inst=RETURN_VALUE(arg=None, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$176compare_op.10']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=182 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=182 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=182, inst=LOAD_GLOBAL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=192, inst=LOAD_ATTR(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$182load_global.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=212, inst=LOAD_FAST(arg=3, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$192load_attr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=214, inst=CALL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$192load_attr.2', '$x0212.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=222, inst=LOAD_GLOBAL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=232, inst=LOAD_ATTR(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$222load_global.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=252, inst=LOAD_FAST(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$232load_attr.7']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=254, inst=CALL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$232load_attr.7', '$x1252.8']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=262, inst=COMPARE_OP(arg=55, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$254call.9']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=266, inst=RETURN_VALUE(arg=None, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$262compare_op.10']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=126, inst=LOAD_FAST(arg=3, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$106load_attr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=128, inst=CALL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$96.1', '$106load_attr.2', '$x0126.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=136, inst=LOAD_GLOBAL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=146, inst=LOAD_ATTR(arg=2, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$136load_global.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=166, inst=LOAD_FAST(arg=4, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$146load_attr.7']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=168, inst=CALL(arg=1, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$null$136.6', '$146load_attr.7', '$x1166.8']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=176, inst=COMPARE_OP(arg=55, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$128call.4', '$168call.9']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=180, inst=RETURN_VALUE(arg=None, lineno=1149)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$176compare_op.10']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=182 nstack_initial=0), State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:111] DEBUG stack: []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:112] DEBUG state.pc_initial: State(pc_initial=182 nstack_initial=0)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=182, inst=LOAD_GLOBAL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack []
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=192, inst=LOAD_ATTR(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$182load_global.0']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=212, inst=LOAD_FAST(arg=3, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$192load_attr.2']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=214, inst=CALL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$null$182.1', '$192load_attr.2', '$x0212.3']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=222, inst=LOAD_GLOBAL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=232, inst=LOAD_ATTR(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$222load_global.5']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=252, inst=LOAD_FAST(arg=4, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$232load_attr.7']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=254, inst=CALL(arg=1, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$null$222.6', '$232load_attr.7', '$x1252.8']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=262, inst=COMPARE_OP(arg=55, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$214call.4', '$254call.9']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:349] DEBUG dispatch pc=266, inst=RETURN_VALUE(arg=None, lineno=1151)
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:350] DEBUG stack ['$262compare_op.10']
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:130] DEBUG end state. edges=[]
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:108] DEBUG pending: deque([State(pc_initial=92 nstack_initial=0)])
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:211] DEBUG -------------------------Prune PHIs-------------------------
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:211] DEBUG -------------------------Prune PHIs-------------------------
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:280] DEBUG Used_phis: defaultdict(<class 'set'>,
+            {State(pc_initial=0 nstack_initial=0): set(),
+             State(pc_initial=30 nstack_initial=1): {'$phi30.0'},
+             State(pc_initial=38 nstack_initial=0): set(),
+             State(pc_initial=40 nstack_initial=1): set(),
+             State(pc_initial=44 nstack_initial=0): set(),
+             State(pc_initial=48 nstack_initial=0): set(),
+             State(pc_initial=74 nstack_initial=1): {'$phi74.0'},
+             State(pc_initial=82 nstack_initial=0): set(),
+             State(pc_initial=84 nstack_initial=1): set(),
+             State(pc_initial=88 nstack_initial=0): set(),
+             State(pc_initial=92 nstack_initial=0): set(),
+             State(pc_initial=96 nstack_initial=0): set(),
+             State(pc_initial=182 nstack_initial=0): set()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:280] DEBUG Used_phis: defaultdict(<class 'set'>,
+            {State(pc_initial=0 nstack_initial=0): set(),
+             State(pc_initial=30 nstack_initial=1): {'$phi30.0'},
+             State(pc_initial=38 nstack_initial=0): set(),
+             State(pc_initial=40 nstack_initial=1): set(),
+             State(pc_initial=44 nstack_initial=0): set(),
+             State(pc_initial=48 nstack_initial=0): set(),
+             State(pc_initial=74 nstack_initial=1): {'$phi74.0'},
+             State(pc_initial=82 nstack_initial=0): set(),
+             State(pc_initial=84 nstack_initial=1): set(),
+             State(pc_initial=88 nstack_initial=0): set(),
+             State(pc_initial=92 nstack_initial=0): set(),
+             State(pc_initial=96 nstack_initial=0): set(),
+             State(pc_initial=182 nstack_initial=0): set()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:237] DEBUG defmap: {'$phi30.0': State(pc_initial=0 nstack_initial=0),
+ '$phi40.0': State(pc_initial=0 nstack_initial=0),
+ '$phi74.0': State(pc_initial=48 nstack_initial=0),
+ '$phi84.0': State(pc_initial=48 nstack_initial=0)}
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:237] DEBUG defmap: {'$phi30.0': State(pc_initial=0 nstack_initial=0),
+ '$phi40.0': State(pc_initial=0 nstack_initial=0),
+ '$phi74.0': State(pc_initial=48 nstack_initial=0),
+ '$phi84.0': State(pc_initial=48 nstack_initial=0)}
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:238] DEBUG phismap: defaultdict(<class 'set'>,
+            {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi40.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))},
+             '$phi84.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:238] DEBUG phismap: defaultdict(<class 'set'>,
+            {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi40.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))},
+             '$phi84.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:259] DEBUG changing phismap: defaultdict(<class 'set'>,
+            {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi40.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))},
+             '$phi84.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:259] DEBUG changing phismap: defaultdict(<class 'set'>,
+            {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi40.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+             '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))},
+             '$phi84.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:268] DEBUG keep phismap: {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+ '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}}
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:268] DEBUG keep phismap: {'$phi30.0': {('$x018.5', State(pc_initial=0 nstack_initial=0))},
+ '$phi74.0': {('$x162.5', State(pc_initial=48 nstack_initial=0))}}
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:274] DEBUG new_out: defaultdict(<class 'dict'>,
+            {State(pc_initial=0 nstack_initial=0): {'$phi30.0': '$x018.5'},
+             State(pc_initial=48 nstack_initial=0): {'$phi74.0': '$x162.5'}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:274] DEBUG new_out: defaultdict(<class 'dict'>,
+            {State(pc_initial=0 nstack_initial=0): {'$phi30.0': '$x018.5'},
+             State(pc_initial=48 nstack_initial=0): {'$phi74.0': '$x162.5'}})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:284] DEBUG ----------------------DONE Prune PHIs-----------------------
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:284] DEBUG ----------------------DONE Prune PHIs-----------------------
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=0 nstack_initial=0):
+AdaptBlockInfo(insts=((0, {}), (2, {}), (4, {'res': '$x4.0'}), (6, {'res': '$const6.1.1'}), (8, {'index': '$const6.1.1', 'target': '$x4.0', 'res': '$8binary_subscr.2'}), (12, {'value': '$8binary_subscr.2'}), (14, {'res': '$threshold14.3'}), (16, {'value': '$threshold14.3', 'res': '$16unary_negative.4'}), (18, {'res': '$x018.5'}), (24, {'lhs': '$16unary_negative.4', 'rhs': '$x018.5', 'res': '$24compare_op.6'}), (28, {'pred': '$24compare_op.6'})), outgoing_phis={'$phi30.0': '$x018.5'}, blockstack=(), active_try_block=None, outgoing_edgepushed={30: ('$x018.5',), 40: ('$x018.5',)})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=0 nstack_initial=0):
+AdaptBlockInfo(insts=((0, {}), (2, {}), (4, {'res': '$x4.0'}), (6, {'res': '$const6.1.1'}), (8, {'index': '$const6.1.1', 'target': '$x4.0', 'res': '$8binary_subscr.2'}), (12, {'value': '$8binary_subscr.2'}), (14, {'res': '$threshold14.3'}), (16, {'value': '$threshold14.3', 'res': '$16unary_negative.4'}), (18, {'res': '$x018.5'}), (24, {'lhs': '$16unary_negative.4', 'rhs': '$x018.5', 'res': '$24compare_op.6'}), (28, {'pred': '$24compare_op.6'})), outgoing_phis={'$phi30.0': '$x018.5'}, blockstack=(), active_try_block=None, outgoing_edgepushed={30: ('$x018.5',), 40: ('$x018.5',)})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=30 nstack_initial=1):
+AdaptBlockInfo(insts=((30, {'res': '$threshold30.1'}), (32, {'lhs': '$phi30.0', 'rhs': '$threshold30.1', 'res': '$32compare_op.2'}), (36, {'pred': '$32compare_op.2'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={38: (), 48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=38 nstack_initial=0):
+AdaptBlockInfo(insts=((38, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={44: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=30 nstack_initial=1):
+AdaptBlockInfo(insts=((30, {'res': '$threshold30.1'}), (32, {'lhs': '$phi30.0', 'rhs': '$threshold30.1', 'res': '$32compare_op.2'}), (36, {'pred': '$32compare_op.2'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={38: (), 48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=40 nstack_initial=1):
+AdaptBlockInfo(insts=((42, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=38 nstack_initial=0):
+AdaptBlockInfo(insts=((38, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={44: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=44 nstack_initial=0):
+AdaptBlockInfo(insts=((44, {'res': '$const44.0.1'}), (46, {'value': '$const44.0.1'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=40 nstack_initial=1):
+AdaptBlockInfo(insts=((42, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=48 nstack_initial=0):
+AdaptBlockInfo(insts=((48, {'res': '$x48.0'}), (50, {'res': '$const50.1.2'}), (52, {'index': '$const50.1.2', 'target': '$x48.0', 'res': '$52binary_subscr.2'}), (56, {'value': '$52binary_subscr.2'}), (58, {'res': '$threshold58.3'}), (60, {'value': '$threshold58.3', 'res': '$60unary_negative.4'}), (62, {'res': '$x162.5'}), (68, {'lhs': '$60unary_negative.4', 'rhs': '$x162.5', 'res': '$68compare_op.6'}), (72, {'pred': '$68compare_op.6'})), outgoing_phis={'$phi74.0': '$x162.5'}, blockstack=(), active_try_block=None, outgoing_edgepushed={74: ('$x162.5',), 84: ('$x162.5',)})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=44 nstack_initial=0):
+AdaptBlockInfo(insts=((44, {'res': '$const44.0.1'}), (46, {'value': '$const44.0.1'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={48: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=74 nstack_initial=1):
+AdaptBlockInfo(insts=((74, {'res': '$threshold74.1'}), (76, {'lhs': '$phi74.0', 'rhs': '$threshold74.1', 'res': '$76compare_op.2'}), (80, {'pred': '$76compare_op.2'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={82: (), 92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=48 nstack_initial=0):
+AdaptBlockInfo(insts=((48, {'res': '$x48.0'}), (50, {'res': '$const50.1.2'}), (52, {'index': '$const50.1.2', 'target': '$x48.0', 'res': '$52binary_subscr.2'}), (56, {'value': '$52binary_subscr.2'}), (58, {'res': '$threshold58.3'}), (60, {'value': '$threshold58.3', 'res': '$60unary_negative.4'}), (62, {'res': '$x162.5'}), (68, {'lhs': '$60unary_negative.4', 'rhs': '$x162.5', 'res': '$68compare_op.6'}), (72, {'pred': '$68compare_op.6'})), outgoing_phis={'$phi74.0': '$x162.5'}, blockstack=(), active_try_block=None, outgoing_edgepushed={74: ('$x162.5',), 84: ('$x162.5',)})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=82 nstack_initial=0):
+AdaptBlockInfo(insts=((82, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={88: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=84 nstack_initial=1):
+AdaptBlockInfo(insts=((86, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=74 nstack_initial=1):
+AdaptBlockInfo(insts=((74, {'res': '$threshold74.1'}), (76, {'lhs': '$phi74.0', 'rhs': '$threshold74.1', 'res': '$76compare_op.2'}), (80, {'pred': '$76compare_op.2'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={82: (), 92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=88 nstack_initial=0):
+AdaptBlockInfo(insts=((88, {'res': '$const88.0.1'}), (90, {'value': '$const88.0.1'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=82 nstack_initial=0):
+AdaptBlockInfo(insts=((82, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={88: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=92 nstack_initial=0):
+AdaptBlockInfo(insts=((92, {'res': '$zero_pos92.0'}), (94, {'pred': '$zero_pos92.0'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={96: (), 182: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=84 nstack_initial=1):
+AdaptBlockInfo(insts=((86, {}),), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=88 nstack_initial=0):
+AdaptBlockInfo(insts=((88, {'res': '$const88.0.1'}), (90, {'value': '$const88.0.1'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={92: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=96 nstack_initial=0):
+AdaptBlockInfo(insts=((96, {'idx': 0, 'res': '$96load_global.0'}), (106, {'item': '$96load_global.0', 'res': '$106load_attr.2'}), (126, {'res': '$x0126.3'}), (128, {'func': '$106load_attr.2', 'args': ['$x0126.3'], 'kw_names': None, 'res': '$128call.4'}), (136, {'idx': 0, 'res': '$136load_global.5'}), (146, {'item': '$136load_global.5', 'res': '$146load_attr.7'}), (166, {'res': '$x1166.8'}), (168, {'func': '$146load_attr.7', 'args': ['$x1166.8'], 'kw_names': None, 'res': '$168call.9'}), (176, {'lhs': '$128call.4', 'rhs': '$168call.9', 'res': '$176compare_op.10'}), (180, {'retval': '$176compare_op.10', 'castval': '$180return_value.11'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=92 nstack_initial=0):
+AdaptBlockInfo(insts=((92, {'res': '$zero_pos92.0'}), (94, {'pred': '$zero_pos92.0'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={96: (), 182: ()})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=182 nstack_initial=0):
+AdaptBlockInfo(insts=((182, {'idx': 0, 'res': '$182load_global.0'}), (192, {'item': '$182load_global.0', 'res': '$192load_attr.2'}), (212, {'res': '$x0212.3'}), (214, {'func': '$192load_attr.2', 'args': ['$x0212.3'], 'kw_names': None, 'res': '$214call.4'}), (222, {'idx': 0, 'res': '$222load_global.5'}), (232, {'item': '$222load_global.5', 'res': '$232load_attr.7'}), (252, {'res': '$x1252.8'}), (254, {'func': '$232load_attr.7', 'args': ['$x1252.8'], 'kw_names': None, 'res': '$254call.9'}), (262, {'lhs': '$214call.4', 'rhs': '$254call.9', 'res': '$262compare_op.10'}), (266, {'retval': '$262compare_op.10', 'castval': '$266return_value.11'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=96 nstack_initial=0):
+AdaptBlockInfo(insts=((96, {'idx': 0, 'res': '$96load_global.0'}), (106, {'item': '$96load_global.0', 'res': '$106load_attr.2'}), (126, {'res': '$x0126.3'}), (128, {'func': '$106load_attr.2', 'args': ['$x0126.3'], 'kw_names': None, 'res': '$128call.4'}), (136, {'idx': 0, 'res': '$136load_global.5'}), (146, {'item': '$136load_global.5', 'res': '$146load_attr.7'}), (166, {'res': '$x1166.8'}), (168, {'func': '$146load_attr.7', 'args': ['$x1166.8'], 'kw_names': None, 'res': '$168call.9'}), (176, {'lhs': '$128call.4', 'rhs': '$168call.9', 'res': '$176compare_op.10'}), (180, {'retval': '$176compare_op.10', 'castval': '$180return_value.11'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:16:00 byteflow.py[line:142] DEBUG block_infos State(pc_initial=182 nstack_initial=0):
+AdaptBlockInfo(insts=((182, {'idx': 0, 'res': '$182load_global.0'}), (192, {'item': '$182load_global.0', 'res': '$192load_attr.2'}), (212, {'res': '$x0212.3'}), (214, {'func': '$192load_attr.2', 'args': ['$x0212.3'], 'kw_names': None, 'res': '$214call.4'}), (222, {'idx': 0, 'res': '$222load_global.5'}), (232, {'item': '$222load_global.5', 'res': '$232load_attr.7'}), (252, {'res': '$x1252.8'}), (254, {'func': '$232load_attr.7', 'args': ['$x1252.8'], 'kw_names': None, 'res': '$254call.9'}), (262, {'lhs': '$214call.4', 'rhs': '$254call.9', 'res': '$262compare_op.10'}), (266, {'retval': '$262compare_op.10', 'castval': '$266return_value.11'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Tue, 24 Mar 2026 20:16:00 interpreter.py[line:1420] DEBUG label 0:
+    x = arg(0, name=x)                       ['x']
+    threshold = arg(1, name=threshold)       ['threshold']
+    zero_pos = arg(2, name=zero_pos)         ['zero_pos']
+    $const6.1.1 = const(int, 0)              ['$const6.1.1']
+    x0 = getitem(value=x, index=$const6.1.1, fn=<built-in function getitem>) ['$const6.1.1', 'x', 'x0']
+    $16unary_negative.4 = unary(fn=<built-in function neg>, value=threshold) ['$16unary_negative.4', 'threshold']
+    $24compare_op.6 = $16unary_negative.4 <= x0 ['$16unary_negative.4', '$24compare_op.6', 'x0']
+    $bool28 = global(bool: <class 'bool'>)   ['$bool28']
+    $28pred = call $bool28($24compare_op.6, func=$bool28, args=(Var($24compare_op.6, audio.py:1141),), kws=(), vararg=None, varkwarg=None, target=None) ['$24compare_op.6', '$28pred', '$bool28']
+    $phi30.0 = x0                            ['$phi30.0', 'x0']
+    branch $28pred, 30, 40                   ['$28pred']
+label 30:
+    $32compare_op.2 = $phi30.0 <= threshold  ['$32compare_op.2', '$phi30.0', 'threshold']
+    $bool36 = global(bool: <class 'bool'>)   ['$bool36']
+    $36pred = call $bool36($32compare_op.2, func=$bool36, args=(Var($32compare_op.2, audio.py:1141),), kws=(), vararg=None, varkwarg=None, target=None) ['$32compare_op.2', '$36pred', '$bool36']
+    branch $36pred, 38, 48                   ['$36pred']
+label 38:
+    jump 44                                  []
+label 40:
+    jump 48                                  []
+label 44:
+    x0 = const(int, 0)                       ['x0']
+    jump 48                                  []
+label 48:
+    $const50.1.2 = const(int, -1)            ['$const50.1.2']
+    x1 = getitem(value=x, index=$const50.1.2, fn=<built-in function getitem>) ['$const50.1.2', 'x', 'x1']
+    $60unary_negative.4 = unary(fn=<built-in function neg>, value=threshold) ['$60unary_negative.4', 'threshold']
+    $68compare_op.6 = $60unary_negative.4 <= x1 ['$60unary_negative.4', '$68compare_op.6', 'x1']
+    $bool72 = global(bool: <class 'bool'>)   ['$bool72']
+    $72pred = call $bool72($68compare_op.6, func=$bool72, args=(Var($68compare_op.6, audio.py:1145),), kws=(), vararg=None, varkwarg=None, target=None) ['$68compare_op.6', '$72pred', '$bool72']
+    $phi74.0 = x1                            ['$phi74.0', 'x1']
+    branch $72pred, 74, 84                   ['$72pred']
+label 74:
+    $76compare_op.2 = $phi74.0 <= threshold  ['$76compare_op.2', '$phi74.0', 'threshold']
+    $bool80 = global(bool: <class 'bool'>)   ['$bool80']
+    $80pred = call $bool80($76compare_op.2, func=$bool80, args=(Var($76compare_op.2, audio.py:1145),), kws=(), vararg=None, varkwarg=None, target=None) ['$76compare_op.2', '$80pred', '$bool80']
+    branch $80pred, 82, 92                   ['$80pred']
+label 82:
+    jump 88                                  []
+label 84:
+    jump 92                                  []
+label 88:
+    x1 = const(int, 0)                       ['x1']
+    jump 92                                  []
+label 92:
+    $bool94 = global(bool: <class 'bool'>)   ['$bool94']
+    $94pred = call $bool94(zero_pos, func=$bool94, args=(Var(zero_pos, audio.py:1137),), kws=(), vararg=None, varkwarg=None, target=None) ['$94pred', '$bool94', 'zero_pos']
+    branch $94pred, 96, 182                  ['$94pred']
+label 96:
+    $96load_global.0 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$96load_global.0']
+    $106load_attr.2 = getattr(value=$96load_global.0, attr=signbit) ['$106load_attr.2', '$96load_global.0']
+    $128call.4 = call $106load_attr.2(x0, func=$106load_attr.2, args=[Var(x0, audio.py:1140)], kws=(), vararg=None, varkwarg=None, target=None) ['$106load_attr.2', '$128call.4', 'x0']
+    $136load_global.5 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$136load_global.5']
+    $146load_attr.7 = getattr(value=$136load_global.5, attr=signbit) ['$136load_global.5', '$146load_attr.7']
+    $168call.9 = call $146load_attr.7(x1, func=$146load_attr.7, args=[Var(x1, audio.py:1144)], kws=(), vararg=None, varkwarg=None, target=None) ['$146load_attr.7', '$168call.9', 'x1']
+    $176compare_op.10 = $128call.4 != $168call.9 ['$128call.4', '$168call.9', '$176compare_op.10']
+    $180return_value.11 = cast(value=$176compare_op.10) ['$176compare_op.10', '$180return_value.11']
+    return $180return_value.11               ['$180return_value.11']
+label 182:
+    $182load_global.0 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$182load_global.0']
+    $192load_attr.2 = getattr(value=$182load_global.0, attr=sign) ['$182load_global.0', '$192load_attr.2']
+    $214call.4 = call $192load_attr.2(x0, func=$192load_attr.2, args=[Var(x0, audio.py:1140)], kws=(), vararg=None, varkwarg=None, target=None) ['$192load_attr.2', '$214call.4', 'x0']
+    $222load_global.5 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$222load_global.5']
+    $232load_attr.7 = getattr(value=$222load_global.5, attr=sign) ['$222load_global.5', '$232load_attr.7']
+    $254call.9 = call $232load_attr.7(x1, func=$232load_attr.7, args=[Var(x1, audio.py:1144)], kws=(), vararg=None, varkwarg=None, target=None) ['$232load_attr.7', '$254call.9', 'x1']
+    $262compare_op.10 = $214call.4 != $254call.9 ['$214call.4', '$254call.9', '$262compare_op.10']
+    $266return_value.11 = cast(value=$262compare_op.10) ['$262compare_op.10', '$266return_value.11']
+    return $266return_value.11               ['$266return_value.11']
+
+Tue, 24 Mar 2026 20:16:00 interpreter.py[line:1420] DEBUG label 0:
+    x = arg(0, name=x)                       ['x']
+    threshold = arg(1, name=threshold)       ['threshold']
+    zero_pos = arg(2, name=zero_pos)         ['zero_pos']
+    $const6.1.1 = const(int, 0)              ['$const6.1.1']
+    x0 = getitem(value=x, index=$const6.1.1, fn=<built-in function getitem>) ['$const6.1.1', 'x', 'x0']
+    $16unary_negative.4 = unary(fn=<built-in function neg>, value=threshold) ['$16unary_negative.4', 'threshold']
+    $24compare_op.6 = $16unary_negative.4 <= x0 ['$16unary_negative.4', '$24compare_op.6', 'x0']
+    $bool28 = global(bool: <class 'bool'>)   ['$bool28']
+    $28pred = call $bool28($24compare_op.6, func=$bool28, args=(Var($24compare_op.6, audio.py:1141),), kws=(), vararg=None, varkwarg=None, target=None) ['$24compare_op.6', '$28pred', '$bool28']
+    $phi30.0 = x0                            ['$phi30.0', 'x0']
+    branch $28pred, 30, 40                   ['$28pred']
+label 30:
+    $32compare_op.2 = $phi30.0 <= threshold  ['$32compare_op.2', '$phi30.0', 'threshold']
+    $bool36 = global(bool: <class 'bool'>)   ['$bool36']
+    $36pred = call $bool36($32compare_op.2, func=$bool36, args=(Var($32compare_op.2, audio.py:1141),), kws=(), vararg=None, varkwarg=None, target=None) ['$32compare_op.2', '$36pred', '$bool36']
+    branch $36pred, 38, 48                   ['$36pred']
+label 38:
+    jump 44                                  []
+label 40:
+    jump 48                                  []
+label 44:
+    x0 = const(int, 0)                       ['x0']
+    jump 48                                  []
+label 48:
+    $const50.1.2 = const(int, -1)            ['$const50.1.2']
+    x1 = getitem(value=x, index=$const50.1.2, fn=<built-in function getitem>) ['$const50.1.2', 'x', 'x1']
+    $60unary_negative.4 = unary(fn=<built-in function neg>, value=threshold) ['$60unary_negative.4', 'threshold']
+    $68compare_op.6 = $60unary_negative.4 <= x1 ['$60unary_negative.4', '$68compare_op.6', 'x1']
+    $bool72 = global(bool: <class 'bool'>)   ['$bool72']
+    $72pred = call $bool72($68compare_op.6, func=$bool72, args=(Var($68compare_op.6, audio.py:1145),), kws=(), vararg=None, varkwarg=None, target=None) ['$68compare_op.6', '$72pred', '$bool72']
+    $phi74.0 = x1                            ['$phi74.0', 'x1']
+    branch $72pred, 74, 84                   ['$72pred']
+label 74:
+    $76compare_op.2 = $phi74.0 <= threshold  ['$76compare_op.2', '$phi74.0', 'threshold']
+    $bool80 = global(bool: <class 'bool'>)   ['$bool80']
+    $80pred = call $bool80($76compare_op.2, func=$bool80, args=(Var($76compare_op.2, audio.py:1145),), kws=(), vararg=None, varkwarg=None, target=None) ['$76compare_op.2', '$80pred', '$bool80']
+    branch $80pred, 82, 92                   ['$80pred']
+label 82:
+    jump 88                                  []
+label 84:
+    jump 92                                  []
+label 88:
+    x1 = const(int, 0)                       ['x1']
+    jump 92                                  []
+label 92:
+    $bool94 = global(bool: <class 'bool'>)   ['$bool94']
+    $94pred = call $bool94(zero_pos, func=$bool94, args=(Var(zero_pos, audio.py:1137),), kws=(), vararg=None, varkwarg=None, target=None) ['$94pred', '$bool94', 'zero_pos']
+    branch $94pred, 96, 182                  ['$94pred']
+label 96:
+    $96load_global.0 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$96load_global.0']
+    $106load_attr.2 = getattr(value=$96load_global.0, attr=signbit) ['$106load_attr.2', '$96load_global.0']
+    $128call.4 = call $106load_attr.2(x0, func=$106load_attr.2, args=[Var(x0, audio.py:1140)], kws=(), vararg=None, varkwarg=None, target=None) ['$106load_attr.2', '$128call.4', 'x0']
+    $136load_global.5 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$136load_global.5']
+    $146load_attr.7 = getattr(value=$136load_global.5, attr=signbit) ['$136load_global.5', '$146load_attr.7']
+    $168call.9 = call $146load_attr.7(x1, func=$146load_attr.7, args=[Var(x1, audio.py:1144)], kws=(), vararg=None, varkwarg=None, target=None) ['$146load_attr.7', '$168call.9', 'x1']
+    $176compare_op.10 = $128call.4 != $168call.9 ['$128call.4', '$168call.9', '$176compare_op.10']
+    $180return_value.11 = cast(value=$176compare_op.10) ['$176compare_op.10', '$180return_value.11']
+    return $180return_value.11               ['$180return_value.11']
+label 182:
+    $182load_global.0 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$182load_global.0']
+    $192load_attr.2 = getattr(value=$182load_global.0, attr=sign) ['$182load_global.0', '$192load_attr.2']
+    $214call.4 = call $192load_attr.2(x0, func=$192load_attr.2, args=[Var(x0, audio.py:1140)], kws=(), vararg=None, varkwarg=None, target=None) ['$192load_attr.2', '$214call.4', 'x0']
+    $222load_global.5 = global(np: <module 'numpy' from '/home/sleeptech/miniconda3/envs/env_p1/lib/python3.12/site-packages/numpy/__init__.py'>) ['$222load_global.5']
+    $232load_attr.7 = getattr(value=$222load_global.5, attr=sign) ['$222load_global.5', '$232load_attr.7']
+    $254call.9 = call $232load_attr.7(x1, func=$232load_attr.7, args=[Var(x1, audio.py:1144)], kws=(), vararg=None, varkwarg=None, target=None) ['$232load_attr.7', '$254call.9', 'x1']
+    $262compare_op.10 = $214call.4 != $254call.9 ['$214call.4', '$254call.9', '$262compare_op.10']
+    $266return_value.11 = cast(value=$262compare_op.10) ['$262compare_op.10', '$266return_value.11']
+    return $266return_value.11               ['$266return_value.11']
+

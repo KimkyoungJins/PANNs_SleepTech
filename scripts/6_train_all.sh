@@ -20,17 +20,17 @@ cp $UTILS/data_generator.py $UTILS/data_generator_backup.py 2>/dev/null
 python3 pytorch/main.py train \
     --data_dir=$DATA_FULL --workspace=./workspaces/full_ver_2class \
     --pretrained_path=$PRETRAINED --freeze_cnn \
-    --batch_size=16 --learning_rate=1e-4 --num_epochs=50 \
+    --batch_size=8 --learning_rate=1e-4 --num_epochs=50 \
     --loss_type=clip_ce --oversample --cuda
 
 python3 pytorch/main.py train \
     --data_dir=$DATA_RATIO --workspace=./workspaces/ratio_ver_2class \
     --pretrained_path=$PRETRAINED --freeze_cnn \
-    --batch_size=16 --learning_rate=1e-4 --num_epochs=50 \
+    --batch_size=8 --learning_rate=1e-4 --num_epochs=50 \
     --loss_type=clip_ce --cuda
 
-python3 pytorch/main.py test --data_dir=$DATA_FULL --workspace=./workspaces/full_ver_2class --batch_size=16 --cuda
-python3 pytorch/main.py test --data_dir=$DATA_FULL --workspace=./workspaces/ratio_ver_2class --batch_size=16 --cuda
+python3 pytorch/main.py test --data_dir=$DATA_FULL --workspace=./workspaces/full_ver_2class --batch_size=8 --cuda
+python3 pytorch/main.py test --data_dir=$DATA_FULL --workspace=./workspaces/ratio_ver_2class --batch_size=8 --cuda
 python3 pytorch/main.py compare --workspace_full=./workspaces/full_ver_2class --workspace_ratio=./workspaces/ratio_ver_2class
 
 # ======================================================
@@ -47,17 +47,17 @@ cp $UTILS/data_generator_3class.py $UTILS/data_generator.py
 python3 pytorch/main.py train \
     --data_dir=$DATA_FULL --workspace=./workspaces/full_ver_3class \
     --pretrained_path=$PRETRAINED --freeze_cnn \
-    --batch_size=16 --learning_rate=1e-4 --num_epochs=50 \
+    --batch_size=8 --learning_rate=1e-4 --num_epochs=50 \
     --loss_type=clip_ce --oversample --cuda
 
 python3 pytorch/main.py train \
     --data_dir=$DATA_RATIO --workspace=./workspaces/ratio_ver_3class \
     --pretrained_path=$PRETRAINED --freeze_cnn \
-    --batch_size=16 --learning_rate=1e-4 --num_epochs=50 \
+    --batch_size=8 --learning_rate=1e-4 --num_epochs=50 \
     --loss_type=clip_ce --cuda
 
-python3 pytorch/main.py test --data_dir=$DATA_FULL --workspace=./workspaces/full_ver_3class --batch_size=16 --cuda
-python3 pytorch/main.py test --data_dir=$DATA_FULL --workspace=./workspaces/ratio_ver_3class --batch_size=16 --cuda
+python3 pytorch/main.py test --data_dir=$DATA_FULL --workspace=./workspaces/full_ver_3class --batch_size=8 --cuda
+python3 pytorch/main.py test --data_dir=$DATA_FULL --workspace=./workspaces/ratio_ver_3class --batch_size=8 --cuda
 python3 pytorch/main.py compare --workspace_full=./workspaces/full_ver_3class --workspace_ratio=./workspaces/ratio_ver_3class
 
 cp $UTILS/config_2class.py $UTILS/config.py
