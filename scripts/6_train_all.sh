@@ -73,3 +73,6 @@ echo "  2클래스 full:  ./workspaces/full_ver_2class/results/report.png"
 echo "  2클래스 ratio: ./workspaces/ratio_ver_2class/results/report.png"
 echo "  3클래스 full:  ./workspaces/full_ver_3class/results/report.png"
 echo "  3클래스 ratio: ./workspaces/ratio_ver_3class/results/report.png"
+
+# 이메일 알림
+python3 send_email.py "ResNet22 학습 완료" "ResNet22 2클래스+3클래스 전체 학습이 완료되었습니다."

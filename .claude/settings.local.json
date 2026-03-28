@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew install:*)",
+      "Bash(brew services:*)",
+      "Bash(brew uninstall:*)",
+      "Bash(brew list:*)",
+      "Read(//Users/kim_kyoungkun/Library/LaunchAgents/**)",
+      "Read(//var/lib/**)",
+      "Bash(ls /Users/kim_kyoungkun/Desktop/*.png /Users/kim_kyoungkun/Desktop/*.jpg /Users/kim_kyoungkun/Desktop/*.jpeg)",
+      "Bash(curl -s --connect-timeout 5 https://controlplane.tailscale.com/key)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(nc -z -w 5 100.98.126.15 22)"
+    ]
+  }
+}
