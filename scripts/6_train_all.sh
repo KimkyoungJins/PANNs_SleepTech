@@ -78,3 +78,6 @@ echo "  2클래스 비교:  ./workspaces/comparison/comparison.png"
 echo "  3클래스 full:  ./workspaces/full_ver_3class/results/report.png"
 echo "  3클래스 ratio: ./workspaces/ratio_ver_3class/results/report.png"
 echo "  3클래스 비교:  ./workspaces/comparison/comparison.png"
+
+# 이메일 알림
+python3 send_email.py "Cnn6 학습 완료" "Cnn6 2클래스+3클래스 전체 학습이 완료되었습니다."
