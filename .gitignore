@@ -1,0 +1,6 @@
+new_data/
+data_for_ai/
+data_for_saving/
+__pycache__/
+.DS_Store
+processed.json
