@@ -20,7 +20,7 @@ class SleepDataset(object):
             next(reader)
             for row in reader:
                 self.filenames.append(row[0])
-                self.labels.append(config.lb_to_ix[row[1]])
+                self.labels.append(int(row[1]))
 
         self.data_num = len(self.filenames)
         logging.info('Dataset size: {} samples from {}'.format(self.data_num, csv_path))
