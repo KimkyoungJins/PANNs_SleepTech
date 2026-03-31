@@ -6,8 +6,8 @@ import librosa
 
 import config
 
-# 3클래스 CSV → 2클래스 매핑
-LABEL_REMAP = {'rem': 'sleep', 'nrem': 'sleep', 'wake': 'wake', 'sleep': 'sleep'}
+# 2클래스 모드: CSV의 숫자 라벨(0=wake,1=rem,2=nrem)을 2클래스(0=wake,1=sleep)로 매핑
+LABEL_MAP_2CLASS = {0: 0, 1: 1, 2: 1}  # wake→0(wake), rem→1(sleep), nrem→1(sleep)
 
 
 class SleepDataset(object):
@@ -23,9 +23,11 @@ class SleepDataset(object):
             reader = csv.reader(f)
             next(reader)
             for row in reader:
-                mapped_label = LABEL_REMAP.get(row[1], row[1])
+                label = int(row[1])
+                if config.classes_num == 2:
+                    label = LABEL_MAP_2CLASS[label]
                 self.filenames.append(row[0])
-                self.labels.append(config.lb_to_ix[mapped_label])
+                self.labels.append(label)
 
         self.data_num = len(self.filenames)
         logging.info('Dataset size: {} samples from {}'.format(self.data_num, csv_path))
