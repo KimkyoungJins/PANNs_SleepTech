@@ -232,7 +232,11 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
     edf_infos = []
     total_sec = 0
     for edf_path in edf_paths:
-        reader = pyedflib.EdfReader(edf_path)
+        try:
+            reader = pyedflib.EdfReader(edf_path)
+        except OSError as e:
+            print(f"  [SKIP] {os.path.basename(edf_path)}: 손상된 파일 ({e})")
+            continue
         mic_idx = find_mic_channel(reader)
         if mic_idx is None:
             print(f"  [SKIP] {os.path.basename(edf_path)}: Mic 채널 없음")
@@ -345,6 +349,7 @@ def balance_data(data):
 def split_data(all_results):
     """
     환자 단위 6:2:2 분할.
+    wake가 있는 환자를 각 split에 골고루 배분.
     test는 항상 클래스 균형 맞춤.
     반환: (train_data, val_data, test_data)
     """
@@ -353,19 +358,47 @@ def split_data(all_results):
         pnum = int(filename.split("_")[0].replace("patient", ""))
         by_patient[pnum].append((filename, label))
 
-    nums = sorted(by_patient.keys())
-    n = len(nums)
-    n_train = max(1, int(n * 0.6))
-    n_val = max(1, int(n * 0.2))
+    # wake(0)가 있는 환자와 없는 환자 분리
+    wake_patients = []
+    non_wake_patients = []
+    for pnum in sorted(by_patient.keys()):
+        labels = set(lb for _, lb in by_patient[pnum])
+        if 0 in labels:  # wake=0
+            wake_patients.append(pnum)
+        else:
+            non_wake_patients.append(pnum)
 
-    train_p = nums[:n_train]
-    val_p = nums[n_train:n_train + n_val]
-    test_p = nums[n_train + n_val:]
+    # 각 그룹을 셔플
+    random.shuffle(wake_patients)
+    random.shuffle(non_wake_patients)
 
-    if not test_p and val_p:
-        test_p = [val_p.pop()]
-    if not val_p and len(train_p) > 2:
-        val_p = [train_p.pop()]
+    # wake 환자를 6:2:2로 나누기
+    n_wake = len(wake_patients)
+    n_wake_train = max(1, int(n_wake * 0.6))
+    n_wake_val = max(1, int(n_wake * 0.2))
+
+    wake_train = wake_patients[:n_wake_train]
+    wake_val = wake_patients[n_wake_train:n_wake_train + n_wake_val]
+    wake_test = wake_patients[n_wake_train + n_wake_val:]
+    if not wake_test and wake_val:
+        wake_test = [wake_val.pop()]
+
+    # non-wake 환자를 6:2:2로 나누기
+    n_nw = len(non_wake_patients)
+    n_nw_train = max(1, int(n_nw * 0.6)) if n_nw > 0 else 0
+    n_nw_val = max(1, int(n_nw * 0.2)) if n_nw > 0 else 0
+
+    nw_train = non_wake_patients[:n_nw_train]
+    nw_val = non_wake_patients[n_nw_train:n_nw_train + n_nw_val]
+    nw_test = non_wake_patients[n_nw_train + n_nw_val:]
+
+    # 합치기
+    train_p = sorted(wake_train + nw_train)
+    val_p = sorted(wake_val + nw_val)
+    test_p = sorted(wake_test + nw_test)
+
+    print(f"\n  wake 환자 {len(wake_patients)}명: train {len(wake_train)}, val {len(wake_val)}, test {len(wake_test)}")
+    print(f"  non-wake 환자 {len(non_wake_patients)}명: train {len(nw_train)}, val {len(nw_val)}, test {len(nw_test)}")
 
     def collect(pnums):
         out = []
