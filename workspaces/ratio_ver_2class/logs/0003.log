@@ -1,0 +1,165 @@
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:76] DEBUG bytecode dump:
+>          0	NOP(arg=None, lineno=1023)
+           2	LOAD_FAST(arg=0, lineno=1026)
+           4	LOAD_CONST(arg=1, lineno=1026)
+           6	BINARY_SUBSCR(arg=None, lineno=1026)
+           8	LOAD_FAST(arg=0, lineno=1026)
+          10	LOAD_CONST(arg=2, lineno=1026)
+          12	BINARY_SUBSCR(arg=None, lineno=1026)
+          14	COMPARE_OP(arg=4, lineno=1026)
+          16	LOAD_FAST(arg=0, lineno=1026)
+          18	LOAD_CONST(arg=1, lineno=1026)
+          20	BINARY_SUBSCR(arg=None, lineno=1026)
+          22	LOAD_FAST(arg=0, lineno=1026)
+          24	LOAD_CONST(arg=3, lineno=1026)
+          26	BINARY_SUBSCR(arg=None, lineno=1026)
+          28	COMPARE_OP(arg=5, lineno=1026)
+          30	BINARY_AND(arg=None, lineno=1026)
+          32	RETURN_VALUE(arg=None, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:102] DEBUG pending: deque([State(pc_initial=0 nstack_initial=0)])
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:105] DEBUG stack: []
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:106] DEBUG state.pc_initial: State(pc_initial=0 nstack_initial=0)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=0, inst=NOP(arg=None, lineno=1023)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack []
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=2, inst=LOAD_FAST(arg=0, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack []
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=4, inst=LOAD_CONST(arg=1, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$x2.0']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=6, inst=BINARY_SUBSCR(arg=None, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$x2.0', '$const4.1']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=8, inst=LOAD_FAST(arg=0, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$6binary_subscr.2']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=10, inst=LOAD_CONST(arg=2, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$6binary_subscr.2', '$x8.3']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=12, inst=BINARY_SUBSCR(arg=None, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$6binary_subscr.2', '$x8.3', '$const10.4']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=14, inst=COMPARE_OP(arg=4, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$6binary_subscr.2', '$12binary_subscr.5']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=16, inst=LOAD_FAST(arg=0, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=18, inst=LOAD_CONST(arg=1, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$x16.7']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=20, inst=BINARY_SUBSCR(arg=None, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$x16.7', '$const18.8']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=22, inst=LOAD_FAST(arg=0, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$20binary_subscr.9']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=24, inst=LOAD_CONST(arg=3, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$20binary_subscr.9', '$x22.10']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=26, inst=BINARY_SUBSCR(arg=None, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$20binary_subscr.9', '$x22.10', '$const24.11']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=28, inst=COMPARE_OP(arg=5, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$20binary_subscr.9', '$26binary_subscr.12']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=30, inst=BINARY_AND(arg=None, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$28compare_op.13']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=32, inst=RETURN_VALUE(arg=None, lineno=1026)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$30binary_and.14']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:124] DEBUG end state. edges=[]
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:205] DEBUG -------------------------Prune PHIs-------------------------
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:274] DEBUG Used_phis: defaultdict(<class 'set'>, {State(pc_initial=0 nstack_initial=0): set()})
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:231] DEBUG defmap: {}
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:232] DEBUG phismap: defaultdict(<class 'set'>, {})
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:253] DEBUG changing phismap: defaultdict(<class 'set'>, {})
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:262] DEBUG keep phismap: {}
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:268] DEBUG new_out: defaultdict(<class 'dict'>, {})
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:278] DEBUG ----------------------DONE Prune PHIs-----------------------
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:136] DEBUG block_infos State(pc_initial=0 nstack_initial=0):
+AdaptBlockInfo(insts=((0, {}), (2, {'res': '$x2.0'}), (4, {'res': '$const4.1'}), (6, {'index': '$const4.1', 'target': '$x2.0', 'res': '$6binary_subscr.2'}), (8, {'res': '$x8.3'}), (10, {'res': '$const10.4'}), (12, {'index': '$const10.4', 'target': '$x8.3', 'res': '$12binary_subscr.5'}), (14, {'lhs': '$6binary_subscr.2', 'rhs': '$12binary_subscr.5', 'res': '$14compare_op.6'}), (16, {'res': '$x16.7'}), (18, {'res': '$const18.8'}), (20, {'index': '$const18.8', 'target': '$x16.7', 'res': '$20binary_subscr.9'}), (22, {'res': '$x22.10'}), (24, {'res': '$const24.11'}), (26, {'index': '$const24.11', 'target': '$x22.10', 'res': '$26binary_subscr.12'}), (28, {'lhs': '$20binary_subscr.9', 'rhs': '$26binary_subscr.12', 'res': '$28compare_op.13'}), (30, {'lhs': '$14compare_op.6', 'rhs': '$28compare_op.13', 'res': '$30binary_and.14'}), (32, {'retval': '$30binary_and.14', 'castval': '$32return_value.15'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Thu, 02 Apr 2026 22:36:58 interpreter.py[line:1390] DEBUG label 0:
+    x = arg(0, name=x)                       ['x']
+    $const4.1 = const(int, 0)                ['$const4.1']
+    $6binary_subscr.2 = getitem(value=x, index=$const4.1, fn=<built-in function getitem>) ['$6binary_subscr.2', '$const4.1', 'x']
+    $const10.4 = const(int, -1)              ['$const10.4']
+    $12binary_subscr.5 = getitem(value=x, index=$const10.4, fn=<built-in function getitem>) ['$12binary_subscr.5', '$const10.4', 'x']
+    $14compare_op.6 = $6binary_subscr.2 > $12binary_subscr.5 ['$12binary_subscr.5', '$14compare_op.6', '$6binary_subscr.2']
+    $const18.8 = const(int, 0)               ['$const18.8']
+    $20binary_subscr.9 = getitem(value=x, index=$const18.8, fn=<built-in function getitem>) ['$20binary_subscr.9', '$const18.8', 'x']
+    $const24.11 = const(int, 1)              ['$const24.11']
+    $26binary_subscr.12 = getitem(value=x, index=$const24.11, fn=<built-in function getitem>) ['$26binary_subscr.12', '$const24.11', 'x']
+    $28compare_op.13 = $20binary_subscr.9 >= $26binary_subscr.12 ['$20binary_subscr.9', '$26binary_subscr.12', '$28compare_op.13']
+    $30binary_and.14 = $14compare_op.6 & $28compare_op.13 ['$14compare_op.6', '$28compare_op.13', '$30binary_and.14']
+    $32return_value.15 = cast(value=$30binary_and.14) ['$30binary_and.14', '$32return_value.15']
+    return $32return_value.15                ['$32return_value.15']
+
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:76] DEBUG bytecode dump:
+>          0	NOP(arg=None, lineno=1029)
+           2	LOAD_FAST(arg=0, lineno=1032)
+           4	LOAD_CONST(arg=1, lineno=1032)
+           6	BINARY_SUBSCR(arg=None, lineno=1032)
+           8	LOAD_FAST(arg=0, lineno=1032)
+          10	LOAD_CONST(arg=2, lineno=1032)
+          12	BINARY_SUBSCR(arg=None, lineno=1032)
+          14	COMPARE_OP(arg=0, lineno=1032)
+          16	LOAD_FAST(arg=0, lineno=1032)
+          18	LOAD_CONST(arg=1, lineno=1032)
+          20	BINARY_SUBSCR(arg=None, lineno=1032)
+          22	LOAD_FAST(arg=0, lineno=1032)
+          24	LOAD_CONST(arg=3, lineno=1032)
+          26	BINARY_SUBSCR(arg=None, lineno=1032)
+          28	COMPARE_OP(arg=1, lineno=1032)
+          30	BINARY_AND(arg=None, lineno=1032)
+          32	RETURN_VALUE(arg=None, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:102] DEBUG pending: deque([State(pc_initial=0 nstack_initial=0)])
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:105] DEBUG stack: []
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:106] DEBUG state.pc_initial: State(pc_initial=0 nstack_initial=0)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=0, inst=NOP(arg=None, lineno=1029)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack []
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=2, inst=LOAD_FAST(arg=0, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack []
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=4, inst=LOAD_CONST(arg=1, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$x2.0']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=6, inst=BINARY_SUBSCR(arg=None, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$x2.0', '$const4.1']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=8, inst=LOAD_FAST(arg=0, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$6binary_subscr.2']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=10, inst=LOAD_CONST(arg=2, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$6binary_subscr.2', '$x8.3']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=12, inst=BINARY_SUBSCR(arg=None, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$6binary_subscr.2', '$x8.3', '$const10.4']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=14, inst=COMPARE_OP(arg=0, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$6binary_subscr.2', '$12binary_subscr.5']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=16, inst=LOAD_FAST(arg=0, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=18, inst=LOAD_CONST(arg=1, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$x16.7']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=20, inst=BINARY_SUBSCR(arg=None, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$x16.7', '$const18.8']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=22, inst=LOAD_FAST(arg=0, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$20binary_subscr.9']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=24, inst=LOAD_CONST(arg=3, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$20binary_subscr.9', '$x22.10']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=26, inst=BINARY_SUBSCR(arg=None, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$20binary_subscr.9', '$x22.10', '$const24.11']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=28, inst=COMPARE_OP(arg=1, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$20binary_subscr.9', '$26binary_subscr.12']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=30, inst=BINARY_AND(arg=None, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$14compare_op.6', '$28compare_op.13']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:333] DEBUG dispatch pc=32, inst=RETURN_VALUE(arg=None, lineno=1032)
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:334] DEBUG stack ['$30binary_and.14']
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:124] DEBUG end state. edges=[]
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:205] DEBUG -------------------------Prune PHIs-------------------------
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:274] DEBUG Used_phis: defaultdict(<class 'set'>, {State(pc_initial=0 nstack_initial=0): set()})
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:231] DEBUG defmap: {}
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:232] DEBUG phismap: defaultdict(<class 'set'>, {})
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:253] DEBUG changing phismap: defaultdict(<class 'set'>, {})
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:262] DEBUG keep phismap: {}
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:268] DEBUG new_out: defaultdict(<class 'dict'>, {})
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:278] DEBUG ----------------------DONE Prune PHIs-----------------------
+Thu, 02 Apr 2026 22:36:58 byteflow.py[line:136] DEBUG block_infos State(pc_initial=0 nstack_initial=0):
+AdaptBlockInfo(insts=((0, {}), (2, {'res': '$x2.0'}), (4, {'res': '$const4.1'}), (6, {'index': '$const4.1', 'target': '$x2.0', 'res': '$6binary_subscr.2'}), (8, {'res': '$x8.3'}), (10, {'res': '$const10.4'}), (12, {'index': '$const10.4', 'target': '$x8.3', 'res': '$12binary_subscr.5'}), (14, {'lhs': '$6binary_subscr.2', 'rhs': '$12binary_subscr.5', 'res': '$14compare_op.6'}), (16, {'res': '$x16.7'}), (18, {'res': '$const18.8'}), (20, {'index': '$const18.8', 'target': '$x16.7', 'res': '$20binary_subscr.9'}), (22, {'res': '$x22.10'}), (24, {'res': '$const24.11'}), (26, {'index': '$const24.11', 'target': '$x22.10', 'res': '$26binary_subscr.12'}), (28, {'lhs': '$20binary_subscr.9', 'rhs': '$26binary_subscr.12', 'res': '$28compare_op.13'}), (30, {'lhs': '$14compare_op.6', 'rhs': '$28compare_op.13', 'res': '$30binary_and.14'}), (32, {'retval': '$30binary_and.14', 'castval': '$32return_value.15'})), outgoing_phis={}, blockstack=(), active_try_block=None, outgoing_edgepushed={})
+Thu, 02 Apr 2026 22:36:58 interpreter.py[line:1390] DEBUG label 0:
+    x = arg(0, name=x)                       ['x']
+    $const4.1 = const(int, 0)                ['$const4.1']
+    $6binary_subscr.2 = getitem(value=x, index=$const4.1, fn=<built-in function getitem>) ['$6binary_subscr.2', '$const4.1', 'x']
+    $const10.4 = const(int, -1)              ['$const10.4']
+    $12binary_subscr.5 = getitem(value=x, index=$const10.4, fn=<built-in function getitem>) ['$12binary_subscr.5', '$const10.4', 'x']
+    $14compare_op.6 = $6binary_subscr.2 < $12binary_subscr.5 ['$12binary_subscr.5', '$14compare_op.6', '$6binary_subscr.2']
+    $const18.8 = const(int, 0)               ['$const18.8']
+    $20binary_subscr.9 = getitem(value=x, index=$const18.8, fn=<built-in function getitem>) ['$20binary_subscr.9', '$const18.8', 'x']
+    $const24.11 = const(int, 1)              ['$const24.11']
+    $26binary_subscr.12 = getitem(value=x, index=$const24.11, fn=<built-in function getitem>) ['$26binary_subscr.12', '$const24.11', 'x']
+    $28compare_op.13 = $20binary_subscr.9 <= $26binary_subscr.12 ['$20binary_subscr.9', '$26binary_subscr.12', '$28compare_op.13']
+    $30binary_and.14 = $14compare_op.6 & $28compare_op.13 ['$14compare_op.6', '$28compare_op.13', '$30binary_and.14']
+    $32return_value.15 = cast(value=$30binary_and.14) ['$30binary_and.14', '$32return_value.15']
+    return $32return_value.15                ['$32return_value.15']
+
+Thu, 02 Apr 2026 22:36:59 main.py[line:361] INFO Loading model from ./workspaces/ratio_ver_2class/checkpoints/best_model.pth

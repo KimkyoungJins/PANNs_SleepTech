@@ -1,8 +1,8 @@
 #!/bin/bash
 # ResNet22 — 2클래스만 (sleep / wake)
 
-DATA_FULL="../data_for_ai/full_ver"
-DATA_RATIO="../data_for_ai/ratio_ver"
+DATA_FULL="../data/data_for_ai/full_ver"
+DATA_RATIO="../data/data_for_ai/ratio_ver"
 PRETRAINED="./ResNet22_mAP=0.430.pth"
 UTILS="./utils"
 

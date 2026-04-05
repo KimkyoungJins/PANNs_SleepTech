@@ -6,6 +6,9 @@ import librosa
 
 import config
 
+# 2클래스 모드: CSV의 숫자 라벨(0=wake,1=rem,2=nrem)을 2클래스(0=wake,1=sleep)로 매핑
+LABEL_MAP_2CLASS = {0: 0, 1: 1, 2: 1}  # wake→0(wake), rem→1(sleep), nrem→1(sleep)
+
 class SleepDataset(object):
     def __init__(self, csv_path, audio_dir, sample_rate=16000):
         self.audio_dir = audio_dir
@@ -19,8 +22,11 @@ class SleepDataset(object):
             reader = csv.reader(f)
             next(reader)
             for row in reader:
+                label = int(row[1])
+                if config.classes_num == 2:
+                    label = LABEL_MAP_2CLASS[label]
                 self.filenames.append(row[0])
-                self.labels.append(config.lb_to_ix[row[1]])
+                self.labels.append(label)
 
         self.data_num = len(self.filenames)
         logging.info('Dataset size: {} samples from {}'.format(self.data_num, csv_path))

@@ -1,8 +1,8 @@
 #!/bin/bash
 # ResNet22 (2.2M) — 2클래스 수면 분류
 
-DATA_FULL="../data_for_ai/full_ver"
-DATA_RATIO="../data_for_ai/ratio_ver"
+DATA_FULL="../data/data_for_ai/full_ver"
+DATA_RATIO="../data/data_for_ai/ratio_ver"
 WS_FULL="./workspaces/full_ver"
 WS_RATIO="./workspaces/ratio_ver"
 PRETRAINED="./ResNet22_mAP=0.430.pth"
