@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Stage Classification - ResNet22 vs CNN6 실험 결과 보고서</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-light: #e8f0fe;
+            --success: #0d904f;
+            --success-light: #e6f4ea;
+            --danger: #d93025;
+            --danger-light: #fce8e6;
+            --warning: #e37400;
+            --warning-light: #fef7e0;
+            --gray-50: #f8f9fa;
+            --gray-100: #f1f3f4;
+            --gray-200: #e8eaed;
+            --gray-300: #dadce0;
+            --gray-600: #5f6368;
+            --gray-800: #3c4043;
+            --gray-900: #202124;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a237e, #1565c0, #0288d1);
+            color: white;
+            padding: 48px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .header .date {
+            margin-top: 12px;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .toc {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .toc h2 {
+            font-size: 1.3rem;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        .toc ol {
+            padding-left: 24px;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            color: var(--gray-800);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            color: var(--gray-900);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2 .num {
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .section h3 {
+            font-size: 1.15rem;
+            color: var(--gray-800);
+            margin: 20px 0 12px 0;
+        }
+
+        .section h4 {
+            font-size: 1rem;
+            color: var(--gray-600);
+            margin: 16px 0 8px 0;
+        }
+
+        p { margin-bottom: 12px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        th {
+            background: var(--gray-100);
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .table-highlight {
+            background: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .badge-best {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .badge-worst {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .badge-warn {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .metric-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .metric-card {
+            background: var(--gray-50);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .metric-card .label {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-bottom: 4px;
+        }
+
+        .metric-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .metric-card .sub {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            margin-top: 4px;
+        }
+
+        .metric-card.best .value { color: var(--success); }
+        .metric-card.worst .value { color: var(--danger); }
+        .metric-card.neutral .value { color: var(--primary); }
+
+        .confusion-matrix {
+            margin: 16px auto;
+            max-width: 500px;
+        }
+
+        .confusion-matrix table {
+            border: 2px solid var(--gray-300);
+        }
+
+        .confusion-matrix th {
+            background: var(--gray-800);
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .confusion-matrix td {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .cm-correct {
+            background: #c8e6c9;
+            color: #1b5e20;
+        }
+
+        .cm-error {
+            background: #ffcdd2;
+            color: #b71c1c;
+        }
+
+        .cm-zero {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .model-box {
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .model-box h4 {
+            text-align: center;
+            padding: 8px;
+            margin: -20px -20px 16px -20px;
+            border-radius: 8px 8px 0 0;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .model-box.resnet h4 { background: #1565c0; }
+        .model-box.cnn6 h4 { background: #00838f; }
+
+        .arch-diagram {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+
+        .arch-block {
+            display: inline-block;
+            padding: 4px 12px;
+            margin: 2px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .arch-input { background: #e3f2fd; color: #1565c0; }
+        .arch-conv { background: #f3e5f5; color: #7b1fa2; }
+        .arch-res { background: #fff3e0; color: #e65100; }
+        .arch-fc { background: #e8f5e9; color: #2e7d32; }
+        .arch-pool { background: #fce4ec; color: #c62828; }
+
+        .bar-chart {
+            margin: 16px 0;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .bar-label {
+            width: 180px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            text-align: right;
+            padding-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .bar-track {
+            flex-grow: 1;
+            height: 28px;
+            background: var(--gray-100);
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+            transition: width 0.8s ease;
+        }
+
+        .bar-resnet { background: linear-gradient(90deg, #1565c0, #42a5f5); }
+        .bar-cnn6 { background: linear-gradient(90deg, #00838f, #26c6da); }
+
+        .insight-box {
+            background: linear-gradient(135deg, #e8f0fe, #f8f9fa);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 8px 8px 0;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+
+        .insight-box.warning {
+            background: linear-gradient(135deg, #fef7e0, #f8f9fa);
+            border-left-color: var(--warning);
+        }
+
+        .insight-box.success {
+            background: linear-gradient(135deg, #e6f4ea, #f8f9fa);
+            border-left-color: var(--success);
+        }
+
+        .insight-box.danger {
+            background: linear-gradient(135deg, #fce8e6, #f8f9fa);
+            border-left-color: var(--danger);
+        }
+
+        .insight-box strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .param-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+            background: var(--gray-50);
+        }
+
+        .report-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .report-images figure {
+            text-align: center;
+        }
+
+        .report-images img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .report-images figcaption {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-top: 8px;
+        }
+
+        .summary-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .highlight-row {
+            background: var(--success-light) !important;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: var(--gray-600);
+            font-size: 0.85rem;
+        }
+
+        ul.findings {
+            padding-left: 20px;
+            margin: 12px 0;
+        }
+
+        ul.findings li {
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        .tag-resnet { background: #bbdefb; color: #1565c0; }
+        .tag-cnn6 { background: #b2ebf2; color: #00838f; }
+        .tag-2class { background: #c8e6c9; color: #2e7d32; }
+        .tag-3class { background: #ffe0b2; color: #e65100; }
+
+        .flex-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flex-col {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .stars {
+            color: #f9a825;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Sleep Stage Classification</h1>
+    <div class="subtitle">ResNet22 vs CNN6 -- 오디오 기반 수면 단계 분류 모델 비교 실험 보고서</div>
+    <div class="date">보고서 생성일: 2026-04-05 | PANNs (Pretrained Audio Neural Networks) 기반</div>
+</div>
+
+<div class="container">
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h2>목차</h2>
+        <ol>
+            <li><a href="#overview">프로젝트 개요</a></li>
+            <li><a href="#architecture">모델 아키텍처 비교</a></li>
+            <li><a href="#training">학습 설정 및 하이퍼파라미터</a></li>
+            <li><a href="#dataset">데이터셋 구성</a></li>
+            <li><a href="#results-2class">2-Class 실험 결과 (Wake vs Sleep)</a></li>
+            <li><a href="#results-3class">3-Class 실험 결과 (Wake vs REM vs NREM)</a></li>
+            <li><a href="#comparison">종합 성능 비교</a></li>
+            <li><a href="#visualization">학습 곡선 시각화</a></li>
+            <li><a href="#analysis">심층 분석 및 논의</a></li>
+            <li><a href="#conclusion">결론 및 제언</a></li>
+        </ol>
+    </div>
+
+    <!-- 1. Project Overview -->
+    <div class="section" id="overview">
+        <h2><span class="num">1</span> 프로젝트 개요</h2>
+        <p>
+            본 프로젝트는 <strong>오디오 기반 수면 단계 자동 분류</strong> 시스템을 구축하기 위한 딥러닝 실험입니다.
+            PANNs(Pretrained Audio Neural Networks)에서 사전학습된 두 가지 모델(<strong>ResNet22</strong>, <strong>CNN6</strong>)을
+            수면 오디오 데이터에 전이학습(Transfer Learning)하여 성능을 비교합니다.
+        </p>
+
+        <div class="metric-cards">
+            <div class="metric-card neutral">
+                <div class="label">실험 모델 수</div>
+                <div class="value">2</div>
+                <div class="sub">ResNet22, CNN6</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">분류 태스크</div>
+                <div class="value">2</div>
+                <div class="sub">2-Class / 3-Class</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">데이터셋 변형</div>
+                <div class="value">2</div>
+                <div class="sub">Full / Ratio (균형)</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">총 실험 수</div>
+                <div class="value">8</div>
+                <div class="sub">2 모델 x 2 태스크 x 2 데이터</div>
+            </div>
+        </div>
+
+        <h3>실험 목표</h3>
+        <ul class="findings">
+            <li><strong>2-Class 분류:</strong> Wake(각성) vs Sleep(수면) -- 수면 여부 이진 판별</li>
+            <li><strong>3-Class 분류:</strong> Wake(각성) vs REM(렘수면) vs NREM(비렘수면) -- 수면 단계 세분화</li>
+            <li><strong>데이터셋 비교:</strong> 불균형 원본(Full) vs 균형 조정(Ratio) 데이터셋의 영향 분석</li>
+            <li><strong>모델 비교:</strong> 복잡도가 다른 두 아키텍처의 수면 분류 성능 비교</li>
+        </ul>
+
+        <h3>기술 스택</h3>
+        <table>
+            <tr><th>항목</th><th>상세</th></tr>
+            <tr><td>프레임워크</td><td>PyTorch 1.0.1</td></tr>
+            <tr><td>오디오 처리</td><td>librosa 0.6.3, torchlibrosa 0.0.4</td></tr>
+            <tr><td>샘플링 레이트</td><td>16,000 Hz</td></tr>
+            <tr><td>클립 길이</td><td>30초 (480,000 samples)</td></tr>
+            <tr><td>사전학습</td><td>AudioSet (Google) 기반 PANNs 가중치</td></tr>
+        </table>
+    </div>
+
+    <!-- 2. Architecture -->
+    <div class="section" id="architecture">
+        <h2><span class="num">2</span> 모델 아키텍처 비교</h2>
+
+        <div class="comparison-grid">
+            <div class="model-box resnet">
+                <h4>ResNet22 (2.2M Parameters)</h4>
+                <div class="arch-diagram">
+                    <span class="arch-input">Input: Raw Audio (30s, 16kHz)</span><br>
+                    &darr;<br>
+                    <span class="arch-input">STFT (n_fft=512, hop=160)</span><br>
+                    &darr;<br>
+                    <span class="arch-input">LogMel (64 bins, 50-8000Hz)</span><br>
+                    &darr;<br>
+                    <span class="arch-conv">SpecAugmentation</span><br>
+                    &darr;<br>
+                    <span class="arch-conv">ConvBlock (1&rarr;64ch)</span><br>
+                    &darr;<br>
+                    <span class="arch-res">ResBlock x2 (64ch)</span><br>
+                    &darr;<br>
+                    <span class="arch-res">ResBlock x2 (128ch, stride=2)</span><br>
+                    &darr;<br>
+                    <span class="arch-res">ResBlock x2 (256ch, stride=2)</span><br>
+                    &darr;<br>
+                    <span class="arch-res">ResBlock x2 (512ch, stride=2)</span><br>
+                    &darr;<br>
+                    <span class="arch-conv">ConvBlock (512&rarr;2048ch)</span><br>
+                    &darr;<br>
+                    <span class="arch-pool">MaxPool + MeanPool</span><br>
+                    &darr;<br>
+                    <span class="arch-fc">FC (2048&rarr;2048)</span><br>
+                    &darr;<br>
+                    <span class="arch-fc">FC (2048&rarr;classes)</span>
+                </div>
+                <p><strong>특징:</strong> Residual 연결, 깊은 네트워크, Skip connection으로 그래디언트 소실 방지</p>
+                <p><strong>사전학습 성능:</strong> AudioSet mAP = 0.430</p>
+            </div>
+
+            <div class="model-box cnn6">
+                <h4>CNN6 (4.7M Parameters)</h4>
+                <div class="arch-diagram">
+                    <span class="arch-input">Input: Raw Audio (30s, 16kHz)</span><br>
+                    &darr;<br>
+                    <span class="arch-input">STFT (n_fft=512, hop=160)</span><br>
+                    &darr;<br>
+                    <span class="arch-input">LogMel (64 bins, 50-8000Hz)</span><br>
+                    &darr;<br>
+                    <span class="arch-conv">SpecAugmentation</span><br>
+                    &darr;<br>
+                    <span class="arch-conv">ConvBlock5x5 (1&rarr;64ch, pool 2x2)</span><br>
+                    &darr;<br>
+                    <span class="arch-conv">ConvBlock5x5 (64&rarr;128ch, pool 2x2)</span><br>
+                    &darr;<br>
+                    <span class="arch-conv">ConvBlock5x5 (128&rarr;256ch, pool 2x2)</span><br>
+                    &darr;<br>
+                    <span class="arch-conv">ConvBlock5x5 (256&rarr;512ch, pool 2x2)</span><br>
+                    &darr;<br>
+                    <span class="arch-pool">MaxPool + MeanPool</span><br>
+                    &darr;<br>
+                    <span class="arch-fc">FC (512&rarr;512)</span><br>
+                    &darr;<br>
+                    <span class="arch-fc">FC (512&rarr;classes)</span>
+                </div>
+                <p><strong>특징:</strong> 단순 CNN 구조, 5x5 커널, 빠른 학습, 경량 FC 레이어</p>
+                <p><strong>사전학습 성능:</strong> AudioSet mAP = 0.343</p>
+            </div>
+        </div>
+
+        <h3>아키텍처 핵심 비교</h3>
+        <table>
+            <tr>
+                <th>항목</th>
+                <th><span class="tag tag-resnet">ResNet22</span></th>
+                <th><span class="tag tag-cnn6">CNN6</span></th>
+            </tr>
+            <tr><td>총 파라미터</td><td>~2.2M</td><td>~4.7M</td></tr>
+            <tr><td>커널 크기</td><td>3x3</td><td>5x5</td></tr>
+            <tr><td>Residual 연결</td><td>있음</td><td>없음</td></tr>
+            <tr><td>네트워크 깊이</td><td>22 레이어</td><td>6 레이어</td></tr>
+            <tr><td>FC 레이어 크기</td><td>2048</td><td>512</td></tr>
+            <tr><td>AudioSet mAP</td><td>0.430</td><td>0.343</td></tr>
+            <tr><td>Dropout (Conv)</td><td>0.1~0.2</td><td>0.2</td></tr>
+            <tr><td>Dropout (FC)</td><td>0.5</td><td>0.5</td></tr>
+        </table>
+
+        <div class="insight-box">
+            <strong>아키텍처 인사이트</strong>
+            ResNet22는 더 적은 파라미터로 더 높은 AudioSet mAP를 달성하였으며, 이는 Residual 연결과 깊은 네트워크의 표현력 우위를 보여줍니다.
+            반면 CNN6는 파라미터가 더 많지만 FC 레이어가 작아(512 vs 2048) Fine-tuning 시 학습 용량이 제한됩니다.
+        </div>
+    </div>
+
+    <!-- 3. Training Config -->
+    <div class="section" id="training">
+        <h2><span class="num">3</span> 학습 설정 및 하이퍼파라미터</h2>
+
+        <h3>공통 학습 설정</h3>
+        <table class="param-table">
+            <tr><th>파라미터</th><th>값</th><th>설명</th></tr>
+            <tr><td>Optimizer</td><td>Adam</td><td>&beta;<sub>1</sub>=0.9, &beta;<sub>2</sub>=0.999, eps=1e-8</td></tr>
+            <tr><td>Learning Rate</td><td>1e-4 (0.0001)</td><td>초기 학습률</td></tr>
+            <tr><td>LR Scheduler</td><td>ReduceLROnPlateau</td><td>factor=0.5, patience=5, mode='max'</td></tr>
+            <tr><td>Epochs</td><td>50</td><td>전체 학습 에폭 수</td></tr>
+            <tr><td>Loss Function</td><td>Cross-Entropy (clip_ce)</td><td>다중 클래스 교차 엔트로피</td></tr>
+            <tr><td>전이학습 전략</td><td>Freeze CNN + Fine-tune FC</td><td>CNN 가중치 동결, FC 레이어만 학습</td></tr>
+            <tr><td>SpecAugmentation</td><td>시간 마스킹 (w=64, 2회) + 주파수 마스킹 (w=8, 2회)</td><td>학습 시에만 적용</td></tr>
+        </table>
+
+        <h3>모델별 차이점</h3>
+        <table>
+            <tr><th>항목</th><th><span class="tag tag-resnet">ResNet22</span></th><th><span class="tag tag-cnn6">CNN6</span></th></tr>
+            <tr><td>Batch Size</td><td>8</td><td>16</td></tr>
+            <tr><td>Full Ver 오버샘플링</td><td>WeightedRandomSampler 사용</td><td>미사용</td></tr>
+        </table>
+
+        <h3>오디오 전처리 파이프라인</h3>
+        <table class="param-table">
+            <tr><th>단계</th><th>파라미터</th></tr>
+            <tr><td>원본 오디오</td><td>30초 클립, 16kHz mono</td></tr>
+            <tr><td>STFT</td><td>n_fft=512, hop_length=160, Hann window</td></tr>
+            <tr><td>Mel Filter Bank</td><td>64 mel bins, fmin=50Hz, fmax=8000Hz</td></tr>
+            <tr><td>Log 변환</td><td>Log-mel spectrogram</td></tr>
+            <tr><td>정규화</td><td>Batch Normalization</td></tr>
+        </table>
+    </div>
+
+    <!-- 4. Dataset -->
+    <div class="section" id="dataset">
+        <h2><span class="num">4</span> 데이터셋 구성</h2>
+
+        <h3>클래스 정의</h3>
+        <div class="comparison-grid">
+            <div class="model-box" style="border-color: #4caf50;">
+                <h4 style="background: #2e7d32;">2-Class 분류</h4>
+                <table>
+                    <tr><th>클래스</th><th>레이블</th><th>설명</th></tr>
+                    <tr><td><strong>Wake</strong></td><td>0</td><td>각성 상태</td></tr>
+                    <tr><td><strong>Sleep</strong></td><td>1</td><td>수면 상태 (REM + NREM)</td></tr>
+                </table>
+            </div>
+            <div class="model-box" style="border-color: #ff9800;">
+                <h4 style="background: #e65100;">3-Class 분류</h4>
+                <table>
+                    <tr><th>클래스</th><th>레이블</th><th>설명</th></tr>
+                    <tr><td><strong>Wake</strong></td><td>0</td><td>각성 상태</td></tr>
+                    <tr><td><strong>REM</strong></td><td>1</td><td>렘수면 (급속 안구 운동)</td></tr>
+                    <tr><td><strong>NREM</strong></td><td>2</td><td>비렘수면 (깊은 수면)</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <h3>데이터셋 변형</h3>
+        <table>
+            <tr><th>변형</th><th>설명</th><th>특징</th></tr>
+            <tr>
+                <td><strong>Full Version</strong></td>
+                <td>원본 데이터 전체 사용</td>
+                <td>클래스 불균형 존재 (Sleep/NREM 클래스가 지배적)</td>
+            </tr>
+            <tr>
+                <td><strong>Ratio Version</strong></td>
+                <td>클래스 비율 조정된 데이터</td>
+                <td>균형잡힌 클래스 분포로 소수 클래스 학습 개선</td>
+            </tr>
+        </table>
+
+        <h3>테스트셋 구성</h3>
+        <table>
+            <tr><th>태스크</th><th>Wake</th><th>Sleep/REM/NREM</th><th>총 샘플</th></tr>
+            <tr>
+                <td>2-Class (Full)</td>
+                <td>263</td>
+                <td>526 (Sleep)</td>
+                <td>789</td>
+            </tr>
+            <tr>
+                <td>2-Class (Ratio)</td>
+                <td>263</td>
+                <td>526 (Sleep)</td>
+                <td>789</td>
+            </tr>
+            <tr>
+                <td>3-Class</td>
+                <td>263</td>
+                <td>263 (REM) + 263 (NREM)</td>
+                <td>789</td>
+            </tr>
+        </table>
+
+        <div class="insight-box warning">
+            <strong>데이터 불균형 문제</strong>
+            Full Version 2-Class에서 Sleep 클래스가 Wake의 2배(526 vs 263)로, 모델이 Sleep으로 편향되는 경향이 있습니다.
+            이는 특히 CNN6 Full 2-Class에서 심각하게 나타났습니다 (Sleep Recall: 98.9%, Wake Recall: 33.5%).
+        </div>
+    </div>
+
+    <!-- 5. 2-Class Results -->
+    <div class="section" id="results-2class">
+        <h2><span class="num">5</span> 2-Class 실험 결과 (Wake vs Sleep)</h2>
+
+        <h3>5.1 전체 정확도 비교</h3>
+        <div class="bar-chart">
+            <div class="bar-row">
+                <div class="bar-label">ResNet22 (Full)</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-resnet" style="width: 83.14%;">83.14%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">ResNet22 (Ratio)</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-resnet" style="width: 81.88%;">81.88%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">CNN6 (Ratio)</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-cnn6" style="width: 79.85%;">79.85%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">CNN6 (Full)</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-cnn6" style="width: 66.16%;">66.16%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ResNet22 Full 2-Class -->
+        <h3>5.2 ResNet22 -- Full Version <span class="badge badge-best">Best Accuracy: 83.14%</span></h3>
+        <div class="metric-cards">
+            <div class="metric-card best">
+                <div class="label">Test Accuracy</div>
+                <div class="value">83.14%</div>
+                <div class="sub">전체 실험 중 최고</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Wake F1-Score</div>
+                <div class="value">0.740</div>
+                <div class="sub">P=0.762 / R=0.719</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Sleep F1-Score</div>
+                <div class="value">0.875</div>
+                <div class="sub">P=0.863 / R=0.888</div>
+            </div>
+        </div>
+
+        <div class="confusion-matrix">
+            <h4 style="text-align:center;">Confusion Matrix</h4>
+            <table>
+                <tr><th></th><th>Pred: Wake</th><th>Pred: Sleep</th></tr>
+                <tr><th>Actual: Wake</th><td class="cm-correct">189</td><td class="cm-error">74</td></tr>
+                <tr><th>Actual: Sleep</th><td class="cm-error">59</td><td class="cm-correct">467</td></tr>
+            </table>
+        </div>
+
+        <!-- ResNet22 Ratio 2-Class -->
+        <h3>5.3 ResNet22 -- Ratio Version (Accuracy: 81.88%)</h3>
+        <div class="metric-cards">
+            <div class="metric-card neutral">
+                <div class="label">Test Accuracy</div>
+                <div class="value">81.88%</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Wake F1-Score</div>
+                <div class="value">0.665</div>
+                <div class="sub">P=0.866 / R=0.540</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Sleep F1-Score</div>
+                <div class="value">0.876</div>
+                <div class="sub">P=0.806 / R=0.958</div>
+            </div>
+        </div>
+
+        <div class="confusion-matrix">
+            <h4 style="text-align:center;">Confusion Matrix</h4>
+            <table>
+                <tr><th></th><th>Pred: Wake</th><th>Pred: Sleep</th></tr>
+                <tr><th>Actual: Wake</th><td class="cm-correct">142</td><td class="cm-error">121</td></tr>
+                <tr><th>Actual: Sleep</th><td class="cm-error">22</td><td class="cm-correct">504</td></tr>
+            </table>
+        </div>
+
+        <!-- CNN6 Ratio 2-Class -->
+        <h3>5.4 CNN6 -- Ratio Version (Accuracy: 79.85%)</h3>
+        <div class="metric-cards">
+            <div class="metric-card neutral">
+                <div class="label">Test Accuracy</div>
+                <div class="value">79.85%</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Wake F1-Score</div>
+                <div class="value">0.764</div>
+                <div class="sub">P=0.920 / R=0.654</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Sleep F1-Score</div>
+                <div class="value">0.824</div>
+                <div class="sub">P=0.732 / R=0.943</div>
+            </div>
+        </div>
+
+        <div class="confusion-matrix">
+            <h4 style="text-align:center;">Confusion Matrix</h4>
+            <table>
+                <tr><th></th><th>Pred: Wake</th><th>Pred: Sleep</th></tr>
+                <tr><th>Actual: Wake</th><td class="cm-correct">172</td><td class="cm-error">91</td></tr>
+                <tr><th>Actual: Sleep</th><td class="cm-error">15</td><td class="cm-correct">248</td></tr>
+            </table>
+        </div>
+
+        <!-- CNN6 Full 2-Class -->
+        <h3>5.5 CNN6 -- Full Version <span class="badge badge-worst">Lowest: 66.16%</span></h3>
+        <div class="metric-cards">
+            <div class="metric-card worst">
+                <div class="label">Test Accuracy</div>
+                <div class="value">66.16%</div>
+                <div class="sub">심각한 클래스 편향</div>
+            </div>
+            <div class="metric-card worst">
+                <div class="label">Wake F1-Score</div>
+                <div class="value">0.497</div>
+                <div class="sub">P=0.967 / R=0.335</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Sleep F1-Score</div>
+                <div class="value">0.745</div>
+                <div class="sub">P=0.598 / R=0.989</div>
+            </div>
+        </div>
+
+        <div class="confusion-matrix">
+            <h4 style="text-align:center;">Confusion Matrix</h4>
+            <table>
+                <tr><th></th><th>Pred: Wake</th><th>Pred: Sleep</th></tr>
+                <tr><th>Actual: Wake</th><td class="cm-error">88</td><td class="cm-error" style="background:#ef9a9a;">175</td></tr>
+                <tr><th>Actual: Sleep</th><td class="cm-correct" style="background:#a5d6a7;">3</td><td class="cm-correct">260</td></tr>
+            </table>
+        </div>
+
+        <div class="insight-box danger">
+            <strong>CNN6 Full Version 문제점</strong>
+            Wake 샘플의 66.5%를 Sleep으로 오분류합니다. 높은 Precision(0.967)은 Wake로 예측한 것은 대부분 맞지만,
+            Wake를 거의 예측하지 않는 보수적 행동 때문입니다. 이는 클래스 불균형에 대한 CNN6의 취약성을 보여줍니다.
+        </div>
+
+        <!-- 2-Class Summary Table -->
+        <h3>5.6 2-Class 종합 비교표</h3>
+        <table>
+            <tr>
+                <th>모델 / 데이터</th>
+                <th>Accuracy</th>
+                <th>Wake P</th><th>Wake R</th><th>Wake F1</th>
+                <th>Sleep P</th><th>Sleep R</th><th>Sleep F1</th>
+            </tr>
+            <tr class="highlight-row">
+                <td><span class="tag tag-resnet">ResNet22</span> Full</td>
+                <td><strong>83.14%</strong></td>
+                <td>0.762</td><td>0.719</td><td><strong>0.740</strong></td>
+                <td>0.863</td><td>0.888</td><td><strong>0.875</strong></td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-resnet">ResNet22</span> Ratio</td>
+                <td>81.88%</td>
+                <td>0.866</td><td>0.540</td><td>0.665</td>
+                <td>0.806</td><td><strong>0.958</strong></td><td>0.876</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-cnn6">CNN6</span> Ratio</td>
+                <td>79.85%</td>
+                <td><strong>0.920</strong></td><td>0.654</td><td>0.764</td>
+                <td>0.732</td><td>0.943</td><td>0.824</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-cnn6">CNN6</span> Full</td>
+                <td>66.16%</td>
+                <td>0.967</td><td>0.335</td><td>0.497</td>
+                <td>0.598</td><td>0.989</td><td>0.745</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 6. 3-Class Results -->
+    <div class="section" id="results-3class">
+        <h2><span class="num">6</span> 3-Class 실험 결과 (Wake vs REM vs NREM)</h2>
+
+        <h3>6.1 전체 정확도 비교</h3>
+        <div class="bar-chart">
+            <div class="bar-row">
+                <div class="bar-label">ResNet22 (Ratio)</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-resnet" style="width: 54.63%;">54.63%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">CNN6 (Ratio)</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-cnn6" style="width: 52.72%;">52.72%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">ResNet22 (Full)</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-resnet" style="width: 51.46%;">51.46%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label">CNN6 (Full)</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-cnn6" style="width: 44.61%;">44.61%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ResNet22 Ratio 3-Class (Best) -->
+        <h3>6.2 ResNet22 -- Ratio Version <span class="badge badge-best">Best 3-Class: 54.63%</span></h3>
+        <div class="metric-cards">
+            <div class="metric-card best">
+                <div class="label">Test Accuracy</div>
+                <div class="value">54.63%</div>
+                <div class="sub">3-Class 최고 성능</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Wake F1</div>
+                <div class="value">0.743</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">REM F1</div>
+                <div class="value">0.514</div>
+            </div>
+            <div class="metric-card worst">
+                <div class="label">NREM F1</div>
+                <div class="value">0.362</div>
+            </div>
+        </div>
+
+        <div class="confusion-matrix">
+            <h4 style="text-align:center;">Confusion Matrix</h4>
+            <table>
+                <tr><th></th><th>Pred: Wake</th><th>Pred: REM</th><th>Pred: NREM</th></tr>
+                <tr><th>Actual: Wake</th><td class="cm-correct">191</td><td class="cm-error">58</td><td class="cm-error">14</td></tr>
+                <tr><th>Actual: REM</th><td class="cm-error">21</td><td class="cm-correct">161</td><td class="cm-error">81</td></tr>
+                <tr><th>Actual: NREM</th><td class="cm-error">39</td><td class="cm-error">145</td><td class="cm-correct">79</td></tr>
+            </table>
+        </div>
+
+        <!-- ResNet22 Full 3-Class -->
+        <h3>6.3 ResNet22 -- Full Version (Accuracy: 51.46%)</h3>
+        <div class="confusion-matrix">
+            <h4 style="text-align:center;">Confusion Matrix</h4>
+            <table>
+                <tr><th></th><th>Pred: Wake</th><th>Pred: REM</th><th>Pred: NREM</th></tr>
+                <tr><th>Actual: Wake</th><td class="cm-correct">185</td><td class="cm-error">34</td><td class="cm-error">44</td></tr>
+                <tr><th>Actual: REM</th><td class="cm-error">20</td><td class="cm-error" style="background:#ffcdd2;">69</td><td class="cm-error" style="background:#ef9a9a;">174</td></tr>
+                <tr><th>Actual: NREM</th><td class="cm-error">35</td><td class="cm-error">76</td><td class="cm-correct">152</td></tr>
+            </table>
+        </div>
+        <div class="insight-box warning">
+            <strong>REM 분류 어려움</strong>
+            REM의 66.2%가 NREM으로 오분류됩니다. REM과 NREM의 오디오 특성이 유사하여 모델이 구분에 어려움을 겪고 있습니다.
+        </div>
+
+        <!-- CNN6 Ratio 3-Class -->
+        <h3>6.4 CNN6 -- Ratio Version (Accuracy: 52.72%)</h3>
+        <div class="confusion-matrix">
+            <h4 style="text-align:center;">Confusion Matrix</h4>
+            <table>
+                <tr><th></th><th>Pred: Wake</th><th>Pred: REM</th><th>Pred: NREM</th></tr>
+                <tr><th>Actual: Wake</th><td class="cm-correct">194</td><td class="cm-error">62</td><td class="cm-error">7</td></tr>
+                <tr><th>Actual: REM</th><td class="cm-error">31</td><td class="cm-correct">130</td><td class="cm-error">102</td></tr>
+                <tr><th>Actual: NREM</th><td class="cm-error">35</td><td class="cm-error">136</td><td class="cm-correct">92</td></tr>
+            </table>
+        </div>
+
+        <!-- CNN6 Full 3-Class -->
+        <h3>6.5 CNN6 -- Full Version <span class="badge badge-worst">Worst: 44.61%</span></h3>
+        <div class="metric-cards">
+            <div class="metric-card worst">
+                <div class="label">Test Accuracy</div>
+                <div class="value">44.61%</div>
+                <div class="sub">전체 실험 중 최저</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">Wake F1</div>
+                <div class="value">0.513</div>
+            </div>
+            <div class="metric-card worst">
+                <div class="label">REM F1</div>
+                <div class="value">0.000</div>
+                <div class="sub">완전 실패</div>
+            </div>
+            <div class="metric-card neutral">
+                <div class="label">NREM F1</div>
+                <div class="value">0.544</div>
+            </div>
+        </div>
+
+        <div class="confusion-matrix">
+            <h4 style="text-align:center;">Confusion Matrix</h4>
+            <table>
+                <tr><th></th><th>Pred: Wake</th><th>Pred: REM</th><th>Pred: NREM</th></tr>
+                <tr><th>Actual: Wake</th><td class="cm-correct">92</td><td class="cm-zero">0</td><td class="cm-error" style="background:#ef9a9a;">171</td></tr>
+                <tr><th>Actual: REM</th><td class="cm-error">1</td><td class="cm-zero">0</td><td class="cm-error" style="background:#ef9a9a;">262</td></tr>
+                <tr><th>Actual: NREM</th><td class="cm-error">3</td><td class="cm-zero">0</td><td class="cm-correct">260</td></tr>
+            </table>
+        </div>
+
+        <div class="insight-box danger">
+            <strong>CNN6 Full 3-Class: REM 완전 실패</strong>
+            REM 클래스 예측 횟수가 <strong>0회</strong>입니다. 모델이 REM을 전혀 학습하지 못하고 모든 수면 샘플을 NREM으로 분류합니다.
+            이는 Full 데이터셋에서 NREM 클래스가 지배적이고, CNN6의 표현력이 부족하여 미묘한 REM 특성을 포착하지 못한 결과입니다.
+        </div>
+
+        <!-- 3-Class Summary Table -->
+        <h3>6.6 3-Class 종합 비교표</h3>
+        <table>
+            <tr>
+                <th>모델 / 데이터</th>
+                <th>Accuracy</th>
+                <th>Wake F1</th>
+                <th>REM F1</th>
+                <th>NREM F1</th>
+            </tr>
+            <tr class="highlight-row">
+                <td><span class="tag tag-resnet">ResNet22</span> Ratio</td>
+                <td><strong>54.63%</strong></td>
+                <td><strong>0.743</strong></td>
+                <td><strong>0.514</strong></td>
+                <td>0.362</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-cnn6">CNN6</span> Ratio</td>
+                <td>52.72%</td>
+                <td>0.742</td>
+                <td>0.440</td>
+                <td>0.397</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-resnet">ResNet22</span> Full</td>
+                <td>51.46%</td>
+                <td>0.736</td>
+                <td>0.312</td>
+                <td><strong>0.480</strong></td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-cnn6">CNN6</span> Full</td>
+                <td>44.61%</td>
+                <td>0.513</td>
+                <td>0.000</td>
+                <td>0.544</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 7. Overall Comparison -->
+    <div class="section" id="comparison">
+        <h2><span class="num">7</span> 종합 성능 비교</h2>
+
+        <h3>7.1 전체 실험 결과 요약</h3>
+        <table>
+            <tr>
+                <th>순위</th>
+                <th>모델</th>
+                <th>데이터</th>
+                <th>태스크</th>
+                <th>Accuracy</th>
+                <th>평가</th>
+            </tr>
+            <tr class="highlight-row">
+                <td>1</td>
+                <td><span class="tag tag-resnet">ResNet22</span></td>
+                <td>Full</td>
+                <td><span class="tag tag-2class">2-Class</span></td>
+                <td><strong>83.14%</strong></td>
+                <td><span class="badge badge-best">Best Overall</span></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><span class="tag tag-resnet">ResNet22</span></td>
+                <td>Ratio</td>
+                <td><span class="tag tag-2class">2-Class</span></td>
+                <td>81.88%</td>
+                <td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><span class="tag tag-cnn6">CNN6</span></td>
+                <td>Ratio</td>
+                <td><span class="tag tag-2class">2-Class</span></td>
+                <td>79.85%</td>
+                <td><span class="stars">&#9733;&#9733;&#9733;&#9733;</span></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><span class="tag tag-cnn6">CNN6</span></td>
+                <td>Full</td>
+                <td><span class="tag tag-2class">2-Class</span></td>
+                <td>66.16%</td>
+                <td><span class="badge badge-warn">Class Bias</span></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><span class="tag tag-resnet">ResNet22</span></td>
+                <td>Ratio</td>
+                <td><span class="tag tag-3class">3-Class</span></td>
+                <td>54.63%</td>
+                <td><span class="badge badge-best">Best 3-Class</span></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><span class="tag tag-cnn6">CNN6</span></td>
+                <td>Ratio</td>
+                <td><span class="tag tag-3class">3-Class</span></td>
+                <td>52.72%</td>
+                <td><span class="stars">&#9733;&#9733;</span></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><span class="tag tag-resnet">ResNet22</span></td>
+                <td>Full</td>
+                <td><span class="tag tag-3class">3-Class</span></td>
+                <td>51.46%</td>
+                <td><span class="stars">&#9733;&#9733;</span></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><span class="tag tag-cnn6">CNN6</span></td>
+                <td>Full</td>
+                <td><span class="tag tag-3class">3-Class</span></td>
+                <td>44.61%</td>
+                <td><span class="badge badge-worst">REM Failure</span></td>
+            </tr>
+        </table>
+
+        <h3>7.2 모델별 성능 비교 (Accuracy)</h3>
+        <div class="bar-chart">
+            <div style="font-weight:600; margin-bottom:8px; color:var(--gray-600);">2-Class Classification</div>
+            <div class="bar-row">
+                <div class="bar-label"><span class="tag tag-resnet">ResNet22</span> Full</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-resnet" style="width: 83.14%;">83.14%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><span class="tag tag-cnn6">CNN6</span> Full</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-cnn6" style="width: 66.16%;">66.16%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><span class="tag tag-resnet">ResNet22</span> Ratio</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-resnet" style="width: 81.88%;">81.88%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><span class="tag tag-cnn6">CNN6</span> Ratio</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-cnn6" style="width: 79.85%;">79.85%</div>
+                </div>
+            </div>
+            <div style="font-weight:600; margin: 16px 0 8px 0; color:var(--gray-600);">3-Class Classification</div>
+            <div class="bar-row">
+                <div class="bar-label"><span class="tag tag-resnet">ResNet22</span> Full</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-resnet" style="width: 51.46%;">51.46%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><span class="tag tag-cnn6">CNN6</span> Full</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-cnn6" style="width: 44.61%;">44.61%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><span class="tag tag-resnet">ResNet22</span> Ratio</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-resnet" style="width: 54.63%;">54.63%</div>
+                </div>
+            </div>
+            <div class="bar-row">
+                <div class="bar-label"><span class="tag tag-cnn6">CNN6</span> Ratio</div>
+                <div class="bar-track">
+                    <div class="bar-fill bar-cnn6" style="width: 52.72%;">52.72%</div>
+                </div>
+            </div>
+        </div>
+
+        <h3>7.3 핵심 비교 분석</h3>
+        <table>
+            <tr><th>비교 항목</th><th>ResNet22</th><th>CNN6</th><th>차이</th></tr>
+            <tr>
+                <td style="text-align:left;">2-Class Full Accuracy</td>
+                <td class="table-highlight">83.14%</td>
+                <td>66.16%</td>
+                <td style="color:var(--success);font-weight:600;">+16.98%p</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">2-Class Ratio Accuracy</td>
+                <td class="table-highlight">81.88%</td>
+                <td>79.85%</td>
+                <td style="color:var(--success);font-weight:600;">+2.03%p</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">3-Class Full Accuracy</td>
+                <td class="table-highlight">51.46%</td>
+                <td>44.61%</td>
+                <td style="color:var(--success);font-weight:600;">+6.85%p</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">3-Class Ratio Accuracy</td>
+                <td class="table-highlight">54.63%</td>
+                <td>52.72%</td>
+                <td style="color:var(--success);font-weight:600;">+1.91%p</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">Full 데이터 불균형 민감도</td>
+                <td>낮음 (안정적)</td>
+                <td style="color:var(--danger);font-weight:600;">높음 (편향 심각)</td>
+                <td>ResNet22 우위</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">REM 분류 능력 (Full)</td>
+                <td>26.2% Recall</td>
+                <td style="color:var(--danger);font-weight:600;">0.0% Recall</td>
+                <td>ResNet22 우위</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">REM 분류 능력 (Ratio)</td>
+                <td class="table-highlight">61.2% Recall</td>
+                <td>49.4% Recall</td>
+                <td style="color:var(--success);font-weight:600;">+11.8%p</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 8. Visualization -->
+    <div class="section" id="visualization">
+        <h2><span class="num">8</span> 학습 곡선 시각화</h2>
+        <p>각 실험의 학습 과정에서 생성된 시각화 이미지입니다.</p>
+
+        <h3>8.1 ResNet22 학습 결과</h3>
+        <div class="report-images">
+            <figure>
+                <img src="resnet/workspaces/full_ver_2class/results/report.png" alt="ResNet22 Full 2-Class Report">
+                <figcaption>ResNet22 Full Version 2-Class</figcaption>
+            </figure>
+            <figure>
+                <img src="resnet/workspaces/ratio_ver_2class/results/report.png" alt="ResNet22 Ratio 2-Class Report">
+                <figcaption>ResNet22 Ratio Version 2-Class</figcaption>
+            </figure>
+            <figure>
+                <img src="resnet/workspaces/full_ver_3class/results/report.png" alt="ResNet22 Full 3-Class Report">
+                <figcaption>ResNet22 Full Version 3-Class</figcaption>
+            </figure>
+            <figure>
+                <img src="resnet/workspaces/ratio_ver_3class/results/report.png" alt="ResNet22 Ratio 3-Class Report">
+                <figcaption>ResNet22 Ratio Version 3-Class</figcaption>
+            </figure>
+        </div>
+
+        <h3>8.2 CNN6 학습 결과</h3>
+        <div class="report-images">
+            <figure>
+                <img src="cnn6/workspaces/full_ver_2class/results/report.png" alt="CNN6 Full 2-Class Report">
+                <figcaption>CNN6 Full Version 2-Class</figcaption>
+            </figure>
+            <figure>
+                <img src="cnn6/workspaces/ratio_ver_2class/results/report.png" alt="CNN6 Ratio 2-Class Report">
+                <figcaption>CNN6 Ratio Version 2-Class</figcaption>
+            </figure>
+            <figure>
+                <img src="cnn6/workspaces/full_ver_3class/results/report.png" alt="CNN6 Full 3-Class Report">
+                <figcaption>CNN6 Full Version 3-Class</figcaption>
+            </figure>
+            <figure>
+                <img src="cnn6/workspaces/ratio_ver_3class/results/report.png" alt="CNN6 Ratio 3-Class Report">
+                <figcaption>CNN6 Ratio Version 3-Class</figcaption>
+            </figure>
+        </div>
+    </div>
+
+    <!-- 9. Analysis -->
+    <div class="section" id="analysis">
+        <h2><span class="num">9</span> 심층 분석 및 논의</h2>
+
+        <h3>9.1 ResNet22 vs CNN6: 왜 ResNet22가 우수한가?</h3>
+        <div class="insight-box success">
+            <strong>ResNet22가 모든 실험에서 CNN6를 상회</strong>
+            <ul class="findings">
+                <li><strong>깊은 특징 추출:</strong> 22개 레이어의 Residual 구조가 오디오 신호의 계층적 패턴을 더 잘 포착합니다.</li>
+                <li><strong>높은 사전학습 품질:</strong> AudioSet mAP 0.430 vs 0.343으로, 더 우수한 초기 가중치를 보유합니다.</li>
+                <li><strong>큰 FC 레이어:</strong> 2048차원 FC가 수면 단계의 미세한 차이를 더 세밀하게 구분합니다.</li>
+                <li><strong>불균형 데이터 내성:</strong> ResNet22 + 오버샘플링 조합이 CNN6보다 클래스 편향에 강합니다.</li>
+            </ul>
+        </div>
+
+        <h3>9.2 Full vs Ratio 데이터셋의 영향</h3>
+        <table>
+            <tr><th>관찰 사항</th><th>Full Version</th><th>Ratio Version</th></tr>
+            <tr>
+                <td style="text-align:left;">ResNet22 2-Class</td>
+                <td>83.14% (균형 잡힌 성능)</td>
+                <td>81.88% (Sleep 편향)</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">CNN6 2-Class</td>
+                <td>66.16% (심각한 편향)</td>
+                <td>79.85% (균형 개선)</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">3-Class REM Recall</td>
+                <td>ResNet: 26.2%, CNN6: 0%</td>
+                <td>ResNet: 61.2%, CNN6: 49.4%</td>
+            </tr>
+        </table>
+
+        <div class="insight-box">
+            <strong>핵심 발견: Ratio 데이터셋의 효과는 모델에 따라 다름</strong>
+            <ul class="findings">
+                <li>CNN6는 Ratio 데이터셋에서 <strong>+13.69%p</strong> 개선 (66.16% &rarr; 79.85%) -- 데이터 균형의 영향이 결정적</li>
+                <li>ResNet22는 Full에서도 오버샘플링으로 편향을 완화하여 <strong>Ratio보다 더 높은</strong> 정확도 달성</li>
+                <li>3-Class에서는 두 모델 모두 Ratio 데이터가 REM 분류를 크게 개선</li>
+            </ul>
+        </div>
+
+        <h3>9.3 REM 수면 분류의 근본적 어려움</h3>
+        <div class="insight-box danger">
+            <strong>REM vs NREM 구분이 가장 큰 도전과제</strong>
+            <ul class="findings">
+                <li>REM 수면과 NREM 수면의 오디오 특성이 유사하여, 30초 오디오 클립만으로는 구분이 어렵습니다.</li>
+                <li>CNN6 Full 3-Class에서 REM Recall 0%는 모델이 수면=NREM이라는 잘못된 바이어스를 학습했음을 의미합니다.</li>
+                <li>ResNet22 Ratio에서도 REM Recall 61.2%로, 완벽한 분류와는 거리가 있습니다.</li>
+                <li>NREM이 REM으로 오분류되는 경우(Ratio ResNet: 145건)도 많아, 양방향 혼동이 발생합니다.</li>
+            </ul>
+        </div>
+
+        <h3>9.4 과적합 vs 일반화 분석</h3>
+        <table>
+            <tr><th>모델/데이터</th><th>Train Acc (최종)</th><th>Val Acc (최고)</th><th>Test Acc</th><th>과적합 여부</th></tr>
+            <tr>
+                <td>CNN6 Full 2-Class</td>
+                <td>94.65%</td>
+                <td>93.77%</td>
+                <td>66.16%</td>
+                <td><span class="badge badge-worst">심각한 과적합</span></td>
+            </tr>
+            <tr>
+                <td>CNN6 Full 3-Class</td>
+                <td>90.22%</td>
+                <td>90.66%</td>
+                <td>44.61%</td>
+                <td><span class="badge badge-worst">심각한 과적합</span></td>
+            </tr>
+            <tr>
+                <td>CNN6 Ratio 2-Class</td>
+                <td>79.30%</td>
+                <td>80.29%</td>
+                <td>79.85%</td>
+                <td><span class="badge badge-best">일반화 양호</span></td>
+            </tr>
+            <tr>
+                <td>CNN6 Ratio 3-Class</td>
+                <td>57.65%</td>
+                <td>50.32%</td>
+                <td>52.72%</td>
+                <td><span class="badge badge-best">일반화 양호</span></td>
+            </tr>
+        </table>
+
+        <div class="insight-box warning">
+            <strong>CNN6 Full Version의 심각한 과적합</strong>
+            <p>CNN6 Full 2-Class에서 Train/Val Accuracy(93-94%)와 Test Accuracy(66.16%)의 갭이 <strong>약 28%p</strong>에 달합니다.
+            이는 모델이 학습 데이터의 클래스 분포 편향을 암기했으며, 실제 테스트에서 Wake 클래스를 제대로 분류하지 못하는 것으로 나타났습니다.
+            반면 Ratio 데이터에서는 Train-Test 갭이 거의 없어 일반화 성능이 양호합니다.</p>
+        </div>
+
+        <h3>9.5 전이학습 전략 분석</h3>
+        <ul class="findings">
+            <li><strong>Freeze CNN + Fine-tune FC 전략</strong>이 두 모델 모두에 적용되었습니다.</li>
+            <li>AudioSet에서 학습된 오디오 특징 추출 능력이 수면 오디오에도 유효함을 확인했습니다.</li>
+            <li>ResNet22의 더 큰 FC 레이어(2048)가 수면 단계 미세 구분에 유리합니다.</li>
+            <li>CNN6의 작은 FC(512)는 2-Class에는 충분하나 3-Class에서는 표현력 부족이 드러납니다.</li>
+        </ul>
+    </div>
+
+    <!-- 10. Conclusion -->
+    <div class="section" id="conclusion">
+        <h2><span class="num">10</span> 결론 및 제언</h2>
+
+        <h3>10.1 주요 결론</h3>
+
+        <div class="insight-box success">
+            <strong>1. 최적 모델: ResNet22 + Full Dataset + 2-Class</strong>
+            <p>테스트 정확도 <strong>83.14%</strong>로, Wake F1=0.740, Sleep F1=0.875의 균형 잡힌 성능을 달성했습니다.
+            오버샘플링(WeightedRandomSampler)이 클래스 불균형 문제를 효과적으로 완화했습니다.</p>
+        </div>
+
+        <div class="insight-box">
+            <strong>2. ResNet22 > CNN6 (모든 조건에서)</strong>
+            <p>ResNet22가 CNN6를 모든 8개 비교 지점에서 상회합니다. 특히 불균형 데이터(Full)에서의 차이가 크며,
+            이는 더 깊은 네트워크와 우수한 사전학습의 시너지 효과입니다.</p>
+        </div>
+
+        <div class="insight-box warning">
+            <strong>3. 3-Class 분류는 추가 연구 필요</strong>
+            <p>최고 성능 54.63%로, 실용화를 위해서는 REM/NREM 구분 능력 향상이 필수적입니다.
+            오디오 단독으로는 한계가 있을 수 있으며, 멀티모달 접근이 필요할 수 있습니다.</p>
+        </div>
+
+        <div class="insight-box">
+            <strong>4. 데이터 균형이 CNN6에 결정적</strong>
+            <p>CNN6는 Ratio 데이터셋에서 Full 대비 +13.69%p (2-Class), +8.11%p (3-Class) 개선을 보여,
+            데이터 전처리의 중요성을 입증했습니다.</p>
+        </div>
+
+        <h3>10.2 향후 개선 방향 제언</h3>
+        <table>
+            <tr><th>제언</th><th>기대 효과</th><th>우선순위</th></tr>
+            <tr>
+                <td style="text-align:left;">CNN 레이어 Fine-tuning (unfreeze)</td>
+                <td>수면 특화 특징 학습으로 3-Class 개선</td>
+                <td><span class="badge badge-best">높음</span></td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">Focal Loss 적용</td>
+                <td>REM 같은 소수 클래스 학습 강화</td>
+                <td><span class="badge badge-best">높음</span></td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">클립 길이 확장 (60s, 120s)</td>
+                <td>더 긴 수면 패턴 포착으로 REM/NREM 구분 개선</td>
+                <td><span class="badge badge-warn">중간</span></td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">ResNet38/54 등 더 깊은 모델</td>
+                <td>추가적인 표현력으로 미세 패턴 학습</td>
+                <td><span class="badge badge-warn">중간</span></td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">앙상블 (ResNet22 + CNN6)</td>
+                <td>모델 다양성 활용한 성능 향상</td>
+                <td><span class="badge badge-warn">중간</span></td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">Mixup / CutMix 데이터 증강</td>
+                <td>일반화 능력 향상 및 과적합 방지</td>
+                <td><span class="badge badge-warn">중간</span></td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">멀티모달 (오디오 + 센서 데이터)</td>
+                <td>REM/NREM 분류의 근본적 한계 극복</td>
+                <td>장기 과제</td>
+            </tr>
+        </table>
+
+        <h3>10.3 실용화 권장 사항</h3>
+        <table>
+            <tr><th>용도</th><th>권장 모델</th><th>정확도</th><th>비고</th></tr>
+            <tr class="highlight-row">
+                <td style="text-align:left;">수면/각성 판별 (일반)</td>
+                <td><span class="tag tag-resnet">ResNet22</span> Full 2-Class</td>
+                <td>83.14%</td>
+                <td>최고 정확도, 균형 잡힌 성능</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">수면 탐지 (높은 재현율)</td>
+                <td><span class="tag tag-resnet">ResNet22</span> Ratio 2-Class</td>
+                <td>81.88%</td>
+                <td>Sleep Recall 95.8%</td>
+            </tr>
+            <tr>
+                <td style="text-align:left;">수면 단계 분류 (연구용)</td>
+                <td><span class="tag tag-resnet">ResNet22</span> Ratio 3-Class</td>
+                <td>54.63%</td>
+                <td>추가 개선 필요</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<div class="footer">
+    <p>Sleep Stage Classification Report | ResNet22 vs CNN6 | PANNs-based Transfer Learning</p>
+    <p>Generated: 2026-04-05 | Data: SleepTech Project1</p>
+</div>
+
+</body>
+</html>
