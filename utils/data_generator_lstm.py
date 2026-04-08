@@ -11,12 +11,13 @@ import logging
 import librosa
 from collections import defaultdict
 
+import torch.utils.data
 import config
 
 LABEL_MAP_2CLASS = {0: 0, 1: 1, 2: 1}
 
 
-class SleepSequenceDataset(object):
+class SleepSequenceDataset(torch.utils.data.Dataset):
     def __init__(self, csv_path, audio_dir, sample_rate=16000, seq_len=10):
         self.audio_dir = audio_dir
         self.sample_rate = sample_rate

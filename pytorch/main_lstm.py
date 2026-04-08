@@ -35,7 +35,12 @@ def train(args):
     num_epochs = args.num_epochs
     device = torch.device('cuda') if args.cuda and torch.cuda.is_available() else torch.device('cpu')
 
-    classes_num = config.classes_num
+    classes_num = args.classes_num
+    config.classes_num = classes_num
+    if classes_num == 2:
+        config.labels = ['wake', 'sleep']
+    else:
+        config.labels = ['wake', 'rem', 'nrem']
 
     checkpoints_dir = os.path.join(workspace, 'checkpoints')
     create_folder(checkpoints_dir)
@@ -218,7 +223,12 @@ def test(args):
     batch_size = args.batch_size
     device = torch.device('cuda') if args.cuda and torch.cuda.is_available() else torch.device('cpu')
 
-    classes_num = config.classes_num
+    classes_num = args.classes_num
+    config.classes_num = classes_num
+    if classes_num == 2:
+        config.labels = ['wake', 'sleep']
+    else:
+        config.labels = ['wake', 'rem', 'nrem']
 
     results_dir = os.path.join(workspace, 'results')
     create_folder(results_dir)
@@ -357,6 +367,8 @@ if __name__ == '__main__':
     parser_train.add_argument('--learning_rate', type=float, default=1e-4)
     parser_train.add_argument('--num_epochs', type=int, default=50)
     parser_train.add_argument('--cuda', action='store_true', default=False)
+    parser_train.add_argument('--classes_num', type=int, default=2,
+        help='클래스 수 (2 또는 3)')
 
     # ===== test =====
     parser_test = subparsers.add_parser('test')
@@ -366,6 +378,8 @@ if __name__ == '__main__':
     parser_test.add_argument('--seq_len', type=int, default=10)
     parser_test.add_argument('--batch_size', type=int, default=4)
     parser_test.add_argument('--cuda', action='store_true', default=False)
+    parser_test.add_argument('--classes_num', type=int, default=2,
+        help='클래스 수 (2 또는 3)')
 
     args = parser.parse_args()
 

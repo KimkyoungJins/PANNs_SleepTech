@@ -10,7 +10,9 @@
       "Bash(ls /Users/kim_kyoungkun/Desktop/*.png /Users/kim_kyoungkun/Desktop/*.jpg /Users/kim_kyoungkun/Desktop/*.jpeg)",
       "Bash(curl -s --connect-timeout 5 https://controlplane.tailscale.com/key)",
       "Bash(echo \"EXIT: $?\")",
-      "Bash(nc -z -w 5 100.98.126.15 22)"
+      "Bash(nc -z -w 5 100.98.126.15 22)",
+      "Bash(git pull:*)",
+      "Bash(git branch:*)"
     ]
   }
 }
