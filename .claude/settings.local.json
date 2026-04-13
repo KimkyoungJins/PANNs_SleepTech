@@ -12,7 +12,10 @@
       "Bash(echo \"EXIT: $?\")",
       "Bash(nc -z -w 5 100.98.126.15 22)",
       "Bash(git pull:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(wc -l /home/yk/Desktop/sleeptech/project1/data/data_for_ai/full_ver/*.csv)",
+      "Bash(wc -l /home/yk/Desktop/sleeptech/project1/data/data_for_ai/ratio_ver/*.csv)",
+      "Bash(chmod:*)"
     ]
   }
 }

@@ -24,6 +24,20 @@ from data_generator_lstm import SleepSequenceDataset, collate_fn_lstm
 import config
 
 
+def compute_class_weight(dataset):
+    """데이터셋의 클래스 분포에서 역빈도 가중치 계산."""
+    class_counts = dataset.get_class_counts()
+    total = sum(class_counts)
+    n_classes = len(class_counts)
+    weights = []
+    for count in class_counts:
+        if count > 0:
+            weights.append(total / (n_classes * count))
+        else:
+            weights.append(0.0)
+    return weights
+
+
 def train(args):
     """LSTM 학습"""
     data_dir = args.data_dir
@@ -33,6 +47,8 @@ def train(args):
     batch_size = args.batch_size
     learning_rate = args.learning_rate
     num_epochs = args.num_epochs
+    loss_type = args.loss_type
+    use_oversample = args.oversample
     device = torch.device('cuda') if args.cuda and torch.cuda.is_available() else torch.device('cpu')
 
     classes_num = args.classes_num
@@ -73,14 +89,38 @@ def train(args):
         audio_dir=data_dir,
         seq_len=seq_len)
 
-    train_loader = torch.utils.data.DataLoader(
-        dataset=train_dataset,
-        batch_size=batch_size,
-        shuffle=True,
-        collate_fn=collate_fn_lstm,
-        num_workers=4,
-        pin_memory=True,
-        drop_last=True)
+    # ===== [개선] Oversampling: WeightedRandomSampler =====
+    if use_oversample:
+        sample_weights = train_dataset.get_sample_weights()
+        sampler = torch.utils.data.WeightedRandomSampler(
+            weights=sample_weights,
+            num_samples=len(train_dataset),
+            replacement=True)
+        logging.info('Oversampling enabled (WeightedRandomSampler)')
+
+        class_counts = train_dataset.get_class_counts()
+        for i, name in enumerate(config.labels):
+            expected = len(train_dataset) / classes_num
+            logging.info('  {}: {} → ~{:.0f} (oversampled)'.format(
+                name, class_counts[i], expected))
+
+        train_loader = torch.utils.data.DataLoader(
+            dataset=train_dataset,
+            batch_size=batch_size,
+            sampler=sampler,
+            collate_fn=collate_fn_lstm,
+            num_workers=4,
+            pin_memory=True,
+            drop_last=True)
+    else:
+        train_loader = torch.utils.data.DataLoader(
+            dataset=train_dataset,
+            batch_size=batch_size,
+            shuffle=True,
+            collate_fn=collate_fn_lstm,
+            num_workers=4,
+            pin_memory=True,
+            drop_last=True)
 
     val_loader = torch.utils.data.DataLoader(
         dataset=val_dataset,
@@ -91,7 +131,26 @@ def train(args):
         pin_memory=True)
 
     # ===== 손실 함수 & 옵티마이저 =====
-    loss_func = nn.CrossEntropyLoss()
+    class_weight = None
+    if loss_type in ('focal', 'weighted_ce'):
+        class_weight = compute_class_weight(train_dataset)
+        logging.info('Class weights: {}'.format(
+            {name: '{:.3f}'.format(w) for name, w in zip(config.labels, class_weight)}))
+
+    if loss_type == 'focal':
+        weight_tensor = torch.FloatTensor(class_weight).to(device)
+        from losses import FocalLoss
+        _focal = FocalLoss(weight=weight_tensor, gamma=2.0)
+        # FocalLoss는 (output_dict, target_dict) 형태이므로 래핑
+        loss_func = lambda logits, target: _focal(
+            {'clipwise_output': logits}, {'target': target})
+    elif loss_type == 'weighted_ce':
+        weight_tensor = torch.FloatTensor(class_weight).to(device)
+        loss_func = nn.CrossEntropyLoss(weight=weight_tensor)
+    else:
+        loss_func = nn.CrossEntropyLoss()
+
+    logging.info('Loss function: {}'.format(loss_type))
 
     # LSTM + FC 파라미터만 학습 (CNN은 Freeze)
     trainable_params = filter(lambda p: p.requires_grad, model.parameters())
@@ -138,8 +197,9 @@ def train(args):
         train_acc = train_correct / train_total if train_total > 0 else 0
         train_loss_avg = train_loss / len(train_loader) if len(train_loader) > 0 else 0
 
-        # 검증
-        val_acc, val_loss_avg = evaluate(model, val_loader, loss_func, device)
+        # 검증 (공정한 비교를 위해 기본 CE 사용)
+        val_loss_func = nn.CrossEntropyLoss()
+        val_acc, val_loss_avg = evaluate(model, val_loader, val_loss_func, device)
         scheduler.step(val_acc)
 
         epoch_time = time.time() - epoch_start
@@ -347,6 +407,125 @@ def test(args):
         json.dump(result_dict, f, indent=2)
     logging.info('Results saved to {}'.format(result_path))
 
+    # 시각 리포트 생성
+    try:
+        generate_report(workspace, results_dir, cm, per_class, label_names,
+                        accuracy, saved_seq_len)
+        logging.info('Visual report saved to {}'.format(results_dir))
+    except Exception as e:
+        logging.warning('Could not generate visual report: {}'.format(e))
+
+
+def generate_report(workspace, results_dir, cm, per_class, label_names,
+                    accuracy, seq_len):
+    """학습 곡선 + Confusion Matrix + 분류 리포트 + Per-class 메트릭 시각화."""
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    fig.suptitle('CNN+LSTM Sleep Stage Classification Report\n'
+                 'Overall Accuracy: {:.1f}% | seq_len={}'.format(
+                     accuracy * 100, seq_len),
+                 fontsize=16, fontweight='bold')
+
+    # ===== 1) Training & Validation Loss =====
+    history_path = os.path.join(workspace, 'history.json')
+    if os.path.exists(history_path):
+        with open(history_path) as f:
+            history = json.load(f)
+
+        epochs = range(1, len(history['train_loss']) + 1)
+
+        ax = axes[0, 0]
+        ax.plot(epochs, history['train_loss'], 'b-', label='Train Loss')
+        ax.plot(epochs, history['val_loss'], 'r-', label='Val Loss')
+        ax.set_xlabel('Epoch')
+        ax.set_ylabel('Loss')
+        ax.set_title('Training & Validation Loss')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+
+        # ===== 2) Training & Validation Accuracy =====
+        ax = axes[0, 1]
+        ax.plot(epochs, [a * 100 for a in history['train_acc']], 'b-', label='Train Acc')
+        ax.plot(epochs, [a * 100 for a in history['val_acc']], 'r-', label='Val Acc')
+        ax.set_xlabel('Epoch')
+        ax.set_ylabel('Accuracy (%)')
+        ax.set_title('Training & Validation Accuracy')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+    else:
+        axes[0, 0].text(0.5, 0.5, 'No training history', ha='center', va='center')
+        axes[0, 1].text(0.5, 0.5, 'No training history', ha='center', va='center')
+
+    # ===== 3) Confusion Matrix =====
+    ax = axes[1, 0]
+    im = ax.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
+    ax.set_title('Confusion Matrix')
+    plt.colorbar(im, ax=ax)
+    ax.set_xticks(range(len(label_names)))
+    ax.set_yticks(range(len(label_names)))
+    ax.set_xticklabels(label_names)
+    ax.set_yticklabels(label_names)
+    ax.set_xlabel('Predicted')
+    ax.set_ylabel('Actual')
+
+    for i in range(len(label_names)):
+        for j in range(len(label_names)):
+            color = 'white' if cm[i][j] > cm.max() / 2 else 'black'
+            ax.text(j, i, str(cm[i][j]), ha='center', va='center',
+                    color=color, fontsize=14)
+
+    # ===== 4) Per-class F1 Score =====
+    ax = axes[1, 1]
+    f1_scores = [per_class[n]['f1'] for n in label_names]
+    colors = ['#ff6b6b', '#4ecdc4', '#45b7d1'][:len(label_names)]
+    bars = ax.bar(label_names, f1_scores, color=colors)
+    ax.set_ylabel('F1 Score')
+    ax.set_title('Per-class F1 Score')
+    ax.set_ylim(0, 1.0)
+    ax.grid(True, alpha=0.3, axis='y')
+
+    for bar, score in zip(bars, f1_scores):
+        ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.02,
+                '{:.3f}'.format(score), ha='center', fontsize=12)
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(results_dir, 'report.png'), dpi=150, bbox_inches='tight')
+    plt.close()
+
+    # ===== 추가: Per-class 상세 메트릭 바 차트 =====
+    fig2, ax2 = plt.subplots(figsize=(10, 6))
+    fig2.suptitle('CNN+LSTM Per-class Metrics | Accuracy: {:.1f}%'.format(
+        accuracy * 100), fontsize=14, fontweight='bold')
+
+    x = np.arange(len(label_names))
+    width = 0.25
+
+    precisions = [per_class[n]['precision'] for n in label_names]
+    recalls = [per_class[n]['recall'] for n in label_names]
+
+    ax2.bar(x - width, precisions, width, label='Precision', color='#4ecdc4')
+    ax2.bar(x, recalls, width, label='Recall', color='#ff6b6b')
+    ax2.bar(x + width, f1_scores, width, label='F1', color='#45b7d1')
+
+    ax2.set_ylabel('Score')
+    ax2.set_xticks(x)
+    ax2.set_xticklabels(label_names)
+    ax2.set_ylim(0, 1.0)
+    ax2.legend()
+    ax2.grid(True, alpha=0.3, axis='y')
+
+    for i, (p, r, f) in enumerate(zip(precisions, recalls, f1_scores)):
+        ax2.text(i - width, p + 0.02, '{:.3f}'.format(p), ha='center', fontsize=9)
+        ax2.text(i, r + 0.02, '{:.3f}'.format(r), ha='center', fontsize=9)
+        ax2.text(i + width, f + 0.02, '{:.3f}'.format(f), ha='center', fontsize=9)
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(results_dir, 'metrics.png'), dpi=150, bbox_inches='tight')
+    plt.close()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='CNN+LSTM Sleep Stage Classification')
@@ -366,6 +545,11 @@ if __name__ == '__main__':
     parser_train.add_argument('--batch_size', type=int, default=4)
     parser_train.add_argument('--learning_rate', type=float, default=1e-4)
     parser_train.add_argument('--num_epochs', type=int, default=50)
+    parser_train.add_argument('--loss_type', type=str, default='weighted_ce',
+        choices=['clip_ce', 'weighted_ce', 'focal'],
+        help='손실 함수: clip_ce(가중치 없음), weighted_ce(역빈도 가중치), focal(Focal Loss)')
+    parser_train.add_argument('--oversample', action='store_true', default=False,
+        help='Oversampling 활성화 (시퀀스 단위 가중 샘플링)')
     parser_train.add_argument('--cuda', action='store_true', default=False)
     parser_train.add_argument('--classes_num', type=int, default=2,
         help='클래스 수 (2 또는 3)')

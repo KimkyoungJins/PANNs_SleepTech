@@ -51,9 +51,26 @@ class SleepStageLSTM(nn.Module):
         self.fc_out = nn.Linear(128, classes_num)
 
     def load_cnn_weights(self, checkpoint_path, device='cpu'):
-        """기존 학습된 CNN 가중치를 로드하고 Freeze"""
+        """기존 학습된 CNN 가중치를 로드하고 Freeze.
+        fc_audioset 등 shape 불일치 레이어는 스킵 (LSTM에서 사용 안 함)."""
         checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)
-        self.cnn.load_state_dict(checkpoint['model'])
+        pretrained_dict = checkpoint['model']
+        model_dict = self.cnn.state_dict()
+
+        loaded = {}
+        skipped = []
+        for k, v in pretrained_dict.items():
+            if k in model_dict and v.shape == model_dict[k].shape:
+                loaded[k] = v
+            else:
+                skipped.append(k)
+
+        model_dict.update(loaded)
+        self.cnn.load_state_dict(model_dict)
+
+        if skipped:
+            print('CNN skipped layers (shape mismatch): {}'.format(skipped))
+        print('CNN loaded: {} / {} layers'.format(len(loaded), len(model_dict)))
 
         # CNN 전체 Freeze
         for param in self.cnn.parameters():
