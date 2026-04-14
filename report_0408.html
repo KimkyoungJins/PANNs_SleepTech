@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSTM 코드 개선 보고서 - 2026.04.08</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-light: #e8f0fe;
+            --success: #0d904f;
+            --success-light: #e6f4ea;
+            --danger: #d93025;
+            --danger-light: #fce8e6;
+            --warning: #e37400;
+            --warning-light: #fef7e0;
+            --gray-50: #f8f9fa;
+            --gray-100: #f1f3f4;
+            --gray-200: #e8eaed;
+            --gray-300: #dadce0;
+            --gray-600: #5f6368;
+            --gray-800: #3c4043;
+            --gray-900: #202124;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        header .subtitle {
+            font-size: 16px;
+            color: var(--gray-600);
+        }
+
+        header .date {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 16px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 20px 0 12px 0;
+        }
+
+        .card p, .card li {
+            font-size: 15px;
+            color: var(--gray-800);
+            line-height: 1.8;
+        }
+
+        .card ul, .card ol {
+            padding-left: 24px;
+            margin-bottom: 12px;
+        }
+
+        .card li {
+            margin-bottom: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        th {
+            background: var(--gray-100);
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        tr:hover td {
+            background: var(--gray-50);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-danger {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .badge-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .badge-primary {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        code {
+            background: var(--gray-100);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 12px 0;
+        }
+
+        pre .comment { color: #6a9955; }
+        pre .keyword { color: #569cd6; }
+        pre .string { color: #ce9178; }
+        pre .added { color: #b5cea8; background: rgba(0,255,0,0.08); display: block; }
+        pre .removed { color: #f48771; background: rgba(255,0,0,0.08); display: block; text-decoration: line-through; }
+
+        .file-path {
+            display: inline-block;
+            background: var(--gray-100);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+
+        .change-item {
+            border-left: 4px solid var(--primary);
+            padding-left: 16px;
+            margin: 20px 0;
+        }
+
+        .change-item.bug {
+            border-left-color: var(--danger);
+        }
+
+        .change-item.feature {
+            border-left-color: var(--success);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .summary-box {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .summary-box .number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .summary-box .label {
+            font-size: 13px;
+            color: var(--gray-600);
+            margin-top: 4px;
+        }
+
+        .arrow {
+            color: var(--success);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- 헤더 -->
+        <header>
+            <h1>CNN+LSTM 수면 분류 모델 코드 개선 보고서</h1>
+            <p class="subtitle">main_lstm.py / models_lstm.py / 학습 스크립트 수정</p>
+            <span class="date">2026.04.08</span>
+        </header>
+
+        <!-- 요약 -->
+        <div class="card">
+            <h2>변경 요약</h2>
+            <div class="summary-grid">
+                <div class="summary-box">
+                    <div class="number">2</div>
+                    <div class="label">버그 수정</div>
+                </div>
+                <div class="summary-box">
+                    <div class="number">3</div>
+                    <div class="label">기능 추가</div>
+                </div>
+                <div class="summary-box">
+                    <div class="number">1</div>
+                    <div class="label">스크립트 생성</div>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>분류</th>
+                        <th>파일</th>
+                        <th>내용</th>
+                        <th>중요도</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-danger">버그</span></td>
+                        <td><code>models_lstm.py</code></td>
+                        <td>CNN 가중치 로드 시 classes_num 불일치로 에러 발생</td>
+                        <td><span class="badge badge-danger">Critical</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-danger">버그</span></td>
+                        <td><code>main_lstm.py</code></td>
+                        <td>Focal Loss 호출 인터페이스 불일치로 런타임 에러</td>
+                        <td><span class="badge badge-danger">Critical</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">기능</span></td>
+                        <td><code>main_lstm.py</code></td>
+                        <td>Class-weighted CrossEntropyLoss 추가 (기본값)</td>
+                        <td><span class="badge badge-warning">필수</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">기능</span></td>
+                        <td><code>main_lstm.py</code></td>
+                        <td>Focal Loss 옵션 추가 (<code>--loss_type=focal</code>)</td>
+                        <td><span class="badge badge-primary">권장</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">기능</span></td>
+                        <td><code>main_lstm.py</code></td>
+                        <td>WeightedRandomSampler 추가 (<code>--oversample</code>)</td>
+                        <td><span class="badge badge-primary">선택</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-primary">스크립트</span></td>
+                        <td><code>scripts/8_train_lstm.sh</code></td>
+                        <td>2클래스 + 3클래스 full_ver LSTM 학습/테스트 스크립트</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 배경: 왜 수정이 필요했는가 -->
+        <div class="card">
+            <h2>1. 배경: 왜 수정이 필요했는가</h2>
+
+            <h3>LSTM과 데이터 특성의 충돌</h3>
+            <p>
+                LSTM은 <strong>시간 연속성(temporal context)</strong>을 학습하는 모델이다.
+                기존 ResNet 실험에서 사용한 <code>ratio_ver</code> 데이터는 클래스 균형을 맞추기 위해
+                에포크를 랜덤으로 제거(undersampling)했는데, 이렇게 하면 시간 흐름이 끊겨서
+                LSTM의 시퀀스 생성이 불가능해진다.
+            </p>
+            <p>
+                따라서 LSTM은 <strong>full_ver 데이터를 그대로 사용</strong>해야 하며,
+                클래스 불균형은 데이터가 아닌 <strong>학습 과정에서 보정</strong>해야 한다.
+            </p>
+
+            <h3>full_ver train 클래스 분포</h3>
+            <table>
+                <thead>
+                    <tr><th>클래스</th><th>개수</th><th>비율</th><th>문제점</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>nrem</td><td>16,283</td><td>89.0%</td><td>압도적 다수</td></tr>
+                    <tr><td>wake</td><td>1,198</td><td>6.6%</td><td>소수</td></tr>
+                    <tr><td>rem</td><td>809</td><td>4.4%</td><td>극소수</td></tr>
+                </tbody>
+            </table>
+            <p>
+                기존 코드는 <code>nn.CrossEntropyLoss()</code>를 가중치 없이 사용해서,
+                모델이 전부 nrem으로 예측해도 89% 정확도가 나오는 상태였다.
+            </p>
+        </div>
+
+        <!-- 버그 수정 1 -->
+        <div class="card">
+            <h2>2. 버그 수정</h2>
+
+            <div class="change-item bug">
+                <h3>Bug #1: CNN 가중치 로드 시 shape mismatch 에러</h3>
+                <span class="file-path">pytorch/models_lstm.py : load_cnn_weights()</span>
+
+                <p><strong>문제 상황:</strong></p>
+                <ul>
+                    <li>2클래스 CNN 체크포인트의 <code>fc_audioset</code> 출력: <strong>[2048, 2]</strong></li>
+                    <li>LSTM 내부 CNN의 <code>fc_audioset</code> 기대: <strong>[2048, 3]</strong> (3클래스로 생성 시)</li>
+                    <li><code>load_state_dict()</code>에서 shape 불일치로 <strong>즉시 에러</strong></li>
+                    <li>실제로 LSTM은 CNN의 <code>embedding</code>(2048차원)만 사용하고 <code>fc_audioset</code>은 사용하지 않음</li>
+                </ul>
+
+                <p><strong>수정 전:</strong></p>
+<pre><span class="removed">checkpoint = torch.load(checkpoint_path, map_location=device, weights_only=False)</span>
+<span class="removed">self.cnn.load_state_dict(checkpoint['model'])  # shape 불일치 시 에러</span></pre>
+
+                <p><strong>수정 후:</strong></p>
+<pre><span class="added">pretrained_dict = checkpoint['model']</span>
+<span class="added">model_dict = self.cnn.state_dict()</span>
+<span class="added"></span>
+<span class="added">loaded = {}</span>
+<span class="added">skipped = []</span>
+<span class="added">for k, v in pretrained_dict.items():</span>
+<span class="added">    if k in model_dict and v.shape == model_dict[k].shape:</span>
+<span class="added">        loaded[k] = v</span>
+<span class="added">    else:</span>
+<span class="added">        skipped.append(k)</span>
+<span class="added"></span>
+<span class="added">model_dict.update(loaded)</span>
+<span class="added">self.cnn.load_state_dict(model_dict)</span></pre>
+
+                <p>shape이 맞는 레이어만 로드하고, 불일치 레이어(<code>fc_audioset</code>)는 스킵. 스킵된 레이어 목록을 출력하여 디버깅 용이.</p>
+            </div>
+
+            <div class="change-item bug">
+                <h3>Bug #2: Focal Loss 호출 인터페이스 불일치</h3>
+                <span class="file-path">pytorch/main_lstm.py : train()</span>
+
+                <p><strong>문제 상황:</strong></p>
+                <ul>
+                    <li><code>main_lstm.py</code>의 호출 방식: <code>loss_func(logits, target)</code></li>
+                    <li><code>losses.py</code>의 <code>FocalLoss.forward()</code> 기대: <code>loss_func(output_dict, target_dict)</code></li>
+                    <li><code>--loss_type=focal</code> 선택 시 <strong>런타임 에러</strong> 발생</li>
+                </ul>
+
+                <p><strong>수정:</strong> FocalLoss를 래핑하여 호출 인터페이스 통일</p>
+<pre><span class="added">from losses import FocalLoss</span>
+<span class="added">_focal = FocalLoss(weight=weight_tensor, gamma=2.0)</span>
+<span class="added">loss_func = lambda logits, target: _focal(</span>
+<span class="added">    {'clipwise_output': logits}, {'target': target})</span></pre>
+            </div>
+        </div>
+
+        <!-- 기능 추가 -->
+        <div class="card">
+            <h2>3. 기능 추가</h2>
+
+            <div class="change-item feature">
+                <h3>Feature #1: Class-weighted CrossEntropyLoss (기본값)</h3>
+                <span class="file-path">pytorch/main_lstm.py : --loss_type=weighted_ce</span>
+
+                <p>역빈도(inverse frequency) 가중치를 자동 계산하여 CrossEntropyLoss에 적용.</p>
+                <p><strong>기본값으로 설정</strong>되어 별도 옵션 없이도 자동 적용됨.</p>
+
+                <table>
+                    <thead>
+                        <tr><th>클래스</th><th>개수</th><th>가중치</th><th>효과</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>wake</td><td>1,198</td><td>~5.09</td><td>wake 1개 = nrem ~14개 가치</td></tr>
+                        <tr><td>rem</td><td>809</td><td>~7.54</td><td>rem 1개 = nrem ~20개 가치</td></tr>
+                        <tr><td>nrem</td><td>16,283</td><td>~0.37</td><td>다수 클래스 페널티 감소</td></tr>
+                    </tbody>
+                </table>
+
+                <p>계산 공식: <code>weight_i = total / (n_classes * count_i)</code></p>
+            </div>
+
+            <div class="change-item feature">
+                <h3>Feature #2: Focal Loss 옵션</h3>
+                <span class="file-path">pytorch/main_lstm.py : --loss_type=focal</span>
+
+                <p>클래스 가중치 + Focal Loss(gamma=2.0) 조합.
+                이미 잘 맞추는 쉬운 샘플(nrem)의 loss를 줄이고,
+                어려운 샘플(rem, wake 전환 구간)에 집중하게 함.</p>
+
+                <p>기존 <code>losses.py</code>의 <code>FocalLoss</code> 클래스를 재활용.</p>
+            </div>
+
+            <div class="change-item feature">
+                <h3>Feature #3: WeightedRandomSampler</h3>
+                <span class="file-path">pytorch/main_lstm.py : --oversample</span>
+
+                <p>시퀀스의 중간 라벨 기준으로 가중 샘플링.
+                rem/wake 시퀀스를 더 자주 뽑되, <strong>각 시퀀스 내부의 시간 연속성은 그대로 유지</strong>.</p>
+                <p><code>data_generator_lstm.py</code>에 이미 구현되어 있던 <code>get_sample_weights()</code>를 활용.</p>
+
+                <p><strong>핵심:</strong> ratio_ver처럼 에포크를 삭제하는 것이 아니라, 샘플링 확률만 조정하므로 시간 흐름이 보존됨.</p>
+            </div>
+        </div>
+
+        <!-- 검증 Loss 분리 -->
+        <div class="card">
+            <h2>4. 검증 Loss 분리</h2>
+            <span class="file-path">pytorch/main_lstm.py : train() 내 검증 단계</span>
+
+            <p>학습에는 가중치가 적용된 loss(weighted_ce/focal)를 사용하지만,
+            <strong>검증(val)에는 기본 CrossEntropyLoss를 사용</strong>하여 공정한 비교가 가능하도록 변경.</p>
+
+<pre><span class="comment"># 검증 (공정한 비교를 위해 기본 CE 사용)</span>
+<span class="added">val_loss_func = nn.CrossEntropyLoss()</span>
+<span class="added">val_acc, val_loss_avg = evaluate(model, val_loader, val_loss_func, device)</span></pre>
+
+            <p>이렇게 해야 loss_type을 바꿔가며 실험할 때 val loss 수치를 직접 비교할 수 있음.</p>
+        </div>
+
+        <!-- 학습 스크립트 -->
+        <div class="card">
+            <h2>5. 학습 스크립트 생성</h2>
+            <span class="file-path">scripts/8_train_lstm.sh</span>
+
+            <p>full_ver 데이터로 2클래스 + 3클래스 LSTM을 순차 학습/테스트하는 스크립트.</p>
+
+            <table>
+                <thead>
+                    <tr><th>순서</th><th>작업</th><th>CNN 체크포인트</th><th>workspace</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>2클래스 LSTM 학습</td>
+                        <td><code>full_ver_2class/best_model.pth</code></td>
+                        <td><code>lstm_full_ver_2class/</code></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2클래스 LSTM 테스트</td>
+                        <td>-</td>
+                        <td><code>lstm_full_ver_2class/</code></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>3클래스 LSTM 학습</td>
+                        <td><code>full_ver_3class/best_model.pth</code></td>
+                        <td><code>lstm_full_ver_3class/</code></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>3클래스 LSTM 테스트</td>
+                        <td>-</td>
+                        <td><code>lstm_full_ver_3class/</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>주요 하이퍼파라미터</h3>
+            <table>
+                <thead>
+                    <tr><th>파라미터</th><th>값</th><th>설명</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>seq_len</td><td>10</td><td>연속 10개 에포크 = 5분 맥락</td></tr>
+                    <tr><td>lstm_hidden</td><td>256</td><td>Bi-LSTM hidden size</td></tr>
+                    <tr><td>lstm_layers</td><td>2</td><td>LSTM 레이어 수</td></tr>
+                    <tr><td>lstm_dropout</td><td>0.3</td><td>LSTM 레이어 간 dropout</td></tr>
+                    <tr><td>batch_size</td><td>4</td><td>시퀀스 단위 배치 (메모리 고려)</td></tr>
+                    <tr><td>loss_type</td><td>weighted_ce</td><td>역빈도 가중치 CE</td></tr>
+                    <tr><td>oversample</td><td>True</td><td>WeightedRandomSampler 활성화</td></tr>
+                    <tr><td>num_epochs</td><td>50</td><td>최대 에폭 수</td></tr>
+                </tbody>
+            </table>
+
+            <h3>실행 방법</h3>
+<pre>cd /home/yk/Desktop/sleeptech/project1/resnet
+bash scripts/8_train_lstm.sh</pre>
+        </div>
+
+        <!-- Loss 옵션 비교 -->
+        <div class="card">
+            <h2>6. Loss 옵션 비교 가이드</h2>
+
+            <table>
+                <thead>
+                    <tr><th>옵션</th><th>클래스 가중치</th><th>어려운 샘플 집중</th><th>권장 상황</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>--loss_type=clip_ce</code></td>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>이미 밸런싱된 데이터 (ratio_ver)</td>
+                    </tr>
+                    <tr>
+                        <td><code>--loss_type=weighted_ce</code></td>
+                        <td>O (역빈도)</td>
+                        <td>X</td>
+                        <td><strong>기본값. full_ver 불균형 데이터에 적합</strong></td>
+                    </tr>
+                    <tr>
+                        <td><code>--loss_type=focal</code></td>
+                        <td>O (역빈도)</td>
+                        <td>O (gamma=2.0)</td>
+                        <td>불균형 + 클래스 간 난이도 차이가 클 때</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><code>--oversample</code>은 위 옵션과 독립적으로 조합 가능. 권장 조합:</p>
+            <ul>
+                <li><strong>기본</strong>: <code>--loss_type=weighted_ce --oversample</code></li>
+                <li><strong>공격적</strong>: <code>--loss_type=focal --oversample</code></li>
+            </ul>
+        </div>
+
+        <!-- 수정 파일 목록 -->
+        <div class="card">
+            <h2>7. 수정 파일 전체 목록</h2>
+
+            <table>
+                <thead>
+                    <tr><th>파일</th><th>변경 유형</th><th>주요 변경 라인</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>pytorch/main_lstm.py</code></td>
+                        <td>수정</td>
+                        <td>
+                            L24: <code>from losses import FocalLoss</code> 추가<br>
+                            L28~39: <code>compute_class_weight()</code> 함수 추가<br>
+                            L51~52: <code>loss_type</code>, <code>oversample</code> 인자 파싱<br>
+                            L93~124: WeightedRandomSampler 분기 추가<br>
+                            L134~153: Loss 함수 선택 로직 (weighted_ce/focal/clip_ce)<br>
+                            L196~198: 검증용 기본 CE 분리<br>
+                            L425~429: argparse에 <code>--loss_type</code>, <code>--oversample</code> 추가
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>pytorch/models_lstm.py</code></td>
+                        <td>수정</td>
+                        <td>
+                            L53~73: <code>load_cnn_weights()</code> shape mismatch 안전 로드
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><code>scripts/8_train_lstm.sh</code></td>
+                        <td>신규</td>
+                        <td>2클래스 + 3클래스 full_ver LSTM 학습/테스트 스크립트</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CNN+LSTM 수면 단계 분류 모델 진단 보고서</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --accent: #58a6ff;
+    --red: #f85149;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --orange: #db6d28;
+    --purple: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1 {
+    font-size: 2rem;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle { color: var(--text-dim); margin-bottom: 2rem; font-size: 0.95rem; }
+  h2 {
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 { font-size: 1.1rem; color: var(--purple); margin: 1.5rem 0 0.8rem; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+  .alert {
+    border-left: 4px solid var(--red);
+    background: rgba(248, 81, 73, 0.08);
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+  }
+  .alert-green {
+    border-left: 4px solid var(--green);
+    background: rgba(63, 185, 80, 0.08);
+  }
+  .alert-yellow {
+    border-left: 4px solid var(--yellow);
+    background: rgba(210, 153, 34, 0.08);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: rgba(88, 166, 255, 0.1);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  td.num { text-align: right; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .bad { color: var(--red); font-weight: 700; }
+  .good { color: var(--green); font-weight: 700; }
+  .warn { color: var(--yellow); font-weight: 700; }
+  code {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    background: rgba(110, 118, 129, 0.15);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.88em;
+  }
+  pre {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 1rem 0;
+  }
+  pre code { background: none; padding: 0; }
+  .flow-diagram {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    font-family: 'SF Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+  .tag {
+    display: inline-block;
+    padding: 0.2em 0.6em;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .tag-red { background: rgba(248,81,73,0.2); color: var(--red); }
+  .tag-green { background: rgba(63,185,80,0.2); color: var(--green); }
+  .tag-yellow { background: rgba(210,153,34,0.2); color: var(--yellow); }
+  .metric-row {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .metric-box {
+    text-align: center;
+    padding: 1.2rem 2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    min-width: 160px;
+  }
+  .metric-box .value {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'SF Mono', monospace;
+  }
+  .metric-box .label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+  }
+  .file-badge {
+    display: inline-block;
+    background: rgba(188, 140, 255, 0.12);
+    border: 1px solid rgba(188, 140, 255, 0.3);
+    color: var(--purple);
+    padding: 0.15em 0.5em;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85em;
+  }
+  .arrow { color: var(--text-dim); margin: 0 0.3em; }
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+  }
+  .toc ol { padding-left: 1.5rem; }
+  .toc li { margin: 0.4rem 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .diff-add { color: var(--green); }
+  .diff-del { color: var(--red); }
+  .diff-ctx { color: var(--text-dim); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>CNN+LSTM Sleep Stage Classification<br>Model Diagnosis Report</h1>
+<p class="subtitle">
+  Project: PANNs ResNet22 + Bi-LSTM &nbsp;|&nbsp;
+  Date: 2026-04-14 &nbsp;|&nbsp;
+  Data: full_ver_2class (Wake/Sleep)
+</p>
+
+<!-- TOC -->
+<div class="toc">
+  <strong>목차</strong>
+  <ol>
+    <li><a href="#summary">요약: 무엇이 잘못되었는가</a></li>
+    <li><a href="#root-cause">근본 원인 분석</a></li>
+    <li><a href="#data-analysis">데이터 분석 상세</a></li>
+    <li><a href="#overfitting">과적합 분석</a></li>
+    <li><a href="#simulation">대안 시뮬레이션 결과</a></li>
+    <li><a href="#fixes">수정 내용</a></li>
+    <li><a href="#after-fix">수정 후 예상 효과</a></li>
+    <li><a href="#next-steps">재학습 가이드</a></li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="summary">1. 요약: 무엇이 잘못되었는가</h2>
+
+<div class="metric-row">
+  <div class="metric-box">
+    <div class="value bad">100%</div>
+    <div class="label">Test Accuracy (가짜)</div>
+  </div>
+  <div class="metric-box">
+    <div class="value bad">0</div>
+    <div class="label">Test Wake 시퀀스</div>
+  </div>
+  <div class="metric-box">
+    <div class="value bad">89.8%</div>
+    <div class="label">Train 데이터 중복률</div>
+  </div>
+  <div class="metric-box">
+    <div class="value warn">~34h</div>
+    <div class="label">낭비된 학습 시간</div>
+  </div>
+</div>
+
+<div class="alert">
+  <strong>핵심 문제:</strong> Test 데이터에서 Wake 시퀀스가 <strong>0개</strong>로, 모델은 Sleep만 맞추면 100% 정확도를 달성.
+  이것은 학습 실패가 아니라 <strong>평가 파이프라인의 구조적 결함</strong>입니다.
+</div>
+
+<div class="card">
+  <strong>3줄 요약</strong>
+  <ol style="margin-top:0.5rem; padding-left:1.5rem;">
+    <li><code>process_sleep_data.py</code>의 <code>balance_data()</code>가 test 에포크를 랜덤 샘플링하여 <strong>연속성을 파괴</strong></li>
+    <li>LSTM의 <code>data_generator_lstm.py</code>가 연속성 검증에서 거의 모든 시퀀스를 거부 → <strong>Wake 시퀀스 0개</strong></li>
+    <li>stride=1 슬라이딩 윈도우로 <strong>89.8% 중복</strong> + Early Stopping 없이 50 에폭 학습 → <strong>심각한 과적합</strong></li>
+  </ol>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="root-cause">2. 근본 원인 분석</h2>
+
+<h3>2-1. 인과 관계 체인</h3>
+
+<div class="flow-diagram">
+<span style="color:var(--purple)">process_sleep_data.py : split_data()</span>
+    |
+    |  환자 단위 6:2:2 분할 (정상)
+    |  test 환자 12명의 전체 녹음 = <span style="color:var(--green)">6,334개 에포크 (갭 0개)</span>
+    v
+<span style="color:var(--red)">balance_data(test_d_full)</span>  &lt;-- 여기서 문제 발생!
+    |
+    |  random.sample()로 클래스별 최소 개수(263개)만 추출
+    |  6,334개 → 789개 (87.5% 버려짐)
+    v
+<span style="color:var(--red)">test.csv: 789개 에포크 (갭 430+개)</span>
+    |
+    |  patient02: 435개 중 49개만 포함 (11%)
+    |  patient08: 742개 중 78개만 포함 (11%)
+    v
+<span style="color:var(--purple)">data_generator_lstm.py : SleepSequenceDataset</span>
+    |
+    |  연속성 검증: epoch_nums[i+1] - epoch_nums[i] == 1
+    |  비연속 에포크 → 거의 모든 윈도우 거부
+    v
+<span style="color:var(--red)">full_ver_2class: 시퀀스 0개 (완전 실패)</span>
+<span style="color:var(--red)">full_ver:        시퀀스 100개, Wake 0개</span>
+    |
+    v
+<span style="color:var(--red)">Test Accuracy 100% (Sleep만 평가, 무의미)</span>
+</div>
+
+<h3>2-2. CNN vs LSTM: 왜 CNN은 괜찮았는가</h3>
+
+<div class="card">
+<table>
+  <tr>
+    <th>특성</th>
+    <th>CNN (ResNet22)</th>
+    <th>LSTM</th>
+  </tr>
+  <tr>
+    <td>입력 단위</td>
+    <td>개별 30초 에포크</td>
+    <td>연속 10개 에포크 시퀀스</td>
+  </tr>
+  <tr>
+    <td>연속성 필요?</td>
+    <td class="good">불필요</td>
+    <td class="bad">필수</td>
+  </tr>
+  <tr>
+    <td>balance_data() 영향</td>
+    <td class="good">무해 (개별 에포크는 독립)</td>
+    <td class="bad">치명적 (연속성 파괴)</td>
+  </tr>
+  <tr>
+    <td>test 결과</td>
+    <td>Acc 83.1%, Wake F1 0.740</td>
+    <td class="bad">Acc 100% (가짜), Wake F1 0.0</td>
+  </tr>
+</table>
+<p style="margin-top:1rem; color:var(--text-dim);">
+  <code>balance_data()</code>는 CNN용으로 설계된 함수. 에포크를 독립 샘플로 취급하므로
+  CNN에서는 문제가 없었지만, 시간 연속성이 필수인 LSTM에는 치명적이었습니다.
+</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="data-analysis">3. 데이터 분석 상세</h2>
+
+<h3>3-1. Train vs Test 구조 비교</h3>
+
+<div class="card">
+<table>
+  <tr>
+    <th>지표</th>
+    <th>train.csv</th>
+    <th>val.csv</th>
+    <th>test.csv (기존)</th>
+    <th>test_lstm.csv (수정)</th>
+  </tr>
+  <tr>
+    <td>환자 수</td>
+    <td class="num">32명</td>
+    <td class="num">11명</td>
+    <td class="num">12명</td>
+    <td class="num">12명</td>
+  </tr>
+  <tr>
+    <td>총 에포크</td>
+    <td class="num">18,290</td>
+    <td class="num">6,488</td>
+    <td class="num">526</td>
+    <td class="num good">6,334</td>
+  </tr>
+  <tr>
+    <td>에포크 갭</td>
+    <td class="num good">0개</td>
+    <td class="num good">0개</td>
+    <td class="num bad">430+개</td>
+    <td class="num good">0개</td>
+  </tr>
+  <tr>
+    <td>환자당 커버리지</td>
+    <td class="good">100%</td>
+    <td class="good">100%</td>
+    <td class="bad">4~23%</td>
+    <td class="good">100%</td>
+  </tr>
+  <tr>
+    <td>seq=10 시퀀스</td>
+    <td class="num">18,002</td>
+    <td class="num">6,389</td>
+    <td class="num bad">0</td>
+    <td class="num good">6,226</td>
+  </tr>
+  <tr>
+    <td>Wake 시퀀스</td>
+    <td class="num">1,074</td>
+    <td class="num">441</td>
+    <td class="num bad">0</td>
+    <td class="num good">527</td>
+  </tr>
+</table>
+</div>
+
+<h3>3-2. Test 환자별 상세 (기존 test.csv)</h3>
+
+<div class="card">
+<table>
+  <tr>
+    <th>환자</th>
+    <th>전체 에포크</th>
+    <th>test.csv 포함</th>
+    <th>커버리지</th>
+    <th>갭 수</th>
+    <th>최장 연속</th>
+    <th>seq=10 시퀀스</th>
+  </tr>
+  <tr><td>patient02</td><td class="num">435</td><td class="num">27</td><td class="num bad">6%</td><td class="num">23</td><td class="num">7</td><td class="num bad">0</td></tr>
+  <tr><td>patient06</td><td class="num">485</td><td class="num">42</td><td class="num bad">9%</td><td class="num">22</td><td class="num">4</td><td class="num bad">0</td></tr>
+  <tr><td>patient07</td><td class="num">551</td><td class="num">44</td><td class="num bad">8%</td><td class="num">29</td><td class="num">5</td><td class="num bad">0</td></tr>
+  <tr><td>patient08</td><td class="num">742</td><td class="num">65</td><td class="num bad">9%</td><td class="num">45</td><td class="num">5</td><td class="num bad">0</td></tr>
+  <tr><td>patient09</td><td class="num">565</td><td class="num">52</td><td class="num bad">9%</td><td class="num">42</td><td class="num">3</td><td class="num bad">0</td></tr>
+  <tr><td>patient15</td><td class="num">240</td><td class="num">5</td><td class="num bad">2%</td><td class="num">4</td><td class="num">1</td><td class="num bad">0</td></tr>
+  <tr><td>patient16</td><td class="num">464</td><td class="num">53</td><td class="num bad">11%</td><td class="num">31</td><td class="num">6</td><td class="num bad">0</td></tr>
+  <tr><td>patient18</td><td class="num">544</td><td class="num">91</td><td class="num bad">17%</td><td class="num">51</td><td class="num">5</td><td class="num bad">0</td></tr>
+  <tr><td>patient36</td><td class="num">709</td><td class="num">49</td><td class="num bad">7%</td><td class="num">36</td><td class="num">3</td><td class="num bad">0</td></tr>
+  <tr><td>patient43</td><td class="num">697</td><td class="num">44</td><td class="num bad">6%</td><td class="num">34</td><td class="num">6</td><td class="num bad">0</td></tr>
+  <tr><td>patient46</td><td class="num">360</td><td class="num">18</td><td class="num bad">5%</td><td class="num">12</td><td class="num">3</td><td class="num bad">0</td></tr>
+  <tr><td>patient50</td><td class="num">542</td><td class="num">36</td><td class="num bad">7%</td><td class="num">26</td><td class="num">3</td><td class="num bad">0</td></tr>
+</table>
+<p style="margin-top:0.8rem; color:var(--text-dim);">
+  <code>balance_data()</code>의 <code>random.sample()</code>이 각 환자에서 극소수 에포크만 선택.
+  환자당 커버리지가 2~17%로, 거의 모든 에포크 사이에 갭이 발생하여 연속 10개 윈도우를 만들 수 없었습니다.
+</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="overfitting">4. 과적합 분석</h2>
+
+<h3>4-1. 학습 곡선</h3>
+
+<div class="card">
+<table>
+  <tr>
+    <th>Epoch</th>
+    <th>Train Loss</th>
+    <th>Train Acc</th>
+    <th>Val Loss</th>
+    <th>Val Acc</th>
+    <th>상태</th>
+  </tr>
+  <tr><td>1</td><td class="num">0.172</td><td class="num">81.2%</td><td class="num">0.480</td><td class="num">81.3%</td><td><span class="tag tag-green">학습 중</span></td></tr>
+  <tr><td>5</td><td class="num">0.051</td><td class="num">94.9%</td><td class="num">0.414</td><td class="num">90.8%</td><td><span class="tag tag-green">학습 중</span></td></tr>
+  <tr><td>11</td><td class="num">0.029</td><td class="num">97.3%</td><td class="num">0.542</td><td class="num good">91.8%</td><td><span class="tag tag-yellow">Best (여기서 멈춰야)</span></td></tr>
+  <tr><td>20</td><td class="num">0.018</td><td class="num">97.8%</td><td class="num">0.633</td><td class="num">91.7%</td><td><span class="tag tag-red">과적합</span></td></tr>
+  <tr><td>30</td><td class="num">0.012</td><td class="num">98.2%</td><td class="num">0.761</td><td class="num">91.7%</td><td><span class="tag tag-red">과적합</span></td></tr>
+  <tr><td>50</td><td class="num">0.011</td><td class="num">98.4%</td><td class="num bad">0.793</td><td class="num">91.8%</td><td><span class="tag tag-red">과적합</span></td></tr>
+</table>
+</div>
+
+<h3>4-2. 과적합 원인 3가지</h3>
+
+<div class="grid-2">
+  <div class="card">
+    <h3 style="margin-top:0;">원인 1: 슬라이딩 윈도우 중복 89.8%</h3>
+    <table>
+      <tr><td>고유 에포크 수</td><td class="num">18,290개</td></tr>
+      <tr><td>생성된 시퀀스</td><td class="num">18,002개</td></tr>
+      <tr><td>에포크 등장 총 횟수</td><td class="num">180,020회</td></tr>
+      <tr><td>에포크 평균 재사용</td><td class="num bad">9.8회</td></tr>
+    </table>
+    <p style="margin-top:0.8rem; color:var(--text-dim);">
+      stride=1이므로 인접 시퀀스가 10개 에포크 중 9개를 공유.
+      사실상 같은 데이터를 10번씩 반복 학습하는 것과 같음.
+    </p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0;">원인 2: Early Stopping 없음</h3>
+    <table>
+      <tr><td>Best Epoch</td><td class="num">11</td></tr>
+      <tr><td>총 학습 Epoch</td><td class="num">50</td></tr>
+      <tr><td>무의미한 Epoch</td><td class="num bad">39</td></tr>
+      <tr><td>에폭당 학습 시간</td><td class="num">~52분</td></tr>
+      <tr><td>낭비된 시간</td><td class="num bad">~34시간</td></tr>
+    </table>
+    <p style="margin-top:0.8rem; color:var(--text-dim);">
+      Val Loss가 0.48 → 0.79로 65% 악화되는 동안
+      학습이 계속되어 GPU 시간 34시간 낭비.
+    </p>
+  </div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">원인 3: 극심한 클래스 불균형</h3>
+  <table>
+    <tr>
+      <th>클래스</th>
+      <th>시퀀스 수</th>
+      <th>비율</th>
+      <th>Oversampling 후 기대값</th>
+    </tr>
+    <tr>
+      <td>Wake</td>
+      <td class="num">1,074</td>
+      <td class="num bad">6.0%</td>
+      <td class="num">~9,001</td>
+    </tr>
+    <tr>
+      <td>Sleep</td>
+      <td class="num">16,928</td>
+      <td class="num">94.0%</td>
+      <td class="num">~9,001</td>
+    </tr>
+  </table>
+  <p style="margin-top:0.8rem; color:var(--text-dim);">
+    WeightedRandomSampler로 oversampling했지만,
+    1,074개의 Wake 시퀀스를 8.4배 반복하므로 소수 클래스 과적합 위험 높음.
+  </p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="simulation">5. 대안 시뮬레이션 결과</h2>
+
+<h3>5-1. 기존 test.csv (balance_data 적용)에서의 대안들</h3>
+
+<div class="card">
+<table>
+  <tr>
+    <th>방식</th>
+    <th>Train 시퀀스</th>
+    <th>Train Wake</th>
+    <th>Test 시퀀스</th>
+    <th>Test Wake</th>
+    <th>평가</th>
+  </tr>
+  <tr>
+    <td>현재 (seq=10, mid, stride=1)</td>
+    <td class="num">18,002</td>
+    <td class="num">1,074 (6%)</td>
+    <td class="num bad">0</td>
+    <td class="num bad">0</td>
+    <td><span class="tag tag-red">완전 실패</span></td>
+  </tr>
+  <tr>
+    <td>A: seq=10, majority</td>
+    <td class="num">18,002</td>
+    <td class="num">803 (4.5%)</td>
+    <td class="num bad">0</td>
+    <td class="num bad">0</td>
+    <td><span class="tag tag-red">실패</span></td>
+  </tr>
+  <tr>
+    <td>B: seq=5, mid</td>
+    <td class="num">18,162</td>
+    <td class="num">1,134 (6.2%)</td>
+    <td class="num warn">11</td>
+    <td class="num warn">4</td>
+    <td><span class="tag tag-yellow">부족</span></td>
+  </tr>
+  <tr>
+    <td>C: seq=5, majority</td>
+    <td class="num">18,162</td>
+    <td class="num">866 (4.8%)</td>
+    <td class="num warn">11</td>
+    <td class="num warn">4</td>
+    <td><span class="tag tag-yellow">부족</span></td>
+  </tr>
+  <tr>
+    <td>D: seq=10, stride=5</td>
+    <td class="num">3,614</td>
+    <td class="num">223 (6.2%)</td>
+    <td class="num bad">0</td>
+    <td class="num bad">0</td>
+    <td><span class="tag tag-red">실패</span></td>
+  </tr>
+  <tr>
+    <td>E: seq=3, mid</td>
+    <td class="num">18,226</td>
+    <td class="num">1,161 (6.4%)</td>
+    <td class="num">63</td>
+    <td class="num">31 (49%)</td>
+    <td><span class="tag tag-yellow">가능하나 소량</span></td>
+  </tr>
+</table>
+<p style="margin-top:0.8rem;"><strong>결론:</strong> 라벨링 방식이나 seq_len 변경만으로는 해결 불가. <strong>test 데이터 자체</strong>를 고쳐야 합니다.</p>
+</div>
+
+<h3>5-2. 수정된 test_lstm.csv에서의 결과</h3>
+
+<div class="alert alert-green">
+  <strong>해결:</strong> RML 파일에서 test 환자 12명의 전체 라벨을 복원하여
+  <code>test_lstm.csv</code> 생성 (6,334개 에포크, 갭 0개)
+</div>
+
+<div class="card">
+<table>
+  <tr>
+    <th>seq_len</th>
+    <th>Test 총 시퀀스</th>
+    <th>Test Wake</th>
+    <th>Test Sleep</th>
+    <th>개선율</th>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td class="num good">6,226</td>
+    <td class="num good">527 (8.5%)</td>
+    <td class="num">5,699</td>
+    <td class="good">0 → 6,226 (무한대)</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td class="num good">6,286</td>
+    <td class="num good">550 (8.7%)</td>
+    <td class="num">5,736</td>
+    <td class="good">11 → 6,286 (571x)</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td class="num good">6,310</td>
+    <td class="num good">560 (8.9%)</td>
+    <td class="num">5,750</td>
+    <td class="good">63 → 6,310 (100x)</td>
+  </tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="fixes">6. 수정 내용</h2>
+
+<h3>수정 1: <span class="file-badge">process_sleep_data.py</span> &mdash; LSTM 전용 test CSV 생성</h3>
+
+<div class="card">
+  <p><strong>문제:</strong> <code>balance_data()</code>가 test 에포크를 랜덤 샘플링하여 LSTM에 필요한 연속성을 파괴</p>
+  <p><strong>해결:</strong></p>
+  <ul style="margin:0.5rem 0; padding-left:1.5rem;">
+    <li><code>split_data()</code>에서 <code>test_d_full</code> (balance 전 원본)도 반환</li>
+    <li>모든 데이터셋 버전에 <code>test_lstm.csv</code> 추가 생성 (연속성 보존)</li>
+    <li>기존 <code>test.csv</code>는 그대로 유지 (CNN 호환성 보존)</li>
+  </ul>
+</div>
+
+<pre><code><span class="diff-ctx">  # split_data() 반환값 변경</span>
+<span class="diff-del">- return train_d, val_d, test_d</span>
+<span class="diff-add">+ return train_d, val_d, test_d, test_d_full</span>
+
+<span class="diff-ctx">  # main()에서 test_lstm.csv 생성</span>
+<span class="diff-add">+ write_csv(os.path.join(FULL_DIR, "test_lstm.csv"), test_d_full)</span>
+
+<span class="diff-ctx">  # create_2class_version()에 LSTM용 CSV 추가</span>
+<span class="diff-add">+ test_2class_full = convert_to_2class(test_data)</span>
+<span class="diff-add">+ write_csv(os.path.join(dst_dir, "test_lstm.csv"), test_2class_full)</span>
+
+<span class="diff-ctx">  # create_balanced_version()에도 동일 적용</span>
+<span class="diff-add">+ write_csv(os.path.join(ratio_dir, "test_lstm.csv"), test_data_full)</span></code></pre>
+
+<div class="alert alert-green">
+  <strong>즉시 적용:</strong> 기존 데이터의 RML 파일에서 test 환자 12명의 전체 라벨을 복원하여
+  4개 데이터셋 버전 모두에 <code>test_lstm.csv</code>를 생성 완료.
+</div>
+
+<h3>수정 2: <span class="file-badge">data_generator_lstm.py</span> &mdash; stride 파라미터 추가</h3>
+
+<div class="card">
+  <p><strong>문제:</strong> stride=1 하드코딩으로 89.8% 중복 → 과적합 유발</p>
+  <p><strong>해결:</strong> <code>stride</code> 파라미터를 생성자에 추가 (기본값=1, 기존 동작 유지)</p>
+</div>
+
+<pre><code><span class="diff-ctx">  class SleepSequenceDataset(torch.utils.data.Dataset):</span>
+<span class="diff-del">-     def __init__(self, csv_path, audio_dir, sample_rate=16000, seq_len=10):</span>
+<span class="diff-add">+     def __init__(self, csv_path, audio_dir, sample_rate=16000, seq_len=10, stride=1):</span>
+
+<span class="diff-ctx">        # 시퀀스 생성 (슬라이딩 윈도우)</span>
+<span class="diff-del">-           for start in range(n - seq_len + 1):</span>
+<span class="diff-add">+           for start in range(0, n - seq_len + 1, stride):</span></code></pre>
+
+<div class="card">
+  <strong>stride별 예상 효과 (train 기준)</strong>
+  <table>
+    <tr><th>stride</th><th>시퀀스 수</th><th>중복률</th><th>에폭당 학습 시간</th></tr>
+    <tr><td>1 (현재)</td><td class="num">18,002</td><td class="num bad">89.8%</td><td class="num">~52분</td></tr>
+    <tr><td>3</td><td class="num">6,014</td><td class="num warn">~66%</td><td class="num">~17분</td></tr>
+    <tr><td>5</td><td class="num">3,614</td><td class="num good">~50%</td><td class="num">~10분</td></tr>
+  </table>
+</div>
+
+<h3>수정 3: <span class="file-badge">main_lstm.py</span> &mdash; Early Stopping + stride + test_lstm.csv</h3>
+
+<div class="card">
+  <p><strong>문제 1:</strong> Early Stopping 없이 50 에폭 학습 → Epoch 11 이후 34시간 낭비</p>
+  <p><strong>문제 2:</strong> test 시 balance된 test.csv 사용 → Wake 시퀀스 0개</p>
+  <p><strong>해결:</strong></p>
+  <ul style="margin:0.5rem 0; padding-left:1.5rem;">
+    <li><code>--patience</code> 인자 추가 (기본값 10, 0=비활성)</li>
+    <li><code>--stride</code> 인자 추가 (기본값 1)</li>
+    <li>test 함수에서 <code>test_lstm.csv</code> 우선 사용 (없으면 test.csv fallback)</li>
+  </ul>
+</div>
+
+<pre><code><span class="diff-ctx">  # Early Stopping 로직</span>
+<span class="diff-add">+ no_improve_count = 0</span>
+
+<span class="diff-ctx">  # Best model 저장 부분</span>
+  if val_acc > best_val_acc:
+      best_val_acc = val_acc
+<span class="diff-add">+     no_improve_count = 0</span>
+      # ... 체크포인트 저장 ...
+<span class="diff-add">+ else:</span>
+<span class="diff-add">+     no_improve_count += 1</span>
+<span class="diff-add">+     if patience > 0 and no_improve_count >= patience:</span>
+<span class="diff-add">+         logging.info('Early stopping at epoch {}'.format(epoch + 1))</span>
+<span class="diff-add">+         break</span>
+
+<span class="diff-ctx">  # test 함수: LSTM용 test CSV 우선 사용</span>
+<span class="diff-add">+ test_csv = os.path.join(data_dir, 'test_lstm.csv')</span>
+<span class="diff-add">+ if not os.path.exists(test_csv):</span>
+<span class="diff-add">+     test_csv = os.path.join(data_dir, 'test.csv')</span></code></pre>
+
+<h3>수정 파일 요약</h3>
+
+<div class="card">
+<table>
+  <tr>
+    <th>파일</th>
+    <th>수정 내용</th>
+    <th>기존 기능 영향</th>
+  </tr>
+  <tr>
+    <td><code>process_sleep_data.py</code></td>
+    <td>test_lstm.csv 생성, split_data 반환값 확장</td>
+    <td class="good">기존 test.csv 유지, CNN 영향 없음</td>
+  </tr>
+  <tr>
+    <td><code>data_generator_lstm.py</code></td>
+    <td>stride 파라미터 추가 (기본값=1)</td>
+    <td class="good">기본값이 기존과 동일, 호환성 유지</td>
+  </tr>
+  <tr>
+    <td><code>main_lstm.py</code></td>
+    <td>Early Stopping, stride, test_lstm.csv 지원</td>
+    <td class="good">patience=0이면 기존 동작, fallback 구현</td>
+  </tr>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="after-fix">7. 수정 후 예상 효과</h2>
+
+<div class="grid-2">
+  <div class="card">
+    <h3 style="margin-top:0; color:var(--red);">수정 전</h3>
+    <table>
+      <tr><td>Test 시퀀스</td><td class="num bad">0개 (2class) / 100개 (3class)</td></tr>
+      <tr><td>Test Wake</td><td class="num bad">0개</td></tr>
+      <tr><td>Test Accuracy</td><td class="num bad">100% (가짜)</td></tr>
+      <tr><td>Train 중복률</td><td class="num bad">89.8%</td></tr>
+      <tr><td>학습 시간</td><td class="num bad">50 에폭 × 52분 = 43h</td></tr>
+      <tr><td>유효 학습</td><td class="num bad">11 에폭 (나머지 낭비)</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0; color:var(--green);">수정 후 (예상)</h3>
+    <table>
+      <tr><td>Test 시퀀스</td><td class="num good">6,226개</td></tr>
+      <tr><td>Test Wake</td><td class="num good">527개 (8.5%)</td></tr>
+      <tr><td>Test Accuracy</td><td class="num">정상 평가 가능</td></tr>
+      <tr><td>Train 중복률 (stride=3)</td><td class="num good">~66%</td></tr>
+      <tr><td>학습 시간 (stride=3, patience=10)</td><td class="num good">~20 에폭 × 17분 = 5.7h</td></tr>
+      <tr><td>유효 학습</td><td class="num good">전체 (Early Stopping)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="next-steps">8. 재학습 가이드</h2>
+
+<div class="card">
+  <h3 style="margin-top:0;">권장 학습 커맨드</h3>
+<pre><code># 2-Class LSTM 재학습 (stride=3, Early Stopping patience=10)
+python pytorch/main_lstm.py train \
+    --data_dir ../data/data_for_ai/full_ver_2class \
+    --workspace workspaces/lstm_full_ver_2class_v2 \
+    --cnn_checkpoint workspaces/full_ver_2class/checkpoints/best_model.pth \
+    --seq_len 10 \
+    --stride 3 \
+    --batch_size 4 \
+    --learning_rate 1e-4 \
+    --num_epochs 50 \
+    --patience 10 \
+    --loss_type weighted_ce \
+    --oversample \
+    --cuda \
+    --classes_num 2
+
+# 테스트 (자동으로 test_lstm.csv 사용)
+python pytorch/main_lstm.py test \
+    --data_dir ../data/data_for_ai/full_ver_2class \
+    --workspace workspaces/lstm_full_ver_2class_v2 \
+    --cuda \
+    --classes_num 2</code></pre>
+</div>
+
+<div class="alert alert-yellow">
+  <strong>주의사항:</strong>
+  <ul style="margin:0.5rem 0; padding-left:1.5rem;">
+    <li>새 workspace(<code>lstm_full_ver_2class_v2</code>)를 사용하여 기존 결과를 보존하세요</li>
+    <li>CNN 성능(Wake F1=0.74)을 기준선으로, LSTM이 이를 초과하는지 확인하세요</li>
+    <li>3-class 학습은 이전에 초기화 단계에서 중단되었으므로 재시도가 필요합니다</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">CNN 기준선 (비교 대상)</h3>
+  <table>
+    <tr>
+      <th>모델</th>
+      <th>데이터</th>
+      <th>Test Acc</th>
+      <th>Wake F1</th>
+      <th>Sleep F1</th>
+    </tr>
+    <tr>
+      <td>CNN (ResNet22)</td>
+      <td>full_ver_2class</td>
+      <td class="num">83.1%</td>
+      <td class="num">0.740</td>
+      <td class="num">0.875</td>
+    </tr>
+    <tr>
+      <td>CNN (ResNet22)</td>
+      <td>ratio_ver_2class</td>
+      <td class="num">81.9%</td>
+      <td class="num">0.665</td>
+      <td class="num">0.876</td>
+    </tr>
+    <tr>
+      <td>CNN (ResNet22)</td>
+      <td>full_ver_3class</td>
+      <td class="num">51.5%</td>
+      <td class="num">0.736</td>
+      <td class="num">REM 0.312 / NREM 0.480</td>
+    </tr>
+    <tr style="background:rgba(63,185,80,0.08);">
+      <td><strong>LSTM (목표)</strong></td>
+      <td>full_ver_2class</td>
+      <td class="num"><strong>&gt;83%</strong></td>
+      <td class="num"><strong>&gt;0.74</strong></td>
+      <td class="num"><strong>&gt;0.87</strong></td>
+    </tr>
+  </table>
+</div>
+
+<hr style="border-color:var(--border); margin:3rem 0;">
+<p style="text-align:center; color:var(--text-dim); font-size:0.85rem;">
+  Generated by Claude Code &nbsp;|&nbsp; 2026-04-14
+</p>
+
+</div>
+</body>
+</html>
