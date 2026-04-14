@@ -44,9 +44,11 @@ def train(args):
     workspace = args.workspace
     cnn_checkpoint = args.cnn_checkpoint
     seq_len = args.seq_len
+    stride = args.stride
     batch_size = args.batch_size
     learning_rate = args.learning_rate
     num_epochs = args.num_epochs
+    patience = args.patience
     loss_type = args.loss_type
     use_oversample = args.oversample
     device = torch.device('cuda') if args.cuda and torch.cuda.is_available() else torch.device('cpu')
@@ -82,12 +84,14 @@ def train(args):
     train_dataset = SleepSequenceDataset(
         csv_path=os.path.join(data_dir, 'train.csv'),
         audio_dir=data_dir,
-        seq_len=seq_len)
+        seq_len=seq_len,
+        stride=stride)
 
     val_dataset = SleepSequenceDataset(
         csv_path=os.path.join(data_dir, 'val.csv'),
         audio_dir=data_dir,
-        seq_len=seq_len)
+        seq_len=seq_len,
+        stride=stride)
 
     # ===== [개선] Oversampling: WeightedRandomSampler =====
     if use_oversample:
@@ -162,6 +166,7 @@ def train(args):
     # ===== 학습 기록 =====
     history = {'train_loss': [], 'train_acc': [], 'val_loss': [], 'val_acc': []}
     best_val_acc = 0.0
+    no_improve_count = 0
 
     # ===== 학습 루프 =====
     for epoch in range(num_epochs):
@@ -219,6 +224,7 @@ def train(args):
         # Best model 저장
         if val_acc > best_val_acc:
             best_val_acc = val_acc
+            no_improve_count = 0
             checkpoint = {
                 'epoch': epoch + 1,
                 'model': model.state_dict(),
@@ -230,6 +236,12 @@ def train(args):
             }
             torch.save(checkpoint, os.path.join(checkpoints_dir, 'best_model.pth'))
             logging.info('Best model saved! (Val Acc: {:.4f})'.format(val_acc))
+        else:
+            no_improve_count += 1
+            if patience > 0 and no_improve_count >= patience:
+                logging.info('Early stopping at epoch {} (no improvement for {} epochs)'.format(
+                    epoch + 1, patience))
+                break
 
         # 매 10 에폭 저장
         if (epoch + 1) % 10 == 0:
@@ -318,9 +330,13 @@ def test(args):
     model.to(device)
     model.eval()
 
-    # 데이터 로드
+    # 데이터 로드 (LSTM용 test CSV: 연속성 보존)
+    test_csv = os.path.join(data_dir, 'test_lstm.csv')
+    if not os.path.exists(test_csv):
+        test_csv = os.path.join(data_dir, 'test.csv')
+        logging.info('test_lstm.csv not found, falling back to test.csv')
     test_dataset = SleepSequenceDataset(
-        csv_path=os.path.join(data_dir, 'test.csv'),
+        csv_path=test_csv,
         audio_dir=data_dir,
         seq_len=saved_seq_len)
 
@@ -539,12 +555,16 @@ if __name__ == '__main__':
         help='기존 CNN best_model.pth 경로')
     parser_train.add_argument('--seq_len', type=int, default=10,
         help='연속 에포크 수 (기본 10 = 5분)')
+    parser_train.add_argument('--stride', type=int, default=1,
+        help='슬라이딩 윈도우 stride (기본 1, 중복 감소시 3~5 권장)')
     parser_train.add_argument('--lstm_hidden', type=int, default=256)
     parser_train.add_argument('--lstm_layers', type=int, default=2)
     parser_train.add_argument('--lstm_dropout', type=float, default=0.3)
     parser_train.add_argument('--batch_size', type=int, default=4)
     parser_train.add_argument('--learning_rate', type=float, default=1e-4)
     parser_train.add_argument('--num_epochs', type=int, default=50)
+    parser_train.add_argument('--patience', type=int, default=10,
+        help='Early stopping patience (0=비활성, 기본 10)')
     parser_train.add_argument('--loss_type', type=str, default='weighted_ce',
         choices=['clip_ce', 'weighted_ce', 'focal'],
         help='손실 함수: clip_ce(가중치 없음), weighted_ce(역빈도 가중치), focal(Focal Loss)')

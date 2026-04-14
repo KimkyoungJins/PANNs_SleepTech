@@ -18,11 +18,12 @@ LABEL_MAP_2CLASS = {0: 0, 1: 1, 2: 1}
 
 
 class SleepSequenceDataset(torch.utils.data.Dataset):
-    def __init__(self, csv_path, audio_dir, sample_rate=16000, seq_len=10):
+    def __init__(self, csv_path, audio_dir, sample_rate=16000, seq_len=10, stride=1):
         self.audio_dir = audio_dir
         self.sample_rate = sample_rate
         self.clip_samples = sample_rate * 30
         self.seq_len = seq_len
+        self.stride = stride
 
         # CSV 읽기
         filenames = []
@@ -58,7 +59,7 @@ class SleepSequenceDataset(torch.utils.data.Dataset):
             if n < seq_len:
                 continue  # 에포크가 seq_len보다 적은 환자는 건너뜀
 
-            for start in range(n - seq_len + 1):
+            for start in range(0, n - seq_len + 1, stride):
                 seq_epochs = epochs[start:start + seq_len]
 
                 # 연속성 확인 (에포크 번호가 순차적인지)
@@ -76,8 +77,8 @@ class SleepSequenceDataset(torch.utils.data.Dataset):
                 self.sequences.append((seq_filenames, mid_label))
 
         self.data_num = len(self.sequences)
-        logging.info('Sequence Dataset: {} sequences (seq_len={}) from {}'.format(
-            self.data_num, seq_len, csv_path))
+        logging.info('Sequence Dataset: {} sequences (seq_len={}, stride={}) from {}'.format(
+            self.data_num, seq_len, stride, csv_path))
 
         # 라벨 분포 출력
         all_labels = [s[1] for s in self.sequences]
