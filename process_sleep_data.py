@@ -24,7 +24,7 @@ import xml.etree.ElementTree as ET
 import pyedflib
 import soundfile as sf
 import noisereduce as nr
-from scipy.signal import resample_poly
+from scipy.signal import resample_poly, butter, filtfilt
 from math import gcd
 from collections import Counter, defaultdict
 import random
@@ -43,6 +43,13 @@ MANIFEST_PATH = os.path.join(BASE_DIR, "processed.json")
 EPOCH_SEC = 30
 TARGET_SR = 16000
 SOURCE_SR = 48000
+
+# EOG 설정
+EOG_TARGET_SR = 100              # 100Hz로 다운샘플 (200Hz 원본)
+EOG_LOC_NAME = "EOG LOC-A2"      # 왼쪽 눈 EOG 채널 이름
+EOG_ROC_NAME = "EOG ROC-A2"      # 오른쪽 눈 EOG 채널 이름
+EOG_LOWCUT = 0.05                # 밴드패스 필터 하한 (DC 드리프트 제거)
+EOG_HIGHCUT = 30.0               # 밴드패스 필터 상한 (고주파 노이즈 제거)
 
 NS = "{http://www.respironics.com/PatientStudy.xsd}"
 
@@ -208,13 +215,54 @@ def normalize_audio(data):
 
 
 # ──────────────────────────────────────────────
+# EOG 처리 (신규 추가)
+# ──────────────────────────────────────────────
+def find_channel_by_name(reader, name):
+    """EDF에서 이름으로 채널 인덱스 찾기"""
+    labels = reader.getSignalLabels()
+    for i, label in enumerate(labels):
+        if label.strip() == name:
+            return i
+    return None
+
+
+def bandpass_filter_eog(data, fs, low=EOG_LOWCUT, high=EOG_HIGHCUT, order=4):
+    """EOG 밴드패스 필터 (0.05~30Hz).
+    - 0.05Hz 이하: DC 드리프트 제거 (전극 이동, 땀)
+    - 30Hz 이상: 고주파 노이즈 제거 (근전도, 전기 간섭)
+    data: [C, N] 또는 [N]
+    """
+    nyquist = fs / 2
+    b, a = butter(order, [low / nyquist, high / nyquist], btype='band')
+    if data.ndim == 1:
+        return filtfilt(b, a, data)
+    filtered = np.zeros_like(data)
+    for ch in range(data.shape[0]):
+        filtered[ch] = filtfilt(b, a, data[ch])
+    return filtered
+
+
+def normalize_eog(data):
+    """EOG Z-score 정규화 (채널별, 파일 전체 기준).
+    환자/녹음 간 EOG 진폭 차이를 제거.
+    data: [C, N]
+    """
+    mean = data.mean(axis=1, keepdims=True)
+    std = data.std(axis=1, keepdims=True) + 1e-6
+    return (data - mean) / std
+
+
+# ──────────────────────────────────────────────
 # 환자 1명 처리
 # ──────────────────────────────────────────────
 def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
     """
-    EDF Mic 추출 → 노이즈 제거 → 30초 WAV + 라벨.
+    EDF Mic + EOG 추출 → 노이즈 제거/필터링 → 30초 에포크 저장.
+    - Mic: 48kHz → 16kHz, noisereduce, .wav 저장
+    - EOG: 200Hz → 100Hz, bandpass 0.05~30Hz, z-score, .npy 저장 (2채널)
+
     메모리 절약을 위해 EDF 파일 단위(~1시간)로 나누어 처리.
-    WAV는 output_dir/patient{NN}/ 에 직접 저장.
+    EOG 채널이 없는 EDF는 Mic만 저장 (기존 동작 유지).
     반환: [(filename, label), ...]
     """
     patient_name = f"patient{patient_num:02d}"
@@ -231,6 +279,7 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
     # 전체 녹음 길이 먼저 계산 (메모리 로드 없이)
     edf_infos = []
     total_sec = 0
+    eog_available_any = False
     for edf_path in edf_paths:
         try:
             reader = pyedflib.EdfReader(edf_path)
@@ -242,9 +291,27 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
             print(f"  [SKIP] {os.path.basename(edf_path)}: Mic 채널 없음")
             reader.close()
             continue
-        sr = reader.getSampleFrequency(mic_idx)
+
+        mic_sr = reader.getSampleFrequency(mic_idx)
         dur = reader.file_duration
-        edf_infos.append((edf_path, mic_idx, sr, dur))
+
+        # EOG 채널 탐색 (선택적, 없어도 마이크는 처리)
+        eog_loc_idx = find_channel_by_name(reader, EOG_LOC_NAME)
+        eog_roc_idx = find_channel_by_name(reader, EOG_ROC_NAME)
+        eog_sr = None
+        if eog_loc_idx is not None and eog_roc_idx is not None:
+            eog_sr = reader.getSampleFrequency(eog_loc_idx)
+            eog_available_any = True
+
+        edf_infos.append({
+            'path': edf_path,
+            'mic_idx': mic_idx,
+            'mic_sr': mic_sr,
+            'eog_loc_idx': eog_loc_idx,
+            'eog_roc_idx': eog_roc_idx,
+            'eog_sr': eog_sr,
+            'dur': dur,
+        })
         total_sec += dur
         reader.close()
 
@@ -252,8 +319,9 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
         print("  [SKIP] 오디오 없음")
         return []
 
-    src_sr = edf_infos[0][2]
-    print(f"  녹음: {total_sec:.0f}초 ({total_sec/3600:.1f}h), SR: {int(src_sr)}Hz")
+    src_sr = edf_infos[0]['mic_sr']
+    eog_status = "EOG 있음" if eog_available_any else "EOG 없음 (Mic만 저장)"
+    print(f"  녹음: {total_sec:.0f}초 ({total_sec/3600:.1f}h), Mic SR: {int(src_sr)}Hz, {eog_status}")
 
     # 전체 에포크 라벨 생성
     epoch_labels = stages_to_epoch_labels(stages, int(total_sec))
@@ -264,25 +332,61 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
 
     # EDF 파일 단위로 처리 (메모리 절약: ~1시간분만 메모리에)
     results = []
-    samples_per_epoch = TARGET_SR * EPOCH_SEC  # 480,000
+    mic_samples_per_epoch = TARGET_SR * EPOCH_SEC       # 480,000
+    eog_samples_per_epoch = EOG_TARGET_SR * EPOCH_SEC   # 3,000
     elapsed_sec = 0
 
-    for edf_path, mic_idx, sr, dur in edf_infos:
+    for info in edf_infos:
+        edf_path = info['path']
+        mic_idx = info['mic_idx']
+        mic_sr = info['mic_sr']
+        eog_loc_idx = info['eog_loc_idx']
+        eog_roc_idx = info['eog_roc_idx']
+        eog_sr = info['eog_sr']
+        dur = info['dur']
+
         edf_start_epoch = elapsed_sec // EPOCH_SEC
         edf_end_epoch = (elapsed_sec + int(dur)) // EPOCH_SEC
 
         # EDF 1개 읽기 + 리샘플링
         try:
             reader = pyedflib.EdfReader(edf_path)
-            raw = reader.readSignal(mic_idx)
+            raw_mic = reader.readSignal(mic_idx)
+
+            # EOG 읽기 (있으면)
+            raw_eog = None
+            if eog_loc_idx is not None and eog_roc_idx is not None:
+                raw_loc = reader.readSignal(eog_loc_idx)
+                raw_roc = reader.readSignal(eog_roc_idx)
+                raw_eog = np.stack([raw_loc, raw_roc], axis=0)  # [2, N]
+                del raw_loc, raw_roc
+
             reader.close()
         except OSError as e:
             print(f"  [SKIP] {os.path.basename(edf_path)}: 읽기 실패 ({e})")
             elapsed_sec += int(dur)
             continue
 
-        audio_16k = resample_audio(raw, src_sr, TARGET_SR).astype(np.float32)
-        del raw
+        # Mic 리샘플
+        audio_16k = resample_audio(raw_mic, mic_sr, TARGET_SR).astype(np.float32)
+        del raw_mic
+
+        # EOG 처리 (리샘플 → 필터 → 정규화)
+        eog_processed = None
+        if raw_eog is not None:
+            eog_resampled = np.stack([
+                resample_audio(raw_eog[0], eog_sr, EOG_TARGET_SR),
+                resample_audio(raw_eog[1], eog_sr, EOG_TARGET_SR),
+            ], axis=0).astype(np.float32)
+            del raw_eog
+
+            # 밴드패스 필터 (0.05~30Hz)
+            eog_filtered = bandpass_filter_eog(eog_resampled, EOG_TARGET_SR)
+            del eog_resampled
+
+            # Z-score 정규화 (파일 단위)
+            eog_processed = normalize_eog(eog_filtered).astype(np.float32)
+            del eog_filtered
 
         # 이 EDF 내 에포크 처리
         for i in range(int(edf_start_epoch), min(int(edf_end_epoch), len(epoch_labels))):
@@ -290,24 +394,39 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
             if label is None:
                 continue
 
+            # === Mic 에포크 저장 ===
             local_start_sec = i * EPOCH_SEC - elapsed_sec
-            local_start_sample = int(local_start_sec * TARGET_SR)
-            local_end_sample = local_start_sample + samples_per_epoch
+            mic_start = int(local_start_sec * TARGET_SR)
+            mic_end = mic_start + mic_samples_per_epoch
 
-            if local_start_sample < 0 or local_end_sample > len(audio_16k):
+            if mic_start < 0 or mic_end > len(audio_16k):
                 continue
 
-            chunk = audio_16k[local_start_sample:local_end_sample]
+            mic_chunk = audio_16k[mic_start:mic_end]
+            mic_chunk = denoise_epoch(mic_chunk, TARGET_SR)
+            mic_chunk = normalize_audio(mic_chunk.astype(np.float32))
 
-            # 정적 배경 소음 제거
-            chunk = denoise_epoch(chunk, TARGET_SR)
+            base_name = f"{patient_name}_epoch{i+1:04d}"
+            wav_filename = f"{base_name}.wav"
+            sf.write(os.path.join(patient_dir, wav_filename), mic_chunk, TARGET_SR)
 
-            chunk = normalize_audio(chunk.astype(np.float32))
-            filename = f"{patient_name}_epoch{i+1:04d}.wav"
-            sf.write(os.path.join(patient_dir, filename), chunk, TARGET_SR)
-            results.append((filename, label))
+            # === EOG 에포크 저장 (있을 때만) ===
+            if eog_processed is not None:
+                eog_start = int(local_start_sec * EOG_TARGET_SR)
+                eog_end = eog_start + eog_samples_per_epoch
+
+                if eog_start >= 0 and eog_end <= eog_processed.shape[1]:
+                    eog_chunk = eog_processed[:, eog_start:eog_end]  # [2, 3000]
+                    np.save(
+                        os.path.join(patient_dir, f"{base_name}_eog.npy"),
+                        eog_chunk
+                    )
+
+            results.append((wav_filename, label))
 
         del audio_16k
+        if eog_processed is not None:
+            del eog_processed
         elapsed_sec += int(dur)
 
     counter = Counter(r[1] for r in results)
@@ -509,15 +628,24 @@ def create_balanced_version(train_data, val_data, test_data, test_data_full, ful
 
         balanced.sort(key=lambda x: x[0])
 
-        # WAV 복사 (환자별 폴더 유지)
+        # WAV + EOG .npy 복사 (환자별 폴더 유지)
         for filename, label in balanced:
             patient_folder = filename.split("_")[0]
-            src = os.path.join(full_dir, patient_folder, filename)
             dst_dir = os.path.join(ratio_dir, patient_folder)
             os.makedirs(dst_dir, exist_ok=True)
+
+            # 1) .wav 복사
+            src = os.path.join(full_dir, patient_folder, filename)
             dst = os.path.join(dst_dir, filename)
             if os.path.exists(src) and not os.path.exists(dst):
                 shutil.copy2(src, dst)
+
+            # 2) _eog.npy 복사 (있으면)
+            eog_name = filename.replace(".wav", "_eog.npy")
+            eog_src = os.path.join(full_dir, patient_folder, eog_name)
+            eog_dst = os.path.join(dst_dir, eog_name)
+            if os.path.exists(eog_src) and not os.path.exists(eog_dst):
+                shutil.copy2(eog_src, eog_dst)
 
         write_csv(os.path.join(ratio_dir, f"{split_name}.csv"), balanced)
 
