@@ -158,7 +158,7 @@ def parse_rml_stages(rml_path):
             start = s.get("Start")
             if stype and start is not None:
                 label = STAGE_MAP.get(stype)
-                if label:
+                if label is not None:
                     stages.append((int(start), label))
     stages.sort(key=lambda x: x[0])
     return stages
@@ -272,9 +272,14 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
         edf_end_epoch = (elapsed_sec + int(dur)) // EPOCH_SEC
 
         # EDF 1개 읽기 + 리샘플링
-        reader = pyedflib.EdfReader(edf_path)
-        raw = reader.readSignal(mic_idx)
-        reader.close()
+        try:
+            reader = pyedflib.EdfReader(edf_path)
+            raw = reader.readSignal(mic_idx)
+            reader.close()
+        except OSError as e:
+            print(f"  [SKIP] {os.path.basename(edf_path)}: 읽기 실패 ({e})")
+            elapsed_sec += int(dur)
+            continue
 
         audio_16k = resample_audio(raw, src_sr, TARGET_SR).astype(np.float32)
         del raw
@@ -409,7 +414,7 @@ def split_data(all_results):
     train_d, val_d = collect(train_p), collect(val_p)
     test_d_full = collect(test_p)
 
-    # test는 항상 클래스 균형 맞춤
+    # test는 CNN용은 클래스 균형, LSTM용은 원본 유지
     test_d = balance_data(test_d_full)
 
     print(f"\n  분할 (환자 단위):")
@@ -421,7 +426,7 @@ def split_data(all_results):
     print(f"    test.csv (원본): {len(test_d_full)}개 {label_count_str(test_d_full)}")
     print(f"    test.csv (균형): {len(test_d)}개 {label_count_str(test_d)}")
 
-    return train_d, val_d, test_d
+    return train_d, val_d, test_d, test_d_full
 
 
 # ──────────────────────────────────────────────
@@ -455,22 +460,32 @@ def create_2class_version(train_data, val_data, test_data, src_dir, dst_dir):
         data_2class = convert_to_2class(split_data)
 
         # test는 2-Class 기준으로 균형 맞춤 (wake:sleep = 1:1)
+        # CNN용 (개별 에포크 평가)
         if split_name == "test":
-            data_2class = balance_data(data_2class)
+            data_2class_balanced = balance_data(data_2class)
+        else:
+            data_2class_balanced = data_2class
 
-        write_csv(os.path.join(dst_dir, f"{split_name}.csv"), data_2class)
+        write_csv(os.path.join(dst_dir, f"{split_name}.csv"), data_2class_balanced)
 
-        counts = {LABEL_NAMES_2CLASS.get(k, k): v for k, v in sorted(Counter(r[1] for r in data_2class).items())}
-        print(f"  {split_name}.csv: {len(data_2class)}개 {counts}")
+        counts = {LABEL_NAMES_2CLASS.get(k, k): v for k, v in sorted(Counter(r[1] for r in data_2class_balanced).items())}
+        print(f"  {split_name}.csv: {len(data_2class_balanced)}개 {counts}")
+
+    # LSTM용 test CSV: 연속성 보존 (balance_data 미적용)
+    test_2class_full = convert_to_2class(test_data)
+    write_csv(os.path.join(dst_dir, "test_lstm.csv"), test_2class_full)
+    counts_lstm = {LABEL_NAMES_2CLASS.get(k, k): v for k, v in sorted(Counter(r[1] for r in test_2class_full).items())}
+    print(f"  test_lstm.csv: {len(test_2class_full)}개 {counts_lstm} (LSTM용, 연속성 보존)")
 
 
 # ──────────────────────────────────────────────
 # 클래스 밸런싱 (3-Class)
 # ──────────────────────────────────────────────
-def create_balanced_version(train_data, val_data, test_data, full_dir, ratio_dir):
+def create_balanced_version(train_data, val_data, test_data, test_data_full, full_dir, ratio_dir):
     """
     각 split에서 rem/nrem/wake 비율을 최소 클래스에 맞춰 동일하게 만든다.
     선택된 WAV를 ratio_ver/ 에 환자별 폴더로 복사.
+    test_data_full: LSTM용 (연속성 보존, balance_data 미적용)
     """
     print(f"\n{'='*60}")
     print("클래스 밸런싱 → ratio_ver/")
@@ -505,6 +520,11 @@ def create_balanced_version(train_data, val_data, test_data, full_dir, ratio_dir
                 shutil.copy2(src, dst)
 
         write_csv(os.path.join(ratio_dir, f"{split_name}.csv"), balanced)
+
+    # LSTM용 test CSV: 연속성 보존 (balance_data 미적용)
+    write_csv(os.path.join(ratio_dir, "test_lstm.csv"), test_data_full)
+    named_lstm = {LABEL_NAMES.get(k, k): v for k, v in sorted(Counter(r[1] for r in test_data_full).items())}
+    print(f"\n  test_lstm.csv: {len(test_data_full)}개 {named_lstm} (LSTM용, 연속성 보존)")
 
 
 # ──────────────────────────────────────────────
@@ -588,21 +608,24 @@ def main():
     # CSV 생성 (현재 로컬에 있는 데이터만)
     print(f"\n{'='*60}")
     print("full_ver CSV 생성 (신규 데이터)")
-    train_d, val_d, test_d = split_data(new_results)
+    train_d, val_d, test_d, test_d_full = split_data(new_results)
     write_csv(os.path.join(FULL_DIR, "train.csv"), train_d)
     write_csv(os.path.join(FULL_DIR, "val.csv"), val_d)
     write_csv(os.path.join(FULL_DIR, "test.csv"), test_d)
+    # LSTM용 test CSV: 연속성 보존 (balance_data 미적용)
+    write_csv(os.path.join(FULL_DIR, "test_lstm.csv"), test_d_full)
+    print(f"  test_lstm.csv: {len(test_d_full)}개 {label_count_str(test_d_full)} (LSTM용, 연속성 보존)")
 
     # ratio_ver (3-Class 균형)
     if os.path.exists(RATIO_DIR):
         shutil.rmtree(RATIO_DIR)
     os.makedirs(RATIO_DIR, exist_ok=True)
-    create_balanced_version(train_d, val_d, test_d, FULL_DIR, RATIO_DIR)
+    create_balanced_version(train_d, val_d, test_d, test_d_full, FULL_DIR, RATIO_DIR)
 
     # full_ver_2class (2-Class, test 균형)
     if os.path.exists(FULL_2CLASS_DIR):
         shutil.rmtree(FULL_2CLASS_DIR)
-    create_2class_version(train_d, val_d, test_d, FULL_DIR, FULL_2CLASS_DIR)
+    create_2class_version(train_d, val_d, test_d_full, FULL_DIR, FULL_2CLASS_DIR)
 
     # ratio_ver_2class (2-Class 균형)
     if os.path.exists(RATIO_2CLASS_DIR):
