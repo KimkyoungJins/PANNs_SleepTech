@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
 """
 수면 데이터 전처리 스크립트
-- new_data/에서 EDF(Mic 채널) + RML(UserStaging) 파싱
-- noisereduce로 정적 배경 소음 제거 (호흡/코골이 보존)
-- 30초 에포크 단위 WAV(16kHz mono) 추출
-- sleep stage 라벨링 (wake, nrem, rem)
+- new_data/{환자ID}/ (organize_new_data.py로 정리된 구조) 에서
+  EDF(Mic + EOG 채널) + RML(UserStaging) 파싱
+- Mic: noisereduce로 정적 배경 소음 제거 (호흡/코골이 보존)
+       → 30초 에포크 WAV (16kHz mono) 저장
+- EOG: bandpass(0.05~30Hz) + z-score 정규화
+       → 30초 에포크 .npy (2채널, 100Hz) 저장
+- sleep stage 라벨링 (wake=0, rem=1, nrem=2)
 - full_ver: 전체 데이터 (환자별 폴더)
 - ratio_ver: 클래스 밸런싱 데이터 (환자별 폴더)
-- data_for_saving: 원본 파일 환자별 정리
 
 [증분 처리]
 - processed.json에 처리 이력(환자ID → 번호) 기록
 - 이미 처리된 환자는 건너뜀
 - 서버 전송 후 로컬 삭제해도 번호가 이어짐
+
+[원본 파일 백업]
+- 이 스크립트는 원본을 복사하지 않음
+- 원본은 organize_new_data.py로 정리된 new_data/{환자ID}/ 폴더가
+  그대로 백업 역할 (data_for_saving 불필요)
 """
 
 import os
@@ -37,7 +44,6 @@ FULL_DIR = os.path.join(OUTPUT_BASE, "full_ver")
 FULL_2CLASS_DIR = os.path.join(OUTPUT_BASE, "full_ver_2class")
 RATIO_DIR = os.path.join(OUTPUT_BASE, "ratio_ver")
 RATIO_2CLASS_DIR = os.path.join(OUTPUT_BASE, "ratio_ver_2class")
-SAVING_DIR = os.path.join(BASE_DIR, "data_for_saving")
 MANIFEST_PATH = os.path.join(BASE_DIR, "processed.json")
 
 EPOCH_SEC = 30
@@ -394,7 +400,7 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
             if label is None:
                 continue
 
-            # === Mic 에포크 저장 ===
+            # === Mic 에포크 경계 계산 ===
             local_start_sec = i * EPOCH_SEC - elapsed_sec
             mic_start = int(local_start_sec * TARGET_SR)
             mic_end = mic_start + mic_samples_per_epoch
@@ -402,25 +408,57 @@ def process_patient(pid, rml_path, edf_paths, patient_num, output_dir):
             if mic_start < 0 or mic_end > len(audio_16k):
                 continue
 
-            mic_chunk = audio_16k[mic_start:mic_end]
-            mic_chunk = denoise_epoch(mic_chunk, TARGET_SR)
-            mic_chunk = normalize_audio(mic_chunk.astype(np.float32))
-
-            base_name = f"{patient_name}_epoch{i+1:04d}"
-            wav_filename = f"{base_name}.wav"
-            sf.write(os.path.join(patient_dir, wav_filename), mic_chunk, TARGET_SR)
-
-            # === EOG 에포크 저장 (있을 때만) ===
+            # === EOG 에포크 경계 계산 (있을 때) ===
+            eog_chunk = None
             if eog_processed is not None:
                 eog_start = int(local_start_sec * EOG_TARGET_SR)
                 eog_end = eog_start + eog_samples_per_epoch
 
-                if eog_start >= 0 and eog_end <= eog_processed.shape[1]:
-                    eog_chunk = eog_processed[:, eog_start:eog_end]  # [2, 3000]
-                    np.save(
-                        os.path.join(patient_dir, f"{base_name}_eog.npy"),
-                        eog_chunk
-                    )
+                if eog_start < 0 or eog_end > eog_processed.shape[1]:
+                    # EOG 경계 벗어나면 이 에포크 스킵 (쌍 일관성)
+                    continue
+
+                eog_chunk = eog_processed[:, eog_start:eog_end]  # [2, 3000]
+
+                # EOG 유효성 검증 (NaN, Inf, shape)
+                if (eog_chunk.shape != (2, eog_samples_per_epoch) or
+                    not np.all(np.isfinite(eog_chunk))):
+                    continue
+
+            # === 원자적 저장 (wav + eog 쌍) ===
+            base_name = f"{patient_name}_epoch{i+1:04d}"
+            wav_filename = f"{base_name}.wav"
+            wav_path = os.path.join(patient_dir, wav_filename)
+            eog_path = os.path.join(patient_dir, f"{base_name}_eog.npy")
+
+            # 재처리 시 이미 쌍이 완성된 에포크는 건너뜀 (resume 안전)
+            wav_exists = os.path.exists(wav_path)
+            eog_exists = (eog_chunk is None) or os.path.exists(eog_path)
+            if wav_exists and eog_exists:
+                results.append((wav_filename, label))
+                continue
+
+            try:
+                # Mic 전처리
+                mic_chunk = audio_16k[mic_start:mic_end]
+                mic_chunk = denoise_epoch(mic_chunk, TARGET_SR)
+                mic_chunk = normalize_audio(mic_chunk.astype(np.float32))
+
+                # 둘 다 저장 (실패 시 둘 다 롤백)
+                sf.write(wav_path, mic_chunk, TARGET_SR)
+                if eog_chunk is not None:
+                    np.save(eog_path, eog_chunk)
+
+            except Exception as e:
+                print(f"  [ERROR] epoch{i+1:04d} 저장 실패: {e}")
+                # 둘 다 삭제 (쌍 일관성 유지)
+                for p in (wav_path, eog_path):
+                    if os.path.exists(p):
+                        try:
+                            os.remove(p)
+                        except OSError:
+                            pass
+                continue
 
             results.append((wav_filename, label))
 
@@ -470,59 +508,63 @@ def balance_data(data):
     return balanced
 
 
+def assign_split_for_patient(pnum, has_wake):
+    """환자 번호 기반 결정론적 split 할당.
+
+    같은 환자 번호는 항상 같은 split으로 배정되므로
+    데이터 추가 시에도 기존 분할이 유지됨 (Data Leakage 방지).
+
+    wake 환자와 non-wake 환자를 별도로 균등 배분:
+      - train: 60% (pnum % 10 ∈ {0,1,2,3,4,5})
+      - val:   20% (pnum % 10 ∈ {6,7})
+      - test:  20% (pnum % 10 ∈ {8,9})
+    """
+    m = pnum % 10
+    if m <= 5:
+        return "train"
+    elif m <= 7:
+        return "val"
+    else:
+        return "test"
+
+
 def split_data(all_results):
     """
-    환자 단위 6:2:2 분할.
-    wake가 있는 환자를 각 split에 골고루 배분.
+    환자 단위 6:2:2 분할 (결정론적).
+    환자 번호 기반 split 할당으로 데이터 추가 시에도 안정적.
     test는 항상 클래스 균형 맞춤.
-    반환: (train_data, val_data, test_data)
+    반환: (train_data, val_data, test_data, test_data_full)
     """
     by_patient = defaultdict(list)
     for filename, label in all_results:
         pnum = int(filename.split("_")[0].replace("patient", ""))
         by_patient[pnum].append((filename, label))
 
-    # wake(0)가 있는 환자와 없는 환자 분리
-    wake_patients = []
-    non_wake_patients = []
+    # 결정론적 분할 (환자 번호 기반)
+    train_p = []
+    val_p = []
+    test_p = []
+
     for pnum in sorted(by_patient.keys()):
         labels = set(lb for _, lb in by_patient[pnum])
-        if 0 in labels:  # wake=0
-            wake_patients.append(pnum)
+        has_wake = 0 in labels
+
+        split = assign_split_for_patient(pnum, has_wake)
+        if split == "train":
+            train_p.append(pnum)
+        elif split == "val":
+            val_p.append(pnum)
         else:
-            non_wake_patients.append(pnum)
+            test_p.append(pnum)
 
-    # 각 그룹을 셔플
-    random.shuffle(wake_patients)
-    random.shuffle(non_wake_patients)
+    train_p.sort()
+    val_p.sort()
+    test_p.sort()
 
-    # wake 환자를 6:2:2로 나누기
-    n_wake = len(wake_patients)
-    n_wake_train = max(1, int(n_wake * 0.6))
-    n_wake_val = max(1, int(n_wake * 0.2))
-
-    wake_train = wake_patients[:n_wake_train]
-    wake_val = wake_patients[n_wake_train:n_wake_train + n_wake_val]
-    wake_test = wake_patients[n_wake_train + n_wake_val:]
-    if not wake_test and wake_val:
-        wake_test = [wake_val.pop()]
-
-    # non-wake 환자를 6:2:2로 나누기
-    n_nw = len(non_wake_patients)
-    n_nw_train = max(1, int(n_nw * 0.6)) if n_nw > 0 else 0
-    n_nw_val = max(1, int(n_nw * 0.2)) if n_nw > 0 else 0
-
-    nw_train = non_wake_patients[:n_nw_train]
-    nw_val = non_wake_patients[n_nw_train:n_nw_train + n_nw_val]
-    nw_test = non_wake_patients[n_nw_train + n_nw_val:]
-
-    # 합치기
-    train_p = sorted(wake_train + nw_train)
-    val_p = sorted(wake_val + nw_val)
-    test_p = sorted(wake_test + nw_test)
-
-    print(f"\n  wake 환자 {len(wake_patients)}명: train {len(wake_train)}, val {len(wake_val)}, test {len(wake_test)}")
-    print(f"  non-wake 환자 {len(non_wake_patients)}명: train {len(nw_train)}, val {len(nw_val)}, test {len(nw_test)}")
+    print(f"\n  총 {len(by_patient)}명 환자 결정론적 분할:")
+    print(f"    train: {len(train_p)}명 (60%)")
+    print(f"    val:   {len(val_p)}명 (20%)")
+    print(f"    test:  {len(test_p)}명 (20%)")
 
     def collect(pnums):
         out = []
@@ -698,45 +740,74 @@ def main():
     next_num = last_num + 1
     print(f"\n번호 시작: patient{next_num:02d}")
 
-    # 원본 백업 (신규만)
-    print(f"\n{'='*60}")
-    print("원본 파일 정리 → data_for_saving/")
-    for i, (pid, rml, edfs) in enumerate(new_patients):
-        num = next_num + i
-        dest = os.path.join(SAVING_DIR, f"patient{num:02d}_{pid}")
-        os.makedirs(dest, exist_ok=True)
-        shutil.copy2(rml, dest)
-        for e in edfs:
-            shutil.copy2(e, dest)
-        print(f"  patient{num:02d}: 1 RML + {len(edfs)} EDF → {os.path.basename(dest)}/")
-
     # full_ver: 신규 환자만 처리
     os.makedirs(FULL_DIR, exist_ok=True)
     new_results = []
     for i, (pid, rml, edfs) in enumerate(new_patients):
         num = next_num + i
-        results = process_patient(pid, rml, edfs, num, FULL_DIR)
-        new_results.extend(results)
-        # 매니페스트에 추가
-        processed[pid] = num
+        try:
+            results = process_patient(pid, rml, edfs, num, FULL_DIR)
+        except KeyboardInterrupt:
+            print(f"\n[사용자 중단] patient{num:02d} ({pid}) 처리 중 멈춤")
+            print("이미 처리 완료된 환자는 매니페스트에 저장되었습니다.")
+            print("재실행 시 처리된 환자부터 이어서 진행합니다.")
+            break
+        except Exception as e:
+            print(f"\n[ERROR] patient{num:02d} ({pid}) 처리 실패: {e}")
+            print("  → 해당 환자 건너뜀, 매니페스트에 등록 안 함")
+            print("  → 원인 해결 후 재실행하면 이 환자부터 다시 시도")
+            continue
 
-    # 매니페스트 저장 (처리 직후 즉시 저장)
-    manifest["last_num"] = next_num + len(new_patients) - 1
-    manifest["patients"] = processed
-    save_manifest(manifest)
+        if results:
+            new_results.extend(results)
+            # 매니페스트에 즉시 추가 + 저장 (환자 단위 원자성)
+            processed[pid] = num
+            manifest["last_num"] = num
+            manifest["patients"] = processed
+            save_manifest(manifest)
+        else:
+            print(f"  [SKIP] patient{num:02d} ({pid}): 유효한 에포크 없음")
 
     print(f"\n{'='*60}")
     named = {LABEL_NAMES.get(k, k): v for k, v in sorted(Counter(r[1] for r in new_results).items())}
     print(f"신규 처리: {len(new_results)}개 {named}")
 
-    if not new_results:
+    # CSV는 전체 환자 기반으로 재생성 (기존 + 신규)
+    # 기존 CSV에서 read → 신규와 합침 → 재분할
+    all_results = list(new_results)
+    for split_name in ("train", "val", "test", "test_lstm"):
+        csv_path = os.path.join(FULL_DIR, f"{split_name}.csv")
+        if not os.path.exists(csv_path):
+            continue
+        with open(csv_path, "r") as f:
+            reader = csv.reader(f)
+            next(reader)
+            for row in reader:
+                fn, lb = row[0], int(row[1])
+                # test.csv는 균형 맞춤이라 원본의 일부만 들어있으므로
+                # test_lstm.csv로 복원 (전체 데이터)
+                if split_name in ("train", "val", "test_lstm"):
+                    all_results.append((fn, lb))
+
+    # 중복 제거 (파일명 기준)
+    seen = set()
+    deduped = []
+    for fn, lb in all_results:
+        if fn not in seen:
+            seen.add(fn)
+            deduped.append((fn, lb))
+    all_results = deduped
+
+    if not all_results:
         print("처리된 데이터 없음!")
         return
 
-    # CSV 생성 (현재 로컬에 있는 데이터만)
+    print(f"전체 (기존+신규): {len(all_results)}개")
+
+    # CSV 재생성 (전체 기준)
     print(f"\n{'='*60}")
-    print("full_ver CSV 생성 (신규 데이터)")
-    train_d, val_d, test_d, test_d_full = split_data(new_results)
+    print("full_ver CSV 재생성 (전체 환자)")
+    train_d, val_d, test_d, test_d_full = split_data(all_results)
     write_csv(os.path.join(FULL_DIR, "train.csv"), train_d)
     write_csv(os.path.join(FULL_DIR, "val.csv"), val_d)
     write_csv(os.path.join(FULL_DIR, "test.csv"), test_d)
@@ -778,7 +849,6 @@ def main():
     print(f"  full_ver_2class:          {FULL_2CLASS_DIR}")
     print(f"  ratio_ver (3class):       {RATIO_DIR}")
     print(f"  ratio_ver_2class:         {RATIO_2CLASS_DIR}")
-    print(f"  data_for_saving:          {SAVING_DIR}")
     print(f"  매니페스트:               {MANIFEST_PATH}")
     print(f"  총 누적 환자:             {manifest['last_num']}명")
     print("=" * 60)
