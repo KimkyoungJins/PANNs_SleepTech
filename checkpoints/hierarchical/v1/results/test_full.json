@@ -1,0 +1,16 @@
+{
+  "test_csv": "full_ver/test_lstm.csv",
+  "type": "unbalanced",
+  "samples": 13721,
+  "accuracy": 0.7974,
+  "balanced_accuracy": 0.7359,
+  "macro_f1": 0.6094,
+  "stage1_accuracy": 0.8816,
+  "stage2_accuracy": 0.8985,
+  "per_class": {
+    "wake":  {"precision": 0.3385, "recall": 0.7564, "f1": 0.4677, "support": 944},
+    "rem":   {"precision": 0.3881, "recall": 0.6385, "f1": 0.4828, "support": 910},
+    "nrem":  {"precision": 0.9536, "recall": 0.8128, "f1": 0.8776, "support": 11867}
+  },
+  "confusion_matrix": [[714, 28, 202], [62, 581, 267], [1333, 888, 9646]]
+}

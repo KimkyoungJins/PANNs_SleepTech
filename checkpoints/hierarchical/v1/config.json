@@ -1,0 +1,88 @@
+{
+  "version": "v1",
+  "created": "2026-04-16",
+  "description": "초기 hierarchical 파이프라인 (ResNet22 + EOG_CNN)",
+
+  "pipeline": {
+    "stage1": "Wake(0) vs Sleep(1) → stage1_resnet22.pth",
+    "stage2": "REM(0) vs NREM(1)  → stage2_eog_cnn.pth (Sleep일 때만)",
+    "output": "3-class: Wake(0), REM(1), NREM(2)"
+  },
+
+  "stage1": {
+    "model": "ResNet22",
+    "task": "Wake(0) vs Sleep(1)",
+    "checkpoint_file": "stage1_resnet22.pth",
+    "source": "resnet/workspaces/full_ver_2class/checkpoints/best_model.pth",
+    "train_data": "full_ver_2class",
+    "train_samples": 41221,
+    "val_samples": 13088,
+    "epoch": 15,
+    "val_acc": 0.9138,
+    "params": "37.7M",
+    "input": "wav (16kHz, 30s) → Log-Mel Spectrogram (64 bins)",
+    "optimizer": "Adam(lr=1e-4)",
+    "loss": "CrossEntropy"
+  },
+
+  "stage2": {
+    "model": "EOG_CNN",
+    "task": "REM(0) vs NREM(1)",
+    "checkpoint_file": "stage2_eog_cnn.pth",
+    "train_data": "full_ver_rem_nrem",
+    "train_samples": 38097,
+    "val_samples": 12153,
+    "epoch": 34,
+    "val_macro_f1": 0.7145,
+    "val_rem_f1": 0.4770,
+    "val_nrem_f1": 0.9520,
+    "params": "168K",
+    "input": "eog.npy (2ch, 100Hz, 30s) → shape (2, 3000)",
+    "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+    "scheduler": "CosineAnnealingLR(T_max=50)",
+    "loss": "FocalLoss(alpha=0.75, gamma=3.0)",
+    "sampler": "WeightedRandomSampler(REM=10.07x, NREM=0.53x)",
+    "augmentation": [
+      "time_shift: ±10 samples (100ms)",
+      "gaussian_noise: σ=0.01",
+      "channel_dropout: 10% prob",
+      "amplitude_scaling: 0.9~1.1"
+    ],
+    "early_stopping": "patience=15, metric=val_macro_f1"
+  },
+
+  "test_results": {
+    "balanced": {
+      "test_csv": "full_ver/test.csv",
+      "samples": 2730,
+      "accuracy": 0.7370,
+      "macro_f1": 0.7392,
+      "stage1_acc": 0.8564,
+      "stage2_acc": 0.8027,
+      "wake_f1": 0.7778,
+      "rem_f1": 0.7364,
+      "nrem_f1": 0.7035
+    },
+    "unbalanced": {
+      "test_csv": "full_ver/test_lstm.csv",
+      "samples": 13721,
+      "accuracy": 0.7974,
+      "macro_f1": 0.6094,
+      "stage1_acc": 0.8816,
+      "stage2_acc": 0.8985,
+      "wake_f1": 0.4677,
+      "rem_f1": 0.4828,
+      "nrem_f1": 0.8776
+    }
+  },
+
+  "data": {
+    "total_patients": 116,
+    "split_rule": "pnum % 10 (train: 0-5, val: 6-7, test: 8-9)",
+    "train_patients": 71,
+    "val_patients": 23,
+    "test_patients": 22,
+    "patient_leakage": false,
+    "rem_ratio_in_train": "5.0% (OSA 환자군 특성)"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "test_csv": "full_ver/test.csv",
+  "type": "balanced",
+  "samples": 2730,
+  "accuracy": 0.7370,
+  "balanced_accuracy": 0.7370,
+  "macro_f1": 0.7392,
+  "stage1_accuracy": 0.8564,
+  "stage2_accuracy": 0.8027,
+  "per_class": {
+    "wake":  {"precision": 0.8033, "recall": 0.7538, "f1": 0.7778, "support": 910},
+    "rem":   {"precision": 0.8698, "recall": 0.6385, "f1": 0.7364, "support": 910},
+    "nrem":  {"precision": 0.6167, "recall": 0.8187, "f1": 0.7035, "support": 910}
+  },
+  "confusion_matrix": [[686, 28, 196], [62, 581, 267], [106, 59, 745]]
+}
