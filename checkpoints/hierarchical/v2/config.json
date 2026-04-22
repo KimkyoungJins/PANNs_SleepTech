@@ -1,0 +1,115 @@
+{
+  "version": "v2",
+  "created": "2026-04-20",
+  "updated": "2026-04-20 02:21",
+  "stage1": {
+    "model": "ResNet22",
+    "task": "Wake(0) vs Sleep(1)",
+    "checkpoint_file": "stage1_resnet22.pth",
+    "epoch": 3,
+    "val_acc": 0.709452736318408
+  },
+  "stage2": {
+    "model": "EOG_CNN",
+    "task": "REM(0) vs NREM(1)",
+    "checkpoint_file": "stage2_eog_cnn.pth",
+    "epoch": 7,
+    "val_macro_f1": 0.6118481647047468
+  },
+  "test_results": {
+    "balanced": {
+      "test_csv": "../data/data_for_ai/full_ver_3class/test.csv",
+      "samples": 2940,
+      "stage1_accuracy": 0.7554421768707483,
+      "stage2_accuracy": 0.8385140257771039,
+      "stage2_samples": 1319,
+      "accuracy": 0.6829931972789116,
+      "balanced_accuracy": 0.6829931972789116,
+      "macro_f1": 0.676135627650717,
+      "per_class": {
+        "wake": {
+          "precision": 0.5845755022683085,
+          "recall": 0.9204081632653062,
+          "f1": 0.715021799445105,
+          "support": 980
+        },
+        "rem": {
+          "precision": 0.872072072072072,
+          "recall": 0.49387755102040815,
+          "f1": 0.6306188925081433,
+          "support": 980
+        },
+        "nrem": {
+          "precision": 0.7387173396674585,
+          "recall": 0.6346938775510204,
+          "f1": 0.6827661909989023,
+          "support": 980
+        }
+      },
+      "confusion_matrix": [
+        [
+          902,
+          15,
+          63
+        ],
+        [
+          339,
+          484,
+          157
+        ],
+        [
+          302,
+          56,
+          622
+        ]
+      ]
+    },
+    "full": {
+      "test_csv": "../data/data_for_ai/full_ver_3class/test_full.csv",
+      "samples": 17650,
+      "stage1_accuracy": 0.6881019830028329,
+      "stage2_accuracy": 0.9191627571273908,
+      "stage2_samples": 11084,
+      "accuracy": 0.6373371104815864,
+      "balanced_accuracy": 0.6780645291309791,
+      "macro_f1": 0.4921984045718249,
+      "per_class": {
+        "wake": {
+          "precision": 0.16406370805628576,
+          "recall": 0.9146551724137931,
+          "f1": 0.2782221056771994,
+          "support": 1160
+        },
+        "rem": {
+          "precision": 0.39000805801772764,
+          "recall": 0.49387755102040815,
+          "f1": 0.4358397118415128,
+          "support": 980
+        },
+        "nrem": {
+          "precision": 0.976061154697244,
+          "recall": 0.6256608639587363,
+          "f1": 0.7625333961967624,
+          "support": 15510
+        }
+      },
+      "confusion_matrix": [
+        [
+          1061,
+          18,
+          81
+        ],
+        [
+          339,
+          484,
+          157
+        ],
+        [
+          5067,
+          739,
+          9704
+        ]
+      ]
+    }
+  }
+}

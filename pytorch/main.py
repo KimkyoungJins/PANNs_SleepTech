@@ -58,6 +58,7 @@ def train(args):
     resume_path = args.resume_path
     loss_type = args.loss_type        # 'clip_ce' 또는 'focal'
     use_oversample = args.oversample  # True/False
+    patience = args.patience          # Early stopping patience (0=비활성화)
     device = torch.device('cuda') if args.cuda and torch.cuda.is_available() else torch.device('cpu')
 
     sample_rate = 16000
@@ -68,7 +69,7 @@ def train(args):
     fmax = 8000
     classes_num = config.classes_num
 
-    num_workers = 4
+    num_workers = 0  # 멀티프로세싱 데드락 방지
 
     # ===== 경로 설정 =====
     checkpoints_dir = os.path.join(workspace, 'checkpoints')
@@ -91,6 +92,7 @@ def train(args):
     # ===== Pretrained 가중치 로드 =====
     start_epoch = 0
     best_val_acc = 0.0
+    patience_counter = 0
 
     if resume_path and os.path.exists(resume_path):
         logging.info('Resuming from checkpoint: {}'.format(resume_path))
@@ -273,6 +275,7 @@ def train(args):
 
         if val_acc > best_val_acc:
             best_val_acc = val_acc
+            patience_counter = 0
             checkpoint = {
                 'epoch': epoch + 1,
                 'model': model.state_dict(),
@@ -282,6 +285,10 @@ def train(args):
             checkpoint_path = os.path.join(checkpoints_dir, 'best_model.pth')
             torch.save(checkpoint, checkpoint_path)
             logging.info('Best model saved! (Val Acc: {:.4f})'.format(val_acc))
+        else:
+            patience_counter += 1
+            if patience > 0:
+                logging.info('  Patience: {}/{}'.format(patience_counter, patience))
 
         if (epoch + 1) % 10 == 0:
             checkpoint = {
@@ -293,6 +300,12 @@ def train(args):
             checkpoint_path = os.path.join(
                 checkpoints_dir, 'epoch_{}.pth'.format(epoch + 1))
             torch.save(checkpoint, checkpoint_path)
+
+        # Early stopping
+        if patience > 0 and patience_counter >= patience:
+            logging.info('Early stopping at epoch {} (patience={})'.format(
+                epoch + 1, patience))
+            break
 
     history_path = os.path.join(workspace, 'history.json')
     with open(history_path, 'w') as f:
@@ -377,7 +390,7 @@ def test(args):
         batch_size=batch_size,
         shuffle=False,
         collate_fn=collate_fn,
-        num_workers=4,
+        num_workers=0,
         pin_memory=True)
 
     all_predictions = []
@@ -655,6 +668,8 @@ if __name__ == '__main__':
         help='손실 함수: clip_ce(기본) 또는 focal(개선)')
     parser_train.add_argument('--oversample', action='store_true', default=False,
         help='Oversampling 활성화 (적은 클래스를 더 자주 뽑음)')
+    parser_train.add_argument('--patience', type=int, default=10,
+        help='Early stopping patience (0=비활성화)')
     parser_train.add_argument('--cuda', action='store_true', default=False)
 
     # ===== test =====

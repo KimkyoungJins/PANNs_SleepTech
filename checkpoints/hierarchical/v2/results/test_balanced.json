@@ -1,0 +1,47 @@
+{
+  "test_csv": "../data/data_for_ai/full_ver_3class/test.csv",
+  "samples": 2940,
+  "stage1_accuracy": 0.7554421768707483,
+  "stage2_accuracy": 0.8385140257771039,
+  "stage2_samples": 1319,
+  "accuracy": 0.6829931972789116,
+  "balanced_accuracy": 0.6829931972789116,
+  "macro_f1": 0.676135627650717,
+  "per_class": {
+    "wake": {
+      "precision": 0.5845755022683085,
+      "recall": 0.9204081632653062,
+      "f1": 0.715021799445105,
+      "support": 980
+    },
+    "rem": {
+      "precision": 0.872072072072072,
+      "recall": 0.49387755102040815,
+      "f1": 0.6306188925081433,
+      "support": 980
+    },
+    "nrem": {
+      "precision": 0.7387173396674585,
+      "recall": 0.6346938775510204,
+      "f1": 0.6827661909989023,
+      "support": 980
+    }
+  },
+  "confusion_matrix": [
+    [
+      902,
+      15,
+      63
+    ],
+    [
+      339,
+      484,
+      157
+    ],
+    [
+      302,
+      56,
+      622
+    ]
+  ]
+}
