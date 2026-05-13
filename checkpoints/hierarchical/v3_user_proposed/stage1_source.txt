@@ -1,0 +1,1 @@
+full_ver_2class_finetune (val_acc=0.8421, epoch 8)

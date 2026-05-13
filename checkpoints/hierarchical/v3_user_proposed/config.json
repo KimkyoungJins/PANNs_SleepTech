@@ -1,0 +1,115 @@
+{
+  "version": "v3_user_proposed",
+  "created": "2026-05-07",
+  "updated": "2026-05-07 11:28",
+  "stage1": {
+    "model": "ResNet22",
+    "task": "Wake(0) vs Sleep(1)",
+    "checkpoint_file": "stage1_resnet22.pth",
+    "epoch": 8,
+    "val_acc": 0.8420659971305595
+  },
+  "stage2": {
+    "model": "EOG_CNN",
+    "task": "REM(0) vs NREM(1)",
+    "checkpoint_file": "stage2_eog_cnn.pth",
+    "epoch": 7,
+    "val_macro_f1": 0.6118481647047468
+  },
+  "test_results": {
+    "balanced": {
+      "test_csv": "/home/sleeptech/sleeptech/project3/resnet/../data/data_for_ai/full_ver_3class/test.csv",
+      "samples": 2940,
+      "stage1_accuracy": 0.8506802721088436,
+      "stage2_accuracy": 0.8342602892102335,
+      "stage2_samples": 1798,
+      "accuracy": 0.7493197278911564,
+      "balanced_accuracy": 0.7493197278911564,
+      "macro_f1": 0.7504834719875447,
+      "per_class": {
+        "wake": {
+          "precision": 0.8127167630057803,
+          "recall": 0.7173469387755103,
+          "f1": 0.7620596205962059,
+          "support": 980
+        },
+        "rem": {
+          "precision": 0.8047945205479452,
+          "recall": 0.7193877551020408,
+          "f1": 0.759698275862069,
+          "support": 980
+        },
+        "nrem": {
+          "precision": 0.6630525437864887,
+          "recall": 0.8112244897959183,
+          "f1": 0.7296925195043598,
+          "support": 980
+        }
+      },
+      "confusion_matrix": [
+        [
+          703,
+          83,
+          194
+        ],
+        [
+          65,
+          705,
+          210
+        ],
+        [
+          97,
+          88,
+          795
+        ]
+      ]
+    },
+    "full": {
+      "test_csv": "/home/sleeptech/sleeptech/project3/resnet/../data/data_for_ai/full_ver_3class/test_full.csv",
+      "samples": 17650,
+      "stage1_accuracy": 0.8813597733711048,
+      "stage2_accuracy": 0.902200488997555,
+      "stage2_samples": 14724,
+      "accuracy": 0.7997733711048158,
+      "balanced_accuracy": 0.749218093160028,
+      "macro_f1": 0.5977412415875051,
+      "per_class": {
+        "wake": {
+          "precision": 0.3202463433410316,
+          "recall": 0.7172413793103448,
+          "f1": 0.44278871740287384,
+          "support": 1160
+        },
+        "rem": {
+          "precision": 0.34763313609467456,
+          "recall": 0.7193877551020408,
+          "f1": 0.46875,
+          "support": 980
+        },
+        "nrem": {
+          "precision": 0.9658323095823096,
+          "recall": 0.8110251450676983,
+          "f1": 0.8816850073596412,
+          "support": 15510
+        }
+      },
+      "confusion_matrix": [
+        [
+          832,
+          93,
+          235
+        ],
+        [
+          65,
+          705,
+          210
+        ],
+        [
+          1701,
+          1230,
+          12579
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+2026-05-13 00:30:00,808 | INFO | Device: cuda
+2026-05-13 00:30:00,809 | INFO | Workspace: /home/sleeptech/sleeptech/project3/resnet/workspaces/apnea_v1
+2026-05-13 00:30:00,867 | INFO | Train: 50000 (apnea=27685, normal=22315)
+2026-05-13 00:30:00,867 | INFO | Val:   17425 (apnea=8957, normal=8468)
+2026-05-13 00:30:05,245 | INFO | Loaded 148/150 layers from /home/sleeptech/sleeptech/project3/resnet/./workspaces/full_ver_2class_finetune/checkpoints/best_model.pth
+2026-05-13 00:53:00,191 | INFO | Epoch   1/30  tr_loss=0.0930  val_loss=0.0778  val_Acc=65.24%  val_BalAcc=65.29%  val_F1=65.24%  val_AUC=0.710  apnea_R=63.5% normal_R=67.1%  lr=1.0e-04  [1372s]  ★ BEST
+2026-05-13 01:11:57,616 | INFO | Epoch   2/30  tr_loss=0.0805  val_loss=0.0860  val_Acc=67.16%  val_BalAcc=67.65%  val_F1=66.31%  val_AUC=0.719  apnea_R=49.9% normal_R=85.4%  lr=1.0e-04  [1116s]  ★ BEST
+2026-05-13 01:27:47,373 | INFO | Epoch   3/30  tr_loss=0.0811  val_loss=0.0694  val_Acc=71.25%  val_BalAcc=71.16%  val_F1=71.17%  val_AUC=0.794  apnea_R=74.5% normal_R=67.8%  lr=1.0e-04  [929s]  ★ BEST

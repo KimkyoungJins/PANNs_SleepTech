@@ -1,0 +1,21 @@
+{
+  "data_dir": "../data/data_for_ai/full_ver_3class",
+  "csv_dir": "../data/data_for_ai/apnea_2class",
+  "workspace": "./workspaces/apnea_v2",
+  "init_weights": "./workspaces/apnea_v1/checkpoints/best_model.pth",
+  "batch_size": 8,
+  "val_batch_size": 8,
+  "num_epochs": 30,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "patience": 8,
+  "lr_patience": 3,
+  "grad_clip": 1.0,
+  "focal_alpha": 0.5,
+  "focal_gamma": 2.0,
+  "mixup_prob": 0.0,
+  "num_samples_per_epoch": 8000,
+  "num_workers": 4,
+  "cuda": true,
+  "seed": 42
+}

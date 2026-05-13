@@ -1,0 +1,47 @@
+{
+  "test_csv": "/home/sleeptech/sleeptech/project3/resnet/../data/data_for_ai/full_ver_3class/test_full.csv",
+  "samples": 17650,
+  "stage1_accuracy": 0.8813597733711048,
+  "stage2_accuracy": 0.902200488997555,
+  "stage2_samples": 14724,
+  "accuracy": 0.7997733711048158,
+  "balanced_accuracy": 0.749218093160028,
+  "macro_f1": 0.5977412415875051,
+  "per_class": {
+    "wake": {
+      "precision": 0.3202463433410316,
+      "recall": 0.7172413793103448,
+      "f1": 0.44278871740287384,
+      "support": 1160
+    },
+    "rem": {
+      "precision": 0.34763313609467456,
+      "recall": 0.7193877551020408,
+      "f1": 0.46875,
+      "support": 980
+    },
+    "nrem": {
+      "precision": 0.9658323095823096,
+      "recall": 0.8110251450676983,
+      "f1": 0.8816850073596412,
+      "support": 15510
+    }
+  },
+  "confusion_matrix": [
+    [
+      832,
+      93,
+      235
+    ],
+    [
+      65,
+      705,
+      210
+    ],
+    [
+      1701,
+      1230,
+      12579
+    ]
+  ]
+}

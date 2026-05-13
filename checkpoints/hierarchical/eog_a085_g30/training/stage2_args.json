@@ -1,0 +1,13 @@
+{
+  "version": "eog_a085_g30",
+  "data_dir": "../data/data_for_ai/full_ver_3class",
+  "csv_dir": "../data/data_for_ai/full_ver_rem_nrem",
+  "epochs": 50,
+  "batch_size": 128,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "patience": 15,
+  "focal_alpha": 0.85,
+  "focal_gamma": 3.0,
+  "num_workers": 4
+}

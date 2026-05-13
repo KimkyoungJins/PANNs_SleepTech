@@ -1,0 +1,292 @@
+{
+  "checkpoint": "./workspaces/apnea_v2/checkpoints/best_model.pth",
+  "test_csv": "../data/data_for_ai/apnea_2class/test_full.csv",
+  "per_epoch": {
+    "accuracy": 0.7051558073654391,
+    "balanced_accuracy": 0.7151778651654359,
+    "macro_f1": 0.703196612033916,
+    "auc": 0.7803126055532095,
+    "normal": {
+      "precision": 0.6083305712076014,
+      "recall": 0.7684577808792743,
+      "f1": 0.6790823877651702,
+      "support": 7165
+    },
+    "apnea": {
+      "precision": 0.8070705896034422,
+      "recall": 0.6618979494515975,
+      "f1": 0.7273108363026619,
+      "support": 10485
+    },
+    "confusion_matrix": [
+      [
+        5506,
+        1659
+      ],
+      [
+        3545,
+        6940
+      ]
+    ]
+  },
+  "per_patient_ahi": {
+    "num_patients": 30,
+    "rmse": 23.989248043509047,
+    "mae": 18.099701142755723,
+    "r2": 0.28783347575345153,
+    "gt_mean": 61.70358501106145,
+    "pred_mean": 49.28715375125477,
+    "gt_std": 28.426661444803436,
+    "pred_std": 28.074604672565155
+  },
+  "severity_classification": {
+    "accuracy_4class": 0.7,
+    "balanced_accuracy_4class": 0.25925925925925924,
+    "confusion_matrix_4class": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        5,
+        21
+      ]
+    ],
+    "labels": [
+      "normal",
+      "mild",
+      "moderate",
+      "severe"
+    ],
+    "binary_severe_vs_not_accuracy": 0.7666666666666667,
+    "binary_clinically_significant_accuracy": 0.9333333333333333
+  },
+  "patient_details": {
+    "patient08": {
+      "gt_ahi": 17.802197802197803,
+      "pred_ahi": 43.426573426573434,
+      "gt_severity": "moderate",
+      "pred_severity": "severe",
+      "n_epochs": 728
+    },
+    "patient09": {
+      "gt_ahi": 47.24409448818898,
+      "pred_ahi": 54.61010922021843,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 508
+    },
+    "patient108": {
+      "gt_ahi": 31.788079470198674,
+      "pred_ahi": 63.288484013065236,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 755
+    },
+    "patient109": {
+      "gt_ahi": 63.78006872852233,
+      "pred_ahi": 27.94856944283563,
+      "gt_severity": "severe",
+      "pred_severity": "moderate",
+      "n_epochs": 873
+    },
+    "patient118": {
+      "gt_ahi": 23.833333333333332,
+      "pred_ahi": 12.886627906976743,
+      "gt_severity": "moderate",
+      "pred_severity": "mild",
+      "n_epochs": 720
+    },
+    "patient119": {
+      "gt_ahi": 73.48724179829891,
+      "pred_ahi": 48.26027819589779,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 823
+    },
+    "patient128": {
+      "gt_ahi": 66.144578313253,
+      "pred_ahi": 43.326142999947386,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 664
+    },
+    "patient129": {
+      "gt_ahi": 12.294372294372293,
+      "pred_ahi": 3.125687871450583,
+      "gt_severity": "mild",
+      "pred_severity": "normal",
+      "n_epochs": 693
+    },
+    "patient138": {
+      "gt_ahi": 72.68206039076377,
+      "pred_ahi": 65.20394226391623,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 563
+    },
+    "patient139": {
+      "gt_ahi": 122.0,
+      "pred_ahi": 50.83333333333333,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 120
+    },
+    "patient148": {
+      "gt_ahi": 91.64725457570715,
+      "pred_ahi": 94.52121029410911,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 601
+    },
+    "patient149": {
+      "gt_ahi": 36.7203513909224,
+      "pred_ahi": 13.10412539832917,
+      "gt_severity": "severe",
+      "pred_severity": "mild",
+      "n_epochs": 683
+    },
+    "patient18": {
+      "gt_ahi": 30.58823529411765,
+      "pred_ahi": 17.32743964637878,
+      "gt_severity": "severe",
+      "pred_severity": "moderate",
+      "n_epochs": 510
+    },
+    "patient19": {
+      "gt_ahi": 34.090909090909086,
+      "pred_ahi": 35.070532915360495,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 528
+    },
+    "patient28": {
+      "gt_ahi": 53.35753176043557,
+      "pred_ahi": 38.68824055137323,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 551
+    },
+    "patient29": {
+      "gt_ahi": 91.39664804469274,
+      "pred_ahi": 82.42019154030328,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 537
+    },
+    "patient38": {
+      "gt_ahi": 109.62305986696231,
+      "pred_ahi": 112.32980208589964,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 451
+    },
+    "patient39": {
+      "gt_ahi": 45.663716814159294,
+      "pred_ahi": 38.80769134347815,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 565
+    },
+    "patient48": {
+      "gt_ahi": 49.04347826086956,
+      "pred_ahi": 41.438635112823334,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 575
+    },
+    "patient49": {
+      "gt_ahi": 77.6470588235294,
+      "pred_ahi": 62.35656108597286,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 493
+    },
+    "patient58": {
+      "gt_ahi": 61.89274447949527,
+      "pred_ahi": 23.70360426874287,
+      "gt_severity": "severe",
+      "pred_severity": "moderate",
+      "n_epochs": 634
+    },
+    "patient59": {
+      "gt_ahi": 60.22727272727272,
+      "pred_ahi": 43.63573754069622,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 528
+    },
+    "patient68": {
+      "gt_ahi": 99.33333333333333,
+      "pred_ahi": 51.805422647527905,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 360
+    },
+    "patient69": {
+      "gt_ahi": 55.38461538461538,
+      "pred_ahi": 65.17556322305661,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 650
+    },
+    "patient78": {
+      "gt_ahi": 62.38636363636364,
+      "pred_ahi": 66.79334738109573,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 704
+    },
+    "patient79": {
+      "gt_ahi": 129.10569105691056,
+      "pred_ahi": 127.99271096159235,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 369
+    },
+    "patient88": {
+      "gt_ahi": 51.99426111908178,
+      "pred_ahi": 24.26398852223816,
+      "gt_severity": "severe",
+      "pred_severity": "moderate",
+      "n_epochs": 697
+    },
+    "patient89": {
+      "gt_ahi": 69.55307262569832,
+      "pred_ahi": 53.31703910614525,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 716
+    },
+    "patient98": {
+      "gt_ahi": 56.51162790697674,
+      "pred_ahi": 54.65269277845778,
+      "gt_severity": "severe",
+      "pred_severity": "severe",
+      "n_epochs": 688
+    },
+    "patient99": {
+      "gt_ahi": 53.88429752066116,
+      "pred_ahi": 18.300327459847185,
+      "gt_severity": "severe",
+      "pred_severity": "moderate",
+      "n_epochs": 363
+    }
+  }
+}

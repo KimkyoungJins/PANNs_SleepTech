@@ -1,0 +1,6 @@
+{
+  "stage1_ckpt": "workspaces/full_ver_2class_finetune/checkpoints/best_model.pth",
+  "stage2_ckpt": "../bilstm/workspaces/v7_remnrem/checkpoints/best_model.pth",
+  "sleep_threshold": 0.5,
+  "description": "Audio-only CNN cascade \u2014 pure ResNet22 + ResNet22 (no BiLSTM, no EOG)"
+}
