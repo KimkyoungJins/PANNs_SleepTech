@@ -15,7 +15,8 @@
       "Bash(git branch:*)",
       "Bash(wc -l /home/yk/Desktop/sleeptech/project1/data/data_for_ai/full_ver/*.csv)",
       "Bash(wc -l /home/yk/Desktop/sleeptech/project1/data/data_for_ai/ratio_ver/*.csv)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(git config *)"
     ]
   }
 }
